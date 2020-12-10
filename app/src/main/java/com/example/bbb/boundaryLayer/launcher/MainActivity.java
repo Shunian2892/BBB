@@ -17,6 +17,8 @@ import com.example.bbb.boundaryLayer.ui.HelpPopUp;
 
 public class MainActivity extends AppCompatActivity {
 
+    DialogFragment dialogFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,9 +28,13 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment dialogFragment = new HelpPopUp();
+                dialogFragment = new HelpPopUp();
                 dialogFragment.show(getSupportFragmentManager(), "JOEJOE");
             }
         });
+    }
+
+    public void onHelpButtonClicked(View view){
+        dialogFragment.getDialog().cancel();
     }
 }

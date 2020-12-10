@@ -12,15 +12,19 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.bbb.R;
 import com.example.bbb.boundaryLayer.launcher.MainActivity;
 
 public class HelpPopUp extends DialogFragment {
+
+    AlertDialog alertDialog;
 
     @NonNull
     @Override
@@ -29,7 +33,7 @@ public class HelpPopUp extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         builder.setView(inflater.inflate(R.layout.pop_up_help, null));
 
-        AlertDialog alertDialog = builder.create();
+        alertDialog = builder.create();
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         return alertDialog;

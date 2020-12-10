@@ -10,7 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BBB"
         android:usesCleartextTraffic="true">
-
         <activity android:name=".boundaryLayer.launcher.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

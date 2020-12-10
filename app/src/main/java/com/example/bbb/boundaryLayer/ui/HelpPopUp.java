@@ -19,8 +19,6 @@ import com.example.bbb.R;
 
 public class HelpPopUp extends DialogFragment {
 
-    AlertDialog alertDialog;
-
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -29,7 +27,7 @@ public class HelpPopUp extends DialogFragment {
         View myview = inflater.inflate(R.layout.pop_up_help, null);
         builder.setView(myview);
 
-        alertDialog = builder.create();
+        AlertDialog alertDialog = builder.create();
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         Button button = myview.findViewById(R.id.buttonHelp);

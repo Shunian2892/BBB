@@ -17,24 +17,16 @@ import com.example.bbb.boundaryLayer.ui.HelpPopUp;
 
 public class MainActivity extends AppCompatActivity {
 
-    DialogFragment dialogFragment;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogFragment = new HelpPopUp();
-                dialogFragment.show(getSupportFragmentManager(), "JOEJOE");
-            }
+        button.setOnClickListener(view -> {
+            DialogFragment dialogFragment = new HelpPopUp();
+            dialogFragment.show(getSupportFragmentManager(), "JOEJOE");
         });
     }
 
-    public void onHelpButtonClicked(View view){
-        dialogFragment.getDialog().cancel();
-    }
 }

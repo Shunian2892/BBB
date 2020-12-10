@@ -1,7 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="@drawable/popup">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:divider="@color/SpanishGray"
+        android:dividerPadding="10dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <TextView
+            android:id="@+id/textViewHelpTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/lato_black"
+            android:gravity="center"
+            android:text="Help"
+            android:textColor="@color/black"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/textViewHelpText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque tristique libero et urna commodo, ac convallis magna dictum. Etiam faucibus consequat facilisis. Mauris tempus justo elit, a varius mi egestas vel. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce convallis, velit vulputate sodales faucibus, urna est viverra tellus."
+            android:textAlignment="center" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/button_background"
+            android:fontFamily="@font/lato_black"
+            android:gravity="center"
+            android:text="Ok"
+            android:textColor="@color/black" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

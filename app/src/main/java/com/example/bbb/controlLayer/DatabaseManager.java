@@ -172,5 +172,10 @@ public class DatabaseManager {
         return walkedRouteList;
     }
 
+    public POI searchLocation(String name) {
+        POI poi = db.poiDao().matchedPOIs(name);
+        return poi;
+    }
+
 
 }

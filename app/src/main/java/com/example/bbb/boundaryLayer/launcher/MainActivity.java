@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             System.out.println(testList.get(i).date);
         }
 
-
+        System.out.println(databaseManager.searchLocation("Stadhouderspoort").ID);
 
 
     }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.bbb.R;
 import com.example.bbb.boundaryLayer.ui.HelpPopUp;
+import com.example.bbb.boundaryLayer.ui.RoutePopUp;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button button = findViewById(R.id.button);
         button.setOnClickListener(view -> {
-            DialogFragment dialogFragment = new HelpPopUp();
+            DialogFragment dialogFragment = new RoutePopUp();
             dialogFragment.show(getSupportFragmentManager(), "JOEJOE");
         });
     }

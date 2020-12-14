@@ -3,8 +3,12 @@ package com.example.bbb.boundaryLayer.ui;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +17,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import org.osmdroid.api.IMapController;
@@ -47,6 +52,7 @@ public class MapFragment extends Fragment {
         mapController = map.getController();
         mapController.setZoom(14);
 
+        //Check for Location permission
         if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this.getActivity(), new String[]{
@@ -54,28 +60,42 @@ public class MapFragment extends Fragment {
                     Manifest.permission.ACCESS_COARSE_LOCATION}, 44);
         }
 
+                //Zoom in with pinching
+        map.setMultiTouchControls(true);
+        map.setBuiltInZoomControls(true);
+
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//
+
 //        Button button = getActivity().findViewById(R.id.button);
 //        button.setOnClickListener(v -> {
 //
 //        });
-        
+
         getLocation();
     }
 
-    public void getLocation(){
-        GeoPoint startPosition = new GeoPoint(51.5719, 4.7683);
-        mapController.setCenter(startPosition);
-        Marker startMarker = new Marker(map);
-        startMarker.setPosition(startPosition);
-        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        startMarker.setVisible(true);
-        map.getOverlays().add(startMarker);
+    public void getLocation() {
+        LocationManager locationManager = (LocationManager) fragmentContext.getSystemService(Context.LOCATION_SERVICE);
+
+        LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                Log.d("Latitude", "onLocationChanged: " + location.getLatitude());
+                GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
+                mapController.setCenter(point);
+                Marker startPoint = new Marker(map);
+                startPoint.setPosition(point);
+                map.getOverlays().add(startPoint);
+            }
+        };
+
+        if(ContextCompat.checkSelfPermission(fragmentContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 100, locationListener);
+        }
     }
 }

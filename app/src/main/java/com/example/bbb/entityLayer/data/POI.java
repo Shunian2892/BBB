@@ -8,25 +8,13 @@ import androidx.room.PrimaryKey;
 @Entity
 public class POI {
 
-    @NonNull
     @PrimaryKey
+    public int ID;
     public String POIName;
-
-    @ColumnInfo
     public double longitude;
-
-    @ColumnInfo
     public double latitude;
-
-    @ColumnInfo
     public String Description;
-
-    @ColumnInfo
     public String imageURL;
-
-    @ColumnInfo
     public String VideoURL;
-
-    @ColumnInfo
     public Boolean IsVisited;
 }

@@ -1,5 +1,6 @@
 [
 	{
+		"id": 1,
 		"name": "VVV",
 		"longitude": 51.356467,
 		"latitude": 4.467650,
@@ -9,6 +10,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 2,
 		"name": "Liefdeszuster",
 		"longitude": 51.355967,
 		"latitude": 4.467633,
@@ -16,8 +18,9 @@
 		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
 		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
 		"isVisited": false
-	}	,
+	},
 	{
+		"id": 3,
 		"name": "Nassau Baronie Monument",
 		"longitude": 51.35500,
 		"latitude": 4.467817,
@@ -25,8 +28,9 @@
 		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
 		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
 		"isVisited": false
-	}	,
+	},
 	{
+		"id": 4,
 		"name": "The Light House",
 		"longitude": 51.355700,
 		"latitude": 4.467083,
@@ -36,6 +40,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 5,
 		"name": "Kasteel van Breda",
 		"longitude": 51.354367,
 		"latitude": 4.465700,
@@ -45,6 +50,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 6,
 		"name": "Stadhouderspoort",
 		"longitude": 51.353817,
 		"latitude": 4.465683,
@@ -54,6 +60,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 7,
 		"name": "Huis van Brecht (rechter zijde)",
 		"longitude": 51.354017,
 		"latitude": 4.464617,
@@ -63,6 +70,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 8,
 		"name": "Spanjaardsgat (rechter zijde)",
 		"longitude": 51.354117,
 		"latitude": 4.464067,
@@ -72,6 +80,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 9,
 		"name": "Begin Vismarkt",
 		"longitude": 51.353900,
 		"latitude": 4.464999,
@@ -81,6 +90,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 10,
 		"name": "Begin Havermarkt",
 		"longitude": 51.353617,
 		"latitude": 4.464667,
@@ -90,6 +100,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 11,
 		"name": "Grote Kerk",
 		"longitude": 51.353300,
 		"latitude": 4.465167,
@@ -99,6 +110,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 12,
 		"name": "Het Poortje",
 		"longitude": 51.352917,
 		"latitude": 4.465083,
@@ -108,6 +120,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 13,
 		"name": "Ridderstraat",
 		"longitude": 51.352250,
 		"latitude": 4.465450,
@@ -117,6 +130,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 14,
 		"name": "Grote Markt",
 		"longitude": 51.352450,
 		"latitude": 4.465933,
@@ -126,6 +140,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 15,
 		"name": "Bevrijdingsmonument",
 		"longitude": 51.352817,
 		"latitude": 4.465800,
@@ -135,6 +150,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 16,
 		"name": "Stadhuis",
 		"longitude": 51.353250,
 		"latitude": 4.465667,
@@ -144,6 +160,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 17,
 		"name": "Antonius van Paduakerk",
 		"longitude": 51.352583,
 		"latitude": 4.466350,
@@ -153,6 +170,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 18,
 		"name": "Bibliotheek-nieuwe Veste",
 		"longitude": 51.352800,
 		"latitude": 4.467367,
@@ -162,6 +180,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 19,
 		"name": "Kloosterkazerne",
 		"longitude": 51.352633,
 		"latitude": 4.468617,
@@ -171,6 +190,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 20,
 		"name": "Chasse theater",
 		"longitude": 51.352650,
 		"latitude": 4.469200,
@@ -180,6 +200,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 21,
 		"name": "Binding van Isaac",
 		"longitude": 51.353167,
 		"latitude": 4.468533,
@@ -189,6 +210,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 22,
 		"name": "Beyerd",
 		"longitude": 51.353800,
 		"latitude": 4.468600,
@@ -198,6 +220,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 23,
 		"name": "Gasthuispoort",
 		"longitude": 51.353733,
 		"latitude": 4.468000,
@@ -207,6 +230,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 24,
 		"name": "Willem Merkxtuin",
 		"longitude": 51.353467,
 		"latitude": 4.466767,
@@ -216,6 +240,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 25,
 		"name": "Begrijnenhof",
 		"longitude": 51.353817,
 		"latitude": 4.467017,
@@ -225,6 +250,7 @@
 		"isVisited": false
 	},
 	{
+		"id": 26,
 		"name": "Einde stadswandeling",
 		"longitude": 51.353700,
 		"latitude": 4.465750,

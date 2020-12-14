@@ -15,8 +15,8 @@ public interface POIDao {
     @Query("SELECT * FROM POI")
     List<POI> getAll();
 
-    @Query("SELECT * FROM POI WHERE POIName LIKE :searchString")
-    List<POI> matchedPOIs(String searchString);
+    @Query("SELECT * FROM POI WHERE POIName LIKE :id")
+    POI matchedPOIs(int id);
 
     @Insert
     void insertAll(List<POI> pois);
@@ -25,5 +25,5 @@ public interface POIDao {
     void insert (POI poi);
 
     @Query("DELETE FROM POI")
-    public void deleteTable();
+    void deleteTable();
 }

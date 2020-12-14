@@ -26,11 +26,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(view -> {
-            DialogFragment dialogFragment = new HelpPopUp();
-            dialogFragment.show(getSupportFragmentManager(), "JOEJOE");
-        });
+//        Button button = findViewById(R.id.button);
+//        button.setOnClickListener(view -> {
+//            DialogFragment dialogFragment = new HelpPopUp();
+//            dialogFragment.show(getSupportFragmentManager(), "JOEJOE");
+//        });
 
         fragmentManager = getSupportFragmentManager();
         if(fragmentManager.findFragmentById(R.id.main_fragment) == null){

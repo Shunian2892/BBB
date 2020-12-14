@@ -15,9 +15,8 @@ public class Route {
     private String endPoiName;
     private List<GeoPoint> geoPoints;
 
-    public Route(String name, List<POI> poiNames, int totalDistanceWalked,
-                 int timesWalked, boolean isCompleted, String startPoiName,
-                 String endPoiName, List<GeoPoint> geoPoints) {
+    public Route(String name, List<POI> poiNames, int totalDistanceWalked, int timesWalked, boolean isCompleted,
+                 String startPoiName, String endPoiName, List<GeoPoint> geoPoints) {
         this.name = name;
         this.poiNames = poiNames;
         this.totalDistanceWalked = totalDistanceWalked;

@@ -1,9 +1,6 @@
 package com.example.bbb.controlLayer.gps;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -12,13 +9,14 @@ import org.json.JSONObject;
 import org.osmdroid.util.GeoPoint;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class OpenRouteService {
@@ -41,7 +39,7 @@ public class OpenRouteService {
     }
 
     private void Connect() {
-
+    this.isConnected = true;
     }
 
     private Request createGetRequest(String method, String url) {
@@ -67,12 +65,15 @@ public class OpenRouteService {
 //        return request;
 //    }
 
-    public void getRoute(GeoPoint startPoint, GeoPoint endPoint, String method) {
-        if (this.isConnected)
+    public List<GeoPoint> getRoute(GeoPoint startPoint, GeoPoint endPoint, String method) {
+        ArrayList<GeoPoint> geoPoints = new ArrayList<>();
+
+        if (this.isConnected) {
             client.newCall(createGetRequest(method,
                     "&start=" + startPoint.getLatitude() + "," + startPoint.getLongitude()
                             + "&end=" + endPoint.getLatitude() + "," + endPoint.getLongitude()))
                     .enqueue(new Callback() {
+
                         @Override
                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
                             Log.d("FAILURE", "In OnFailure() in example()");
@@ -86,11 +87,21 @@ public class OpenRouteService {
                                 JSONObject geometry = features.getJSONObject("geometry");
                                 JSONArray coordinates = geometry.getJSONArray("coordinates");
 
-
+                                for (int i = 0; i < coordinates.length(); i++) {
+//                                    geoPoints.add(coordinates.get(i));
+                                    System.out.println("COORDINATE " + i + ": " + coordinates.get(i));
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
                     });
+        }
+        return geoPoints;
     }
+
+
+
+
 }
+

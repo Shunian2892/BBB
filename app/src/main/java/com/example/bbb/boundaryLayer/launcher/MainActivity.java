@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
             dialogFragment.show(getSupportFragmentManager(), "JOEJOE");
         });
 
-        DatabaseManager databaseManager = new DatabaseManager(getApplicationContext());
+        DatabaseManager databaseManager = DatabaseManager.getInstance(getApplicationContext());
         databaseManager.initDatabase();
         databaseManager.testQueries();
 

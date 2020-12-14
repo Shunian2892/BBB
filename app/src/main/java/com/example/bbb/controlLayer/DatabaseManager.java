@@ -23,10 +23,17 @@ import java.util.List;
 
 public class DatabaseManager {
 
+    public static DatabaseManager instance = null;
+    synchronized public static DatabaseManager getInstance(Context context){
+        if (instance == null){
+            instance = new DatabaseManager(context);
+        }
+        return instance;
+    }
+
     Database db;
     Context mainContext;
-
-
+    
     public DatabaseManager(Context applicationContext) {
         mainContext = applicationContext;
         db = Room.databaseBuilder(applicationContext, Database.class, "database-test2.2").allowMainThreadQueries().build();

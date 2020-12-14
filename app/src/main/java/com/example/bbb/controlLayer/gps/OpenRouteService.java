@@ -1,24 +1,23 @@
 package com.example.bbb.controlLayer.gps;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class OpenRouteService {
@@ -27,21 +26,26 @@ public class OpenRouteService {
     private int port;
     public boolean isConnected;
 
+    private OpenStreetMaps openStreetMaps;
+    private MapView mapView;
+
     private final String api_key = "5b3ce3597851110001cf6248cc7335a16be74902905bcba4a9d0eebf";
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-    public OpenRouteService() {
+    public OpenRouteService(MapView mapView) {
         this.client = new OkHttpClient();
         this.ipAddress = "localhost";
         this.port = 8000;
         this.isConnected = false;
+        this.openStreetMaps = new OpenStreetMaps();
+        this.mapView = mapView;
 
         Connect();
     }
 
     private void Connect() {
-
+        this.isConnected = true;
     }
 
     private Request createGetRequest(String method, String url) {
@@ -68,11 +72,14 @@ public class OpenRouteService {
 //    }
 
     public void getRoute(GeoPoint startPoint, GeoPoint endPoint, String method) {
-        if (this.isConnected)
+        ArrayList<GeoPoint> points = new ArrayList<>();
+
+        if (this.isConnected) {
             client.newCall(createGetRequest(method,
                     "&start=" + startPoint.getLatitude() + "," + startPoint.getLongitude()
                             + "&end=" + endPoint.getLatitude() + "," + endPoint.getLongitude()))
                     .enqueue(new Callback() {
+
                         @Override
                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
                             Log.d("FAILURE", "In OnFailure() in example()");
@@ -82,9 +89,20 @@ public class OpenRouteService {
                         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                             try {
                                 JSONObject responseObject = new JSONObject(response.body().string());
-                                JSONObject features = responseObject.getJSONObject("features");
-                                JSONObject geometry = features.getJSONObject("geometry");
+                                JSONArray featureArray = responseObject.getJSONArray("features");
+                                JSONObject feature = (JSONObject) featureArray.get(0);
+                                JSONObject geometry = feature.getJSONObject("geometry");
                                 JSONArray coordinates = geometry.getJSONArray("coordinates");
+
+                                for (int i = 0; i < coordinates.length(); i++) {
+                                    JSONArray coordArray = (JSONArray) coordinates.get(i);
+                                    double lng = coordArray.getDouble(0);
+                                    double lat = coordArray.getDouble(1);
+                                    GeoPoint point = new GeoPoint(lat, lng);
+                                    points.add(point);
+                                }
+                                
+                                openStreetMaps.drawRoute(mapView, points);
 
 
                             } catch (JSONException e) {
@@ -92,5 +110,9 @@ public class OpenRouteService {
                             }
                         }
                     });
+                    }
     }
+
+
 }
+

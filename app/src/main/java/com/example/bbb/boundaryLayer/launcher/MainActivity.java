@@ -16,6 +16,9 @@ import android.widget.TextView;
 import com.example.bbb.R;
 import com.example.bbb.boundaryLayer.ui.HelpPopUp;
 import com.example.bbb.boundaryLayer.ui.MapFragment;
+import com.example.bbb.controlLayer.gps.OpenRouteService;
+
+import org.osmdroid.util.GeoPoint;
 
 public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
@@ -33,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
         fragmentManager = getSupportFragmentManager();
-        if(fragmentManager.findFragmentById(R.id.main_fragment) == null){
+        if (fragmentManager.findFragmentById(R.id.main_fragment) == null) {
             mapFragment = new MapFragment();
             fragmentManager.beginTransaction().add(R.id.main_fragment, mapFragment).commit();
         } else {

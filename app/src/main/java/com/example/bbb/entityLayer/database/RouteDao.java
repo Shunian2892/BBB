@@ -16,12 +16,16 @@ public interface RouteDao {
     @Query("SELECT * FROM Route")
     List<Route> getAll();
 
-    @Insert
-    void insert (Route route);
+    @Query("SELECT * FROM POI_Route, POI WHERE POI_Route.RouteID = :routeID AND POI.ID = POI_Route.PoiID")
+    List<POI> getPOIs(int routeID);
+
+    //add new queries here
+    //@Query("QUERY")
+    //method name + method type
 
     @Query("DELETE FROM Route")
     void deleteTable();
 
-    @Query("SELECT * FROM POI_Route, POI WHERE POI_Route.RouteID = :routeID AND POI.ID = POI_Route.PoiID")
-    List<POI> getPOIs(int routeID);
+    @Insert
+    void insertAll(List<Route> routes);
 }

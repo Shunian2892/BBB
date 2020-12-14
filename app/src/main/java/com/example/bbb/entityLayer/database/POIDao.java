@@ -15,15 +15,19 @@ public interface POIDao {
     @Query("SELECT * FROM POI")
     List<POI> getAll();
 
-    @Query("SELECT * FROM POI WHERE POIName LIKE :id")
-    POI matchedPOIs(int id);
+    @Query("SELECT * FROM POI WHERE POIName LIKE :name")
+    POI matchedPOIs(String name);
 
-    @Insert
-    void insertAll(List<POI> pois);
+    //add new queries here
+    //@Query("QUERY")
+    //method name + method type
+
+    @Query("DELETE FROM POI")
+    void deleteTable();
 
     @Insert
     void insert (POI poi);
 
-    @Query("DELETE FROM POI")
-    void deleteTable();
+    @Insert
+    void insertAll(List<POI> pois);
 }

@@ -15,9 +15,13 @@ public interface PoiRouteDao {
     @Query("SELECT * FROM POI_Route")
     List<POI_Route> getAll();
 
-    @Insert
-    void insert (POI_Route pr);
+    //add new queries here
+    //@Query("QUERY")
+    //method name + method type
 
     @Query("DELETE FROM POI_Route")
     void deleteTable();
+
+    @Insert
+    void insertAll(List<POI_Route> poi_routes);
 }

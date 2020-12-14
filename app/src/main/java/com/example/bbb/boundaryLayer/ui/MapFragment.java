@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,23 +19,22 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.bbb.R;
+import com.example.bbb.controlLayer.gps.OpenRouteService;
+import com.example.bbb.controlLayer.gps.OpenStreetMaps;
+
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
-import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
-
-import com.example.bbb.R;
-import com.example.bbb.controlLayer.gps.OpenStreetMaps;
 
 public class MapFragment extends Fragment {
     private Context fragmentContext;
     private IMapController mapController;
     private MapView map;
-    private OpenStreetMaps osm;
+    private OpenRouteService openRouteService;
 
     @Nullable
     @Override
@@ -65,7 +63,7 @@ public class MapFragment extends Fragment {
         map.setMultiTouchControls(true);
         map.setBuiltInZoomControls(true);
 
-        osm = new OpenStreetMaps();
+        openRouteService = new OpenRouteService(map);
 
         return view;
     }
@@ -76,25 +74,25 @@ public class MapFragment extends Fragment {
 
         getLocation();
 
-        osm.drawRoute(map);
+        openRouteService.getRoute(new GeoPoint(8.681496,
+                49.41461), new GeoPoint(8.687872,
+                49.420318), "driving-car");
+
     }
 
     public void getLocation() {
         LocationManager locationManager = (LocationManager) fragmentContext.getSystemService(Context.LOCATION_SERVICE);
 
-        LocationListener locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(@NonNull Location location) {
-                Log.d("Latitude", "onLocationChanged: " + location.getLatitude());
-                GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
-                mapController.setCenter(point);
-                Marker startPoint = new Marker(map);
-                startPoint.setPosition(point);
-                map.getOverlays().add(startPoint);
-            }
+        LocationListener locationListener = location -> {
+            Log.d("Latitude", "onLocationChanged: " + location.getLatitude());
+            GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
+            mapController.setCenter(point);
+            Marker startPoint = new Marker(map);
+            startPoint.setPosition(point);
+            map.getOverlays().add(startPoint);
         };
 
-        if(ContextCompat.checkSelfPermission(fragmentContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(fragmentContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 100, locationListener);
         }
     }

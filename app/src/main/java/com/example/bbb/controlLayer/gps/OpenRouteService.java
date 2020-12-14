@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,21 +26,26 @@ public class OpenRouteService {
     private int port;
     public boolean isConnected;
 
+    private OpenStreetMaps openStreetMaps;
+    private MapView mapView;
+
     private final String api_key = "5b3ce3597851110001cf6248cc7335a16be74902905bcba4a9d0eebf";
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-    public OpenRouteService() {
+    public OpenRouteService(MapView mapView) {
         this.client = new OkHttpClient();
         this.ipAddress = "localhost";
         this.port = 8000;
         this.isConnected = false;
+        this.openStreetMaps = new OpenStreetMaps();
+        this.mapView = mapView;
 
         Connect();
     }
 
     private void Connect() {
-    this.isConnected = true;
+        this.isConnected = true;
     }
 
     private Request createGetRequest(String method, String url) {
@@ -65,8 +71,8 @@ public class OpenRouteService {
 //        return request;
 //    }
 
-    public List<GeoPoint> getRoute(GeoPoint startPoint, GeoPoint endPoint, String method) {
-        ArrayList<GeoPoint> geoPoints = new ArrayList<>();
+    public void getRoute(GeoPoint startPoint, GeoPoint endPoint, String method) {
+        ArrayList<GeoPoint> points = new ArrayList<>();
 
         if (this.isConnected) {
             client.newCall(createGetRequest(method,
@@ -83,24 +89,29 @@ public class OpenRouteService {
                         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                             try {
                                 JSONObject responseObject = new JSONObject(response.body().string());
-                                JSONObject features = responseObject.getJSONObject("features");
-                                JSONObject geometry = features.getJSONObject("geometry");
+                                JSONArray featureArray = responseObject.getJSONArray("features");
+                                JSONObject feature = (JSONObject) featureArray.get(0);
+                                JSONObject geometry = feature.getJSONObject("geometry");
                                 JSONArray coordinates = geometry.getJSONArray("coordinates");
 
                                 for (int i = 0; i < coordinates.length(); i++) {
-//                                    geoPoints.add(coordinates.get(i));
-                                    System.out.println("COORDINATE " + i + ": " + coordinates.get(i));
+                                    JSONArray coordArray = (JSONArray) coordinates.get(i);
+                                    double lng = coordArray.getDouble(0);
+                                    double lat = coordArray.getDouble(1);
+                                    GeoPoint point = new GeoPoint(lat, lng);
+                                    points.add(point);
                                 }
+                                
+                                openStreetMaps.drawRoute(mapView, points);
+
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
                     });
-        }
-        return geoPoints;
+                    }
     }
-
-
 
 
 }

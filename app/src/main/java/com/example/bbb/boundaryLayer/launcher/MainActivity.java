@@ -44,17 +44,9 @@ public class MainActivity extends AppCompatActivity {
         List<WalkedRoute> testList = databaseManager.getWalkedRoutes();
 
         for (int i = 0; i < testList.size(); i++) {
-            System.out.println(testList.get(i).routeID);
-            System.out.println(testList.get(i).date);
+            System.out.println("Walked route " + testList.get(i).routeID + " on " + testList.get(i).date);
         }
 
         System.out.println(databaseManager.searchLocation("Stadhouderspoort").ID);
-
-
     }
-
-
-
-
-
 }

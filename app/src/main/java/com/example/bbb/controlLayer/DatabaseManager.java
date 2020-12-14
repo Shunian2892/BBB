@@ -176,6 +176,4 @@ public class DatabaseManager {
         POI poi = db.poiDao().matchedPOIs(name);
         return poi;
     }
-
-
 }

@@ -30,12 +30,13 @@ import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import com.example.bbb.R;
+import com.example.bbb.controlLayer.gps.OpenStreetMaps;
 
 public class MapFragment extends Fragment {
     private Context fragmentContext;
     private IMapController mapController;
     private MapView map;
-    private MyLocationNewOverlay myLocationNewOverlay;
+    private OpenStreetMaps osm;
 
     @Nullable
     @Override
@@ -60,9 +61,11 @@ public class MapFragment extends Fragment {
                     Manifest.permission.ACCESS_COARSE_LOCATION}, 44);
         }
 
-                //Zoom in with pinching
+        //Zoom in with pinching
         map.setMultiTouchControls(true);
         map.setBuiltInZoomControls(true);
+
+        osm = new OpenStreetMaps();
 
         return view;
     }
@@ -71,12 +74,9 @@ public class MapFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        Button button = getActivity().findViewById(R.id.button);
-//        button.setOnClickListener(v -> {
-//
-//        });
-
         getLocation();
+
+        osm.drawRoute(map);
     }
 
     public void getLocation() {
@@ -95,7 +95,7 @@ public class MapFragment extends Fragment {
         };
 
         if(ContextCompat.checkSelfPermission(fragmentContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 100, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 100, locationListener);
         }
     }
 }

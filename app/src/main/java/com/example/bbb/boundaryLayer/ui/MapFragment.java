@@ -35,6 +35,7 @@ public class MapFragment extends Fragment {
     private IMapController mapController;
     private MapView map;
     private OpenRouteService openRouteService;
+    private Marker currentLocation;
 
     @Nullable
     @Override
@@ -74,9 +75,9 @@ public class MapFragment extends Fragment {
 
         getLocation();
 
-        openRouteService.getRoute(new GeoPoint(8.681496,
-                49.41461), new GeoPoint(8.687872,
-                49.420318), "driving-car");
+        openRouteService.getRoute(new GeoPoint(51.5897, 4.7616),
+                new GeoPoint(51.5957, 4.7795),
+                "driving-car");
 
     }
 
@@ -89,11 +90,14 @@ public class MapFragment extends Fragment {
             mapController.setCenter(point);
             Marker startPoint = new Marker(map);
             startPoint.setPosition(point);
+            map.getOverlays().remove(currentLocation);
+            currentLocation = startPoint;
             map.getOverlays().add(startPoint);
         };
 
-        if (ContextCompat.checkSelfPermission(fragmentContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 100, locationListener);
+        if(ContextCompat.checkSelfPermission(fragmentContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, locationListener);
         }
     }
 }

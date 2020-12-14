@@ -76,8 +76,8 @@ public class OpenRouteService {
 
         if (this.isConnected) {
             client.newCall(createGetRequest(method,
-                    "&start=" + startPoint.getLatitude() + "," + startPoint.getLongitude()
-                            + "&end=" + endPoint.getLatitude() + "," + endPoint.getLongitude()))
+                    "&start=" + startPoint.getLongitude() + "," + startPoint.getLatitude()
+                            + "&end=" + endPoint.getLongitude() + "," + endPoint.getLatitude()))
                     .enqueue(new Callback() {
 
                         @Override

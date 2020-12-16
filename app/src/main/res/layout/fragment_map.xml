@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
-    android:id="@+id/map_fragment"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:id="@+id/map_fragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewMapFragment"
@@ -80,8 +80,8 @@
 
     </androidx.cardview.widget.CardView>
 
-    <ImageView
-        android:id="@+id/imageViewMap"
+    <org.osmdroid.views.MapView
+        android:id="@+id/map_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -91,11 +91,27 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/breda"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardViewMapFragment" />
+        app:layout_constraintTop_toBottomOf="@+id/cardViewMapFragment"/>
+
+<!--    <ImageView-->
+<!--        android:id="@+id/imageViewMap"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        android:layout_marginLeft="8dp"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:layout_marginEnd="8dp"-->
+<!--        android:layout_marginRight="8dp"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:src="@drawable/breda"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/cardViewMapFragment" />-->
 
 
     <!--    <TextView-->

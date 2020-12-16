@@ -85,6 +85,9 @@ public class MapFragment extends Fragment {
         LocationManager locationManager = (LocationManager) fragmentContext.getSystemService(Context.LOCATION_SERVICE);
 
         LocationListener locationListener = location -> {
+            if (getView() == null){
+                return;
+            }
             Log.d("Latitude", "onLocationChanged: " + location.getLatitude());
             GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
             mapController.setCenter(point);

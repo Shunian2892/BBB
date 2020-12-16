@@ -21,7 +21,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.bbb.R;
 import com.example.bbb.controlLayer.gps.OpenRouteService;
-import com.example.bbb.controlLayer.gps.OpenStreetMaps;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -75,10 +74,11 @@ public class MapFragment extends Fragment {
 
         getLocation();
 
-        openRouteService.getRoute(new GeoPoint(51.5897, 4.7616),
-                new GeoPoint(51.5957, 4.7795),
-                "driving-car");
-
+        openRouteService.getRoute(new GeoPoint[]{
+                new GeoPoint(51.813297, 4.690093),
+                new GeoPoint(49.41943,8.686507),
+                new GeoPoint(49.420318,8.687872)
+        }, "driving-car", "de");
     }
 
     public void getLocation() {

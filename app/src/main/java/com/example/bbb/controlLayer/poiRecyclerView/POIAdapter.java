@@ -13,12 +13,13 @@ import com.example.bbb.entityLayer.data.POI;
 import com.example.bbb.entityLayer.database.Database;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class POIAdapter extends RecyclerView.Adapter<POIViewHolder> {
 
-    private ArrayList<POI> poiList;
+    private List<POI> poiList;
     private OnItemClickListener listener;
-    public POIAdapter(OnItemClickListener listener, ArrayList<POI> poiList){
+    public POIAdapter(OnItemClickListener listener, List<POI> poiList){
         this.listener = listener;
         this.poiList = poiList;
 
@@ -34,9 +35,9 @@ public class POIAdapter extends RecyclerView.Adapter<POIViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull POIViewHolder holder, int position) {
         POI poi = this.poiList.get(position);
-        holder.POIRVTextviewName.setText(poi.getName());
-        holder.POIRVTextviewLatitude.setText(poi.getLatitude());
-        holder.POIRVTextviewLongtitude.setText(poi.getLongtitude());
+        holder.POIRVTextviewName.setText(poi.POIName);
+        holder.POIRVTextviewLatitude.setText(poi.latitude + "");
+        holder.POIRVTextviewLongtitude.setText(poi.longitude + "");
         holder.POIRVImageview.setImageResource(R.drawable.blindwalls);
 
     }

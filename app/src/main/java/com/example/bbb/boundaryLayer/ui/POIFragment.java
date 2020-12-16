@@ -33,8 +33,8 @@ public class POIFragment extends Fragment {
         this.description = (TextView) view.findViewById(R.id.textViewPOI);
 
 
-        title.setText(poi.getName());
-        description.setText(poi.getDiscription());
+        title.setText(poi.POIName);
+        description.setText(poi.Description);
         imageView.setImageResource(R.drawable.breda);
         return view;
     }

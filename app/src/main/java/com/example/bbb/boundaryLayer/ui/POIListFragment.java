@@ -22,10 +22,11 @@ import com.example.bbb.controlLayer.poiRecyclerView.POIListManager;
 import com.example.bbb.entityLayer.data.POI;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class POIListFragment extends Fragment implements OnItemClickListener {
     private RecyclerView poiRv;
-    private ArrayList<POI> poiList;
+    private List<POI> poiList;
     private POIAdapter poiAdapter;
     private POIListManager poiManager;
     private ViewGroup container;
@@ -50,7 +51,7 @@ public class POIListFragment extends Fragment implements OnItemClickListener {
         poiList = new ArrayList<>();
         //poiList.add(new POI("test", "x", "y", "beschrijving"));
         this.poiRv = this.container.findViewById(R.id.poi_rv);
-        this.poiManager = new POIListManager();
+        this.poiManager = new POIListManager(this.context);
         this.poiList = this.poiManager.getPOIList();
         this.poiAdapter = new POIAdapter(this, this.poiList);
         this.poiRv.setLayoutManager( new LinearLayoutManager(this.context));

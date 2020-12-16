@@ -1,0 +1,18 @@
+[
+	{
+		"routeID": 1,
+		"poiID": 1
+	},
+	{
+		"routeID": 1,
+		"poiID": 2
+	},
+	{
+		"routeID": 1,
+		"poiID": 3
+	},
+	{
+		"routeID": 1,
+		"poiID": 4
+	}
+]

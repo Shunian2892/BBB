@@ -22,7 +22,6 @@ public class POIAdapter extends RecyclerView.Adapter<POIViewHolder> {
     public POIAdapter(OnItemClickListener listener, List<POI> poiList){
         this.listener = listener;
         this.poiList = poiList;
-
     }
 
     @NonNull

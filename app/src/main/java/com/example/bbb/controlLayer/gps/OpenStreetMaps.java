@@ -17,7 +17,6 @@ public class OpenStreetMaps {
         mapView.getOverlayManager().add(line);
     }
 
-
     public void drawMarker(MapView mapView, GeoPoint point){
         Marker marker = new Marker(mapView);
         marker.setPosition(point);

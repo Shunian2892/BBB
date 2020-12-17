@@ -1,6 +1,7 @@
 package com.example.bbb.controlLayer.gps;
 
 import android.util.Log;
+import android.view.View;
 
 import com.example.bbb.R;
 
@@ -32,18 +33,20 @@ public class OpenRouteService {
 
     private OpenStreetMaps openStreetMaps;
     private MapView mapView;
+    private View view;
 
     private final String api_key = "5b3ce3597851110001cf6248cc7335a16be74902905bcba4a9d0eebf";
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-    public OpenRouteService(MapView mapView) {
+    public OpenRouteService(MapView mapView, View view) {
         this.client = new OkHttpClient();
         this.ipAddress = "localhost";
         this.port = 8000;
         this.isConnected = false;
         this.openStreetMaps = new OpenStreetMaps();
         this.mapView = mapView;
+        this.view = view;
 
         Connect();
     }
@@ -143,6 +146,10 @@ public class OpenRouteService {
 //                                    System.out.println(i + ": " + cordArray.toString());
                                 }
                                 for (GeoPoint point : waypoints) {
+                                    if(view == null)
+                                        {
+                                            return;
+                                        }
                                     openStreetMaps.drawMarker(mapView, point);
                                 }
                                 openStreetMaps.drawRoute(mapView, points);

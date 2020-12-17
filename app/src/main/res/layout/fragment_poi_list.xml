@@ -9,6 +9,22 @@
     android:id="@+id/fragment_poi_list"
     android:clickable="true">
 
+    <ImageButton
+        android:id="@+id/imageButtonBackPOIList"
+        android:layout_width="35dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/TextViewTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/back"
+        android:visibility="gone"/>
+
     <TextView
         android:id="@+id/TextViewTitle"
         android:layout_width="wrap_content"

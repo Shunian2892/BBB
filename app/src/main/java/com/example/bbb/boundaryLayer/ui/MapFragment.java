@@ -123,7 +123,7 @@ public class MapFragment extends Fragment {
 
 //                                System.out.println(pois.get(i).POIName);
                             }
-                            openRouteService.getRoute(coordinates, "driving-car", Locale.getDefault().getLanguage());
+                            openRouteService.getRoute(coordinates, "foot-walking", Locale.getDefault().getLanguage());
                             break;
                         }
                     }

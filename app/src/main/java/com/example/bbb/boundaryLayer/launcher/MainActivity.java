@@ -68,8 +68,10 @@ public class MainActivity extends AppCompatActivity implements ReplacePOI {
 
         List<POI> poiList = databaseManager.getPOIs();
         List<Route> routeList = databaseManager.getRoutes();
+        for (Route route : routeList) {
+            databaseManager.addWalkedRoute(route.ID, new Date(System.currentTimeMillis()).toString());
+        }
 
-        databaseManager.addWalkedRoute(1, new Date(System.currentTimeMillis()).toString());
         List<WalkedRoute> testList = databaseManager.getWalkedRoutes();
 
         for (int i = 0; i < testList.size(); i++) {

@@ -21,6 +21,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserViewHolder> {
     private List<WalkedRoute> walkedRouteList;
     private OnItemClickListener listener;
     private UserListManager userListManager;
+
     public UserAdapter(OnItemClickListener listener, Context context){
         this.listener = listener;
         this.userListManager = new UserListManager(context);

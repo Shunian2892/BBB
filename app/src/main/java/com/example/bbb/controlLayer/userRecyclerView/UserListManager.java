@@ -11,17 +11,16 @@ import java.util.List;
 
 public class UserListManager {
     private List<WalkedRoute> walkedRouteList;
-    private Context appContext;
     private DatabaseManager databaseManager;
 
     public UserListManager(Context context){
         walkedRouteList = new ArrayList<>();
-        this.appContext = context;
-        init();
+
+        init(context);
     }
 
-    private void init() {
-        databaseManager = DatabaseManager.getInstance(appContext);
+    private void init(Context context) {
+        databaseManager = DatabaseManager.getInstance(context);
         databaseManager.initDatabase();
         UserReader();
     }

@@ -43,6 +43,13 @@ public class MapFragment extends Fragment {
     private ImageButton ibHelpPopup;
     private ImageButton ibUserInfo;
     private Fragment userInfoFragment;
+    private Context context;
+    private ReplacePOI replacePOI;
+
+    public MapFragment(Context context, ReplacePOI replacePOI) {
+        this.context = context;
+        this.replacePOI = replacePOI;
+    }
 
     @Nullable
     @Override
@@ -71,7 +78,7 @@ public class MapFragment extends Fragment {
         map.setMultiTouchControls(true);
         map.setBuiltInZoomControls(true);
 
-        openRouteService = new OpenRouteService(map);
+        openRouteService = new OpenRouteService(map, getView());
 
         ibRouteInfo = view.findViewById(R.id.imageButtonRouteInfo);
         ibHelpPopup = view.findViewById(R.id.imageButtonHelp);
@@ -143,7 +150,7 @@ public class MapFragment extends Fragment {
 
     public void setUserInfoFragment(FragmentManager fm){
         if(fm.findFragmentById(R.id.user_info_fragment) == null){
-            userInfoFragment = new UserInfoFragment();
+            userInfoFragment = new UserInfoFragment(context, replacePOI);
         } else {
             userInfoFragment = (UserInfoFragment) fm.findFragmentById(R.id.user_info_fragment);
         }

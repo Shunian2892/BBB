@@ -9,13 +9,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentContainer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bbb.R;
-import com.example.bbb.boundaryLayer.launcher.MainActivity;
 import com.example.bbb.controlLayer.OnItemClickListener;
 import com.example.bbb.controlLayer.poiRecyclerView.POIAdapter;
 import com.example.bbb.controlLayer.poiRecyclerView.POIListManager;
@@ -28,14 +25,19 @@ public class POIListFragment extends Fragment implements OnItemClickListener {
     private RecyclerView poiRv;
     private List<POI> poiList;
     private POIAdapter poiAdapter;
-    private POIListManager poiManager;
+    private POIListManager poiListManager;
     private ViewGroup container;
     private Context context;
     private ReplacePOI replacePOI;
 
-    public POIListFragment(Context context, ReplacePOI replacePOI){
+    public POIListFragment(Context context, ReplacePOI replacePOI) {
         this.context = context;
         this.replacePOI = replacePOI;
+        poiList = new ArrayList<>();
+    }
+
+    public void setPoiList(List<POI> poiList) {
+        this.poiList = poiList;
     }
 
     @Nullable
@@ -48,13 +50,14 @@ public class POIListFragment extends Fragment implements OnItemClickListener {
     @Override
     public void onStart() {
         super.onStart();
-        poiList = new ArrayList<>();
-        //poiList.add(new POI("test", "x", "y", "beschrijving"));
+
         this.poiRv = this.container.findViewById(R.id.poi_rv);
-        this.poiManager = new POIListManager(this.context);
-        this.poiList = this.poiManager.getPOIList();
+        this.poiListManager = new POIListManager(this.context);
+        if (poiList.size() == 0) {
+            this.poiList = this.poiListManager.getPOIList();
+        }
         this.poiAdapter = new POIAdapter(this, this.poiList);
-        this.poiRv.setLayoutManager( new LinearLayoutManager(this.context));
+        this.poiRv.setLayoutManager(new LinearLayoutManager(this.context));
         this.poiRv.setAdapter(this.poiAdapter);
 
     }

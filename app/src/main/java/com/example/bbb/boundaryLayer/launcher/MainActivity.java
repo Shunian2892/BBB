@@ -82,6 +82,9 @@ public class MainActivity extends AppCompatActivity implements ReplacePOI {
 
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
         bottomNav.setOnNavigationItemSelectedListener(navlistener);
+
+        setMapFragment(getSupportFragmentManager());
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mapFragment).commit();
     }
 
     public void setPoiListFragment(FragmentManager fm){
@@ -91,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements ReplacePOI {
             poiListFragment = (POIListFragment) fm.findFragmentById(R.id.fragment_poi_list);
         }
     }
+
     public void setSettingFragment(FragmentManager fm){
         if(fm.findFragmentById(R.id.fragment_settings)== null){
             settingsFragment = new SettingsFragment();
@@ -98,13 +102,16 @@ public class MainActivity extends AppCompatActivity implements ReplacePOI {
             settingsFragment = (SettingsFragment) fm.findFragmentById(R.id.fragment_settings);
         }
     }
+
     public void setMapFragment(FragmentManager fm){
         if(fm.findFragmentById(R.id.map_fragment) == null){
-            mapFragment = new MapFragment();
+            mapFragment = new MapFragment(this, this);
         } else {
             mapFragment = (MapFragment) fm.findFragmentById(R.id.map_fragment);
         }
-    } @Override
+    }
+
+    @Override
     public void setDetailPOI(POI poi) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new POIFragment(poi, this)).commit();
     }

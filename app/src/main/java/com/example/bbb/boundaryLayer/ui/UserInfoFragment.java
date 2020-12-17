@@ -21,6 +21,7 @@ import com.example.bbb.controlLayer.DatabaseManager;
 import com.example.bbb.controlLayer.OnItemClickListener;
 import com.example.bbb.controlLayer.userRecyclerView.UserAdapter;
 import com.example.bbb.controlLayer.userRecyclerView.UserListManager;
+import com.example.bbb.entityLayer.data.POI;
 import com.example.bbb.entityLayer.data.WalkedRoute;
 
 import java.util.ArrayList;
@@ -39,6 +40,12 @@ public class UserInfoFragment extends Fragment implements OnItemClickListener {
     private ViewGroup container;
     private Context context;
     private ReplacePOI replacePOI;
+    private POIListFragment poiListFragment;
+
+    public UserInfoFragment(Context context, ReplacePOI replacePOI) {
+        this.context = context;
+        this.replacePOI = replacePOI;
+    }
 
     @Nullable
     @Override
@@ -52,7 +59,6 @@ public class UserInfoFragment extends Fragment implements OnItemClickListener {
         databaseManager = DatabaseManager.getInstance(getActivity().getApplicationContext());
 
         listSize.setText(String.valueOf(databaseManager.getWalkedRoutes().size()));
-
 
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,14 +83,38 @@ public class UserInfoFragment extends Fragment implements OnItemClickListener {
 
     public void setMapFragment(FragmentManager fm){
         if(fm.findFragmentById(R.id.map_fragment) == null){
-            mapFragment = new MapFragment();
+            mapFragment = new MapFragment(context,replacePOI);
         } else {
             mapFragment = (MapFragment) fm.findFragmentById(R.id.map_fragment);
         }
     }
 
+    public void setPoiListFragment(FragmentManager fm){
+        if(fm.findFragmentById(R.id.fragment_poi_list) == null){
+            poiListFragment = new POIListFragment(context,replacePOI);
+        } else {
+            poiListFragment = (POIListFragment) fm.findFragmentById(R.id.fragment_poi_list);
+        }
+        poiListFragment.setPoiList(testData());
+    }
+
+    private ArrayList<POI> testData(){
+        ArrayList<POI> list = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            POI poi = new POI();
+            poi.ID = i;
+            poi.POIName = "name " + i;
+            poi.latitude = i;
+            poi.longitude = i;
+            poi.Description = "Temp Description";
+            list.add(poi);
+        }
+        return list;
+    }
+
     @Override
     public void OnItemClick(int clickedPosition) {
-
+        setPoiListFragment(getFragmentManager());
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, poiListFragment).commit();
     }
 }

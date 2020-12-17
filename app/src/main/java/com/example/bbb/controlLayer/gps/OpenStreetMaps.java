@@ -21,6 +21,7 @@ public class OpenStreetMaps {
         line.setPoints(geoPoints);
         line.setColor(Color.parseColor("#FFA400"));
         mapView.getOverlayManager().add(line);
+        mapView.invalidate();
     }
 
 

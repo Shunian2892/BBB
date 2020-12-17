@@ -15,7 +15,15 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.bbb.R;
 
+import org.osmdroid.views.MapView;
+
 public class RoutePopUp extends DialogFragment {
+private IMapChanged mapChanged;
+
+    public RoutePopUp(IMapChanged mapChanged) {
+        this.mapChanged = mapChanged;
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -27,8 +35,14 @@ public class RoutePopUp extends DialogFragment {
         AlertDialog alertDialog = builder.create();
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        Button button = myview.findViewById(R.id.buttonRouteOk);
-        button.setOnClickListener(view -> alertDialog.dismiss());
+        Button buttonOk = myview.findViewById(R.id.buttonRouteOk);
+        buttonOk.setOnClickListener(view -> alertDialog.dismiss());
+
+        Button buttonStopRoute = myview.findViewById(R.id.buttonRouteStop);
+        buttonStopRoute.setOnClickListener(view ->{
+            mapChanged.onMapChange();
+            alertDialog.dismiss();
+        });
 
         return alertDialog;
     }

@@ -80,6 +80,9 @@ public class MainActivity extends AppCompatActivity implements ReplacePOI {
 
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
         bottomNav.setOnNavigationItemSelectedListener(navlistener);
+
+        setMapFragment(getSupportFragmentManager());
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mapFragment).commit();
     }
 
     public void setPoiListFragment(FragmentManager fm){

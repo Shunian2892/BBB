@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,7 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MapFragment extends Fragment {
+public class MapFragment extends Fragment implements IMapChanged {
     private Context fragmentContext;
     private IMapController mapController;
     private MapView map;
@@ -125,6 +126,7 @@ public class MapFragment extends Fragment {
 
 //                                System.out.println(pois.get(i).POIName);
                             }
+                            Toast.makeText(fragmentContext,"Loading route...", Toast.LENGTH_SHORT).show();
                             openRouteService.getRoute(coordinates, "foot-walking", Locale.getDefault().getLanguage());
                             break;
                         }
@@ -143,6 +145,7 @@ public class MapFragment extends Fragment {
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -166,9 +169,13 @@ public class MapFragment extends Fragment {
             }
             Log.d("Latitude", "onLocationChanged: " + location.getLatitude());
             GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
+
+            //Move this to the onClick of a new button on the map
             mapController.setCenter(point);
+
             Marker startPoint = new Marker(map);
             startPoint.setPosition(point);
+
             startPoint.setIcon(fragmentContext.getDrawable(R.drawable.my_location));
             map.getOverlays().remove(currentLocation);
             currentLocation = startPoint;
@@ -185,8 +192,12 @@ public class MapFragment extends Fragment {
         ibRouteInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment dialogFragment = new RoutePopUp();
-                dialogFragment.show(getActivity().getSupportFragmentManager(), "route_popup");
+                if(routeSpinner.getSelectedItemPosition() != 0) {
+                    DialogFragment dialogFragment = new RoutePopUp(MapFragment.this);
+                    dialogFragment.show(getActivity().getSupportFragmentManager(), "route_popup");
+                } else{
+                    Toast.makeText(fragmentContext,"Please select a route!",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -212,5 +223,14 @@ public class MapFragment extends Fragment {
         } else {
             userInfoFragment = (UserInfoFragment) fm.findFragmentById(R.id.user_info_fragment);
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onMapChange() {
+        map.getOverlays().clear();
+        routeSpinner.setSelection(0);
+            getLocation();
+
     }
 }

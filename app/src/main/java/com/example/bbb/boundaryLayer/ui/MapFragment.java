@@ -13,7 +13,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,7 +27,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.bbb.R;
+import com.example.bbb.controlLayer.DatabaseManager;
 import com.example.bbb.controlLayer.gps.OpenRouteService;
+import com.example.bbb.entityLayer.data.POI;
+import com.example.bbb.entityLayer.data.Route;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -32,6 +38,10 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class MapFragment extends Fragment {
     private Context fragmentContext;
@@ -43,6 +53,10 @@ public class MapFragment extends Fragment {
     private ImageButton ibHelpPopup;
     private ImageButton ibUserInfo;
     private Fragment userInfoFragment;
+    private Spinner routeSpinner;
+    private ArrayAdapter<String> spinnerAdapter;
+    private List<String> routeNameList;
+    private DatabaseManager dm;
 
     @Nullable
     @Override
@@ -52,6 +66,7 @@ public class MapFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
+        dm = DatabaseManager.getInstance(getContext());
         map = (MapView) view.findViewById(R.id.map_view);
         map.setUseDataConnection(true);
         map.setTileSource(TileSourceFactory.MAPNIK);
@@ -76,6 +91,52 @@ public class MapFragment extends Fragment {
         ibRouteInfo = view.findViewById(R.id.imageButtonRouteInfo);
         ibHelpPopup = view.findViewById(R.id.imageButtonHelp);
         ibUserInfo = view.findViewById(R.id.imageButtonUserInfo);
+        routeSpinner = view.findViewById(R.id.spinner_route);
+
+        routeNameList = new ArrayList<>();
+        routeNameList.add("Select a Route");
+        for (Route route : dm.getRoutes()) {
+            routeNameList.add(route.RouteName);
+        }
+
+        this.spinnerAdapter = new ArrayAdapter<String>(
+                getContext(),
+                R.layout.support_simple_spinner_dropdown_item,
+                routeNameList);
+
+        routeSpinner.setAdapter(spinnerAdapter);
+        routeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String routeName = (String) parent.getItemAtPosition(position);
+
+                if (position != 0) {
+                    for (Route route : dm.getRoutes()) {
+                        if (route.RouteName.equals(routeName)) {
+                            Route selectedRoute = route;
+                            List<POI> pois = dm.getPOIsFromRoute(route.ID);
+                            double[][] coordinates = new double[pois.size()][2];
+
+                            for (int i = 0; i < pois.size(); i++) {
+                                coordinates[i][0] = pois.get(i).latitude;
+                                coordinates[i][1] = pois.get(i).longitude;
+
+//                                System.out.println(pois.get(i).POIName);
+                            }
+                            openRouteService.getRoute(coordinates, "driving-car", Locale.getDefault().getLanguage());
+                            break;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
         buttonClickListeners();
         return view;
     }
@@ -86,18 +147,18 @@ public class MapFragment extends Fragment {
 
         getLocation();
 
-        openRouteService.getRoute(new GeoPoint[]{
+        /*openRouteService.getRoute(new GeoPoint[]{
                 new GeoPoint(51.813297, 4.690093),
-                new GeoPoint(49.41943,8.686507),
-                new GeoPoint(49.420318,8.687872)
-        }, "driving-car", "de");
+                new GeoPoint(49.41943, 8.686507),
+                new GeoPoint(49.420318, 8.687872)
+        }, "driving-car", "de");*/
     }
 
     public void getLocation() {
         LocationManager locationManager = (LocationManager) fragmentContext.getSystemService(Context.LOCATION_SERVICE);
 
         LocationListener locationListener = location -> {
-            if (getView() == null){
+            if (getView() == null) {
                 return;
             }
             Log.d("Latitude", "onLocationChanged: " + location.getLatitude());
@@ -110,13 +171,13 @@ public class MapFragment extends Fragment {
             map.getOverlays().add(startPoint);
         };
 
-        if(ContextCompat.checkSelfPermission(fragmentContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(fragmentContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, locationListener);
         }
     }
 
-    public void buttonClickListeners(){
+    public void buttonClickListeners() {
         ibRouteInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,8 +202,8 @@ public class MapFragment extends Fragment {
         });
     }
 
-    public void setUserInfoFragment(FragmentManager fm){
-        if(fm.findFragmentById(R.id.user_info_fragment) == null){
+    public void setUserInfoFragment(FragmentManager fm) {
+        if (fm.findFragmentById(R.id.user_info_fragment) == null) {
             userInfoFragment = new UserInfoFragment();
         } else {
             userInfoFragment = (UserInfoFragment) fm.findFragmentById(R.id.user_info_fragment);

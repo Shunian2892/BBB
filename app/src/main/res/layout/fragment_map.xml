@@ -39,6 +39,7 @@
                 android:src="@drawable/route_info" />
 
             <Spinner
+                android:id="@+id/spinner_route"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"

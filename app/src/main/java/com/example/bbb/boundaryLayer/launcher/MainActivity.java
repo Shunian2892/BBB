@@ -1,22 +1,17 @@
 package com.example.bbb.boundaryLayer.launcher;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.room.Room;
-
-import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.view.MenuItem;
-import android.widget.Button;
 
 import com.example.bbb.R;
 import com.example.bbb.boundaryLayer.ui.MapFragment;
 import com.example.bbb.boundaryLayer.ui.POIFragment;
 import com.example.bbb.boundaryLayer.ui.POIListFragment;
 import com.example.bbb.boundaryLayer.ui.ReplacePOI;
-import com.example.bbb.boundaryLayer.ui.RoutePopUp;
 import com.example.bbb.boundaryLayer.ui.SettingsFragment;
 import com.example.bbb.controlLayer.DatabaseManager;
 import com.example.bbb.entityLayer.data.POI;
@@ -34,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements ReplacePOI {
     private MapFragment mapFragment;
     private POIListFragment poiListFragment;
     FragmentManager fragmentManager;
+    public BottomNavigationView bottomNav;
 
     private BottomNavigationView.OnNavigationItemSelectedListener navlistener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -54,10 +50,18 @@ public class MainActivity extends AppCompatActivity implements ReplacePOI {
                             fragmentManager.beginTransaction().replace(R.id.fragment_container, mapFragment).addToBackStack(null).commit();
                             break;
                     }
-
                     return true;
                 }
             };
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+//        FragmentManager.BackStackEntry entry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1);
+//        entry.
+//        bottomNav.setSelectedItemId(item.getItemId());
+//        bottomNav.getse
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,35 +86,37 @@ public class MainActivity extends AppCompatActivity implements ReplacePOI {
 
         System.out.println(databaseManager.searchLocation("Stadhouderspoort").ID);
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+        bottomNav = findViewById(R.id.bottomNavigationView);
         bottomNav.setOnNavigationItemSelectedListener(navlistener);
 
         setMapFragment(getSupportFragmentManager());
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mapFragment).commit();
     }
 
-    public void setPoiListFragment(FragmentManager fm){
-        if(fm.findFragmentById(R.id.fragment_poi_list) == null){
-            poiListFragment = new POIListFragment(this,this);
+    public void setPoiListFragment(FragmentManager fm) {
+        if (fm.findFragmentById(R.id.fragment_poi_list) == null) {
+            poiListFragment = new POIListFragment(this, this);
         } else {
             poiListFragment = (POIListFragment) fm.findFragmentById(R.id.fragment_poi_list);
         }
+        poiListFragment.setButtonBackVisibility(false);
     }
 
-    public void setSettingFragment(FragmentManager fm){
-        if(fm.findFragmentById(R.id.fragment_settings)== null){
+    public void setSettingFragment(FragmentManager fm) {
+        if (fm.findFragmentById(R.id.fragment_settings) == null) {
             settingsFragment = new SettingsFragment();
         } else {
             settingsFragment = (SettingsFragment) fm.findFragmentById(R.id.fragment_settings);
         }
     }
 
-    public void setMapFragment(FragmentManager fm){
-        if(fm.findFragmentById(R.id.map_fragment) == null){
+    public void setMapFragment(FragmentManager fm) {
+        if (fm.findFragmentById(R.id.map_fragment) == null) {
             mapFragment = new MapFragment(this, this);
         } else {
             mapFragment = (MapFragment) fm.findFragmentById(R.id.map_fragment);
         }
+
     }
 
     @Override

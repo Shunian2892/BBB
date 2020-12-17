@@ -62,5 +62,6 @@ public class POIFragment extends Fragment {
         } else {
             poiListFragment = (POIListFragment) fm.findFragmentById(R.id.fragment_poi_list);
         }
+        poiListFragment.setButtonBackVisibility(false);
     }
 }

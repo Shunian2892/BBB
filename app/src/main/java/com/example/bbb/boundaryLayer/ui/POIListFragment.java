@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +30,7 @@ public class POIListFragment extends Fragment implements OnItemClickListener {
     private ViewGroup container;
     private Context context;
     private ReplacePOI replacePOI;
+    private Boolean isBackButtonVisible;
 
     public POIListFragment(Context context, ReplacePOI replacePOI) {
         this.context = context;
@@ -44,7 +46,22 @@ public class POIListFragment extends Fragment implements OnItemClickListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.container = container;
-        return inflater.inflate(R.layout.fragment_poi_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_poi_list, container, false);
+        ImageButton buttonBack = view.findViewById(R.id.imageButtonBackPOIList);
+        if (isBackButtonVisible) {
+            buttonBack.setVisibility(View.VISIBLE);
+        } else {
+            buttonBack.setVisibility(View.GONE);
+        }
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(getFragmentManager().getBackStackEntryCount()>0){
+                    getFragmentManager().popBackStackImmediate();
+                }
+            }
+        });
+        return view;
     }
 
     @Override
@@ -66,5 +83,9 @@ public class POIListFragment extends Fragment implements OnItemClickListener {
     public void OnItemClick(int clickedPosition) {
         POI poi = poiList.get(clickedPosition);
         replacePOI.setDetailPOI(poi);
+    }
+
+    public void setButtonBackVisibility(boolean state) {
+        isBackButtonVisible = state;
     }
 }

@@ -97,6 +97,8 @@ public class UserInfoFragment extends Fragment implements OnItemClickListener {
             poiListFragment = (POIListFragment) fm.findFragmentById(R.id.fragment_poi_list);
         }
         poiListFragment.setPoiList(testData());
+        poiListFragment.setButtonBackVisibility(true);
+
     }
 
     private ArrayList<POI> testData(){

@@ -215,7 +215,8 @@ public class MapFragment extends Fragment implements IMapChanged {
         ibHelpPopup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO laterrrr
+                DialogFragment dialogFragment = new HelpPopUp();
+                dialogFragment.show(getActivity().getSupportFragmentManager(), "help_popup");
             }
         });
 

@@ -2,9 +2,7 @@ package com.example.bbb.boundaryLayer.ui;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
@@ -55,11 +53,14 @@ public class MapFragment extends Fragment implements IMapChanged {
     private ImageButton ibRouteInfo;
     private ImageButton ibHelpPopup;
     private ImageButton ibUserInfo;
+    private ImageButton ibCenterPosition;
     private Fragment userInfoFragment;
     private Spinner routeSpinner;
     private ArrayAdapter<String> spinnerAdapter;
     private List<String> routeNameList;
     private DatabaseManager dm;
+
+    private boolean centerOnStart;
 
     @Nullable
     @Override
@@ -76,6 +77,8 @@ public class MapFragment extends Fragment implements IMapChanged {
 
         mapController = map.getController();
         mapController.setZoom(14);
+
+        centerOnStart = false;
 
         //Check for Location permission
         if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -95,6 +98,7 @@ public class MapFragment extends Fragment implements IMapChanged {
         ibHelpPopup = view.findViewById(R.id.imageButtonHelp);
         ibUserInfo = view.findViewById(R.id.imageButtonUserInfo);
         routeSpinner = view.findViewById(R.id.spinner_route);
+        ibCenterPosition = view.findViewById(R.id.centerPosition);
 
         routeNameList = new ArrayList<>();
         routeNameList.add("Select a Route");
@@ -126,8 +130,9 @@ public class MapFragment extends Fragment implements IMapChanged {
 
 //                                System.out.println(pois.get(i).POIName);
                             }
-                            Toast.makeText(fragmentContext,"Loading route...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(fragmentContext, "Loading route...", Toast.LENGTH_SHORT).show();
                             openRouteService.getRoute(coordinates, "foot-walking", Locale.getDefault().getLanguage());
+                            mapController.setCenter(new GeoPoint(coordinates[0][1],coordinates[0][0]));
                             break;
                         }
                     }
@@ -150,13 +155,11 @@ public class MapFragment extends Fragment implements IMapChanged {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        currentLocation = new Marker(map);
         getLocation();
 
-        /*openRouteService.getRoute(new GeoPoint[]{
-                new GeoPoint(51.813297, 4.690093),
-                new GeoPoint(49.41943, 8.686507),
-                new GeoPoint(49.420318, 8.687872)
-        }, "driving-car", "de");*/
+        mapController.setCenter(currentLocation.getPosition());
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -170,33 +173,36 @@ public class MapFragment extends Fragment implements IMapChanged {
             Log.d("Latitude", "onLocationChanged: " + location.getLatitude());
             GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
 
-            //Move this to the onClick of a new button on the map
-            mapController.setCenter(point);
-
             Marker startPoint = new Marker(map);
             startPoint.setPosition(point);
-
             startPoint.setIcon(fragmentContext.getDrawable(R.drawable.my_location));
             map.getOverlays().remove(currentLocation);
             currentLocation = startPoint;
             map.getOverlays().add(startPoint);
+
+            if(!centerOnStart){
+                mapController.setCenter(currentLocation.getPosition());
+                centerOnStart = true;
+            }
         };
 
         if (ContextCompat.checkSelfPermission(fragmentContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, locationListener);
         }
+
+
     }
 
     public void buttonClickListeners() {
         ibRouteInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(routeSpinner.getSelectedItemPosition() != 0) {
+                if (routeSpinner.getSelectedItemPosition() != 0) {
                     DialogFragment dialogFragment = new RoutePopUp(MapFragment.this);
                     dialogFragment.show(getActivity().getSupportFragmentManager(), "route_popup");
-                } else{
-                    Toast.makeText(fragmentContext,"Please select a route!",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(fragmentContext, "Please select a route!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -215,6 +221,13 @@ public class MapFragment extends Fragment implements IMapChanged {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, userInfoFragment).commit();
             }
         });
+
+        ibCenterPosition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mapController.setCenter(currentLocation.getPosition());
+            }
+        });
     }
 
     public void setUserInfoFragment(FragmentManager fm) {
@@ -230,7 +243,7 @@ public class MapFragment extends Fragment implements IMapChanged {
     public void onMapChange() {
         map.getOverlays().clear();
         routeSpinner.setSelection(0);
-            getLocation();
+        getLocation();
 
     }
 }

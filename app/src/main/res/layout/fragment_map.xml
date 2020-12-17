@@ -9,6 +9,8 @@
     android:background="@color/white"
     android:id="@+id/map_fragment">
 
+
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewMapFragment"
         android:layout_width="match_parent"
@@ -84,6 +86,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:src="@drawable/user" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
@@ -101,10 +104,14 @@
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardViewMapFragment"/>
+        app:layout_constraintTop_toBottomOf="@+id/cardViewMapFragment"
+        app:layout_constraintVertical_bias="1.0">
 
-<!--    <ImageView-->
+    </org.osmdroid.views.MapView>
+
+    <!--    <ImageView-->
 <!--        android:id="@+id/imageViewMap"-->
 <!--        android:layout_width="0dp"-->
 <!--        android:layout_height="0dp"-->
@@ -134,5 +141,17 @@
     <!--        android:textSize="30sp"-->
     <!--        app:layout_constraintStart_toStartOf="parent"-->
     <!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <ImageButton
+        android:id="@+id/centerPosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_background"
+
+        android:src="@drawable/center_location"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

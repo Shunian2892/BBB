@@ -99,7 +99,7 @@ public class MapFragment extends Fragment implements IMapChanged {
         map.setMultiTouchControls(true);
         map.setBuiltInZoomControls(true);
 
-        openRouteService = new OpenRouteService(map, fragmentContext);
+        openRouteService = new OpenRouteService(map, fragmentContext, view);
 
         ibRouteInfo = view.findViewById(R.id.imageButtonRouteInfo);
         ibHelpPopup = view.findViewById(R.id.imageButtonHelp);

@@ -44,7 +44,7 @@ public class OpenRouteService {
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-    public OpenRouteService(MapView mapView, Context context) {
+    public OpenRouteService(MapView mapView, Context context, View view) {
         this.client = new OkHttpClient();
         this.ipAddress = "localhost";
         this.port = 8000;
@@ -105,6 +105,10 @@ public class OpenRouteService {
                                     points.add(point);
                                 }
 
+                                if (view == null) {
+                                    return;
+                                }
+
                                 openStreetMaps.drawRoute(mapView, points);
 
 
@@ -148,13 +152,12 @@ public class OpenRouteService {
                                     points.add(point);
                                     System.out.println(i + ": " + cordArray.toString());
                                 }
-                                for (GeoPoint point : waypoints) {
-                                    if(view == null)
-                                        {
-                                            return;
-                                        }
-                                    openStreetMaps.drawMarker(mapView, point);
+
+
                                 for (int i = 0; i < waypoints.length; i++) {
+                                    if (view == null) {
+                                        return;
+                                    }
                                     if (i != 0 && i != waypoints.length - 1) {
                                         openStreetMaps.drawMarker(
                                                 mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),

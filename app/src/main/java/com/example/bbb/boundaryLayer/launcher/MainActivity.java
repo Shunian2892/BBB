@@ -65,12 +65,18 @@ public class MainActivity extends AppCompatActivity implements ReplacePOI {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main);
+
 
         DatabaseManager databaseManager = DatabaseManager.getInstance(getApplicationContext());
         databaseManager.initDatabase();
         databaseManager.testQueries();
+
 
         List<POI> poiList = databaseManager.getPOIs();
         List<Route> routeList = databaseManager.getRoutes();
@@ -91,7 +97,10 @@ public class MainActivity extends AppCompatActivity implements ReplacePOI {
 
         setMapFragment(getSupportFragmentManager());
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mapFragment).commit();
+
+
     }
+
 
     public void setPoiListFragment(FragmentManager fm) {
         if (fm.findFragmentById(R.id.fragment_poi_list) == null) {
@@ -100,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements ReplacePOI {
             poiListFragment = (POIListFragment) fm.findFragmentById(R.id.fragment_poi_list);
         }
         poiListFragment.setButtonBackVisibility(false);
+
     }
 
     public void setSettingFragment(FragmentManager fm) {
@@ -108,14 +118,17 @@ public class MainActivity extends AppCompatActivity implements ReplacePOI {
         } else {
             settingsFragment = (SettingsFragment) fm.findFragmentById(R.id.fragment_settings);
         }
+
     }
 
     public void setMapFragment(FragmentManager fm) {
+
         if (fm.findFragmentById(R.id.map_fragment) == null) {
             mapFragment = new MapFragment(this, this);
         } else {
             mapFragment = (MapFragment) fm.findFragmentById(R.id.map_fragment);
         }
+
 
     }
 

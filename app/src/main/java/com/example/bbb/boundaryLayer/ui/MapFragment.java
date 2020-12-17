@@ -113,6 +113,7 @@ public class MapFragment extends Fragment implements IMapChanged {
 
         routeSpinner.setAdapter(spinnerAdapter);
         routeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String routeName = (String) parent.getItemAtPosition(position);
@@ -136,6 +137,8 @@ public class MapFragment extends Fragment implements IMapChanged {
                             break;
                         }
                     }
+                } else{
+                    onMapChange();
                 }
             }
 
@@ -184,6 +187,8 @@ public class MapFragment extends Fragment implements IMapChanged {
                 mapController.setCenter(currentLocation.getPosition());
                 centerOnStart = true;
             }
+
+            map.invalidate();
         };
 
         if (ContextCompat.checkSelfPermission(fragmentContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -199,7 +204,7 @@ public class MapFragment extends Fragment implements IMapChanged {
             @Override
             public void onClick(View view) {
                 if (routeSpinner.getSelectedItemPosition() != 0) {
-                    DialogFragment dialogFragment = new RoutePopUp(MapFragment.this);
+                    DialogFragment dialogFragment = new RoutePopUp(MapFragment.this, dm.getRoutes().get(routeSpinner.getSelectedItemPosition()-1));
                     dialogFragment.show(getActivity().getSupportFragmentManager(), "route_popup");
                 } else {
                     Toast.makeText(fragmentContext, "Please select a route!", Toast.LENGTH_SHORT).show();
@@ -244,6 +249,7 @@ public class MapFragment extends Fragment implements IMapChanged {
         map.getOverlays().clear();
         routeSpinner.setSelection(0);
         getLocation();
+        map.invalidate();
 
     }
 }

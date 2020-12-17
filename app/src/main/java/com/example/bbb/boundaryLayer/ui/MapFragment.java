@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -20,6 +21,7 @@ import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
@@ -86,7 +88,7 @@ public class MapFragment extends Fragment {
         map.setMultiTouchControls(true);
         map.setBuiltInZoomControls(true);
 
-        openRouteService = new OpenRouteService(map);
+        openRouteService = new OpenRouteService(map, fragmentContext);
 
         ibRouteInfo = view.findViewById(R.id.imageButtonRouteInfo);
         ibHelpPopup = view.findViewById(R.id.imageButtonHelp);
@@ -154,6 +156,7 @@ public class MapFragment extends Fragment {
         }, "driving-car", "de");*/
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void getLocation() {
         LocationManager locationManager = (LocationManager) fragmentContext.getSystemService(Context.LOCATION_SERVICE);
 
@@ -166,6 +169,7 @@ public class MapFragment extends Fragment {
             mapController.setCenter(point);
             Marker startPoint = new Marker(map);
             startPoint.setPosition(point);
+            startPoint.setIcon(fragmentContext.getDrawable(R.drawable.my_location));
             map.getOverlays().remove(currentLocation);
             currentLocation = startPoint;
             map.getOverlays().add(startPoint);

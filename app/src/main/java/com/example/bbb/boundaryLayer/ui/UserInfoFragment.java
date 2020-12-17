@@ -118,6 +118,7 @@ public class UserInfoFragment extends Fragment implements OnItemClickListener {
     @Override
     public void OnItemClick(int clickedPosition) {
         setPoiListFragment(getFragmentManager());
+        poiListFragment.setPoiList(databaseManager.getPOIsFromRoute(databaseManager.getWalkedRoutes().get(clickedPosition).routeID));
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, poiListFragment).addToBackStack(null).commit();
     }
 }

@@ -143,7 +143,7 @@ public class MapFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 setUserInfoFragment(getActivity().getSupportFragmentManager());
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, userInfoFragment).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, userInfoFragment).addToBackStack(null).commit();
             }
         });
     }

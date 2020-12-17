@@ -63,8 +63,9 @@ public class UserInfoFragment extends Fragment implements OnItemClickListener {
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setMapFragment(getActivity().getSupportFragmentManager());
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mapFragment).commit();
+              if(getFragmentManager().getBackStackEntryCount()>0){
+                  getFragmentManager().popBackStackImmediate();
+              }
             }
         });
 
@@ -115,6 +116,6 @@ public class UserInfoFragment extends Fragment implements OnItemClickListener {
     @Override
     public void OnItemClick(int clickedPosition) {
         setPoiListFragment(getFragmentManager());
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, poiListFragment).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, poiListFragment).addToBackStack(null).commit();
     }
 }

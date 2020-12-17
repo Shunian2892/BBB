@@ -44,8 +44,9 @@ public class POIFragment extends Fragment {
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setPoiListFragment(getActivity().getSupportFragmentManager());
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, poiListFragment).commit();
+               if(getFragmentManager().getBackStackEntryCount()>0){
+                   getFragmentManager().popBackStackImmediate();
+               }
             }
         });
 

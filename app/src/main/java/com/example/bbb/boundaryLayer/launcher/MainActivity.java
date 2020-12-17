@@ -29,27 +29,29 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements ReplacePOI {
+    private static final String BACK_STACK_TAG = "back_stack";
     private SettingsFragment settingsFragment;
     private MapFragment mapFragment;
     private POIListFragment poiListFragment;
+    FragmentManager fragmentManager;
 
     private BottomNavigationView.OnNavigationItemSelectedListener navlistener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    FragmentManager fm = getSupportFragmentManager();
+                    fragmentManager = getSupportFragmentManager();
                     switch (item.getItemId()) {
                         case R.id.menu_settings:
-                            setSettingFragment(fm);
-                            fm.beginTransaction().replace(R.id.fragment_container, settingsFragment).commit();
+                            setSettingFragment(fragmentManager);
+                            fragmentManager.beginTransaction().replace(R.id.fragment_container, settingsFragment).addToBackStack(null).commit();
                             break;
                         case R.id.menu_list:
-                            setPoiListFragment(fm);
-                            fm.beginTransaction().replace(R.id.fragment_container, poiListFragment).commit();
+                            setPoiListFragment(fragmentManager);
+                            fragmentManager.beginTransaction().replace(R.id.fragment_container, poiListFragment).addToBackStack(null).commit();
                             break;
                         case R.id.menu_map:
-                            setMapFragment(fm);
-                            fm.beginTransaction().replace(R.id.fragment_container, mapFragment).commit();
+                            setMapFragment(fragmentManager);
+                            fragmentManager.beginTransaction().replace(R.id.fragment_container, mapFragment).addToBackStack(null).commit();
                             break;
                     }
 
@@ -113,6 +115,6 @@ public class MainActivity extends AppCompatActivity implements ReplacePOI {
 
     @Override
     public void setDetailPOI(POI poi) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new POIFragment(poi, this)).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new POIFragment(poi, this)).addToBackStack(null).commit();
     }
 }

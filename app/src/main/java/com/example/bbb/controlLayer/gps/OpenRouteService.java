@@ -1,7 +1,11 @@
 package com.example.bbb.controlLayer.gps;
 
+import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
+
+import androidx.annotation.RequiresApi;
 
 import com.example.bbb.R;
 
@@ -34,12 +38,13 @@ public class OpenRouteService {
     private OpenStreetMaps openStreetMaps;
     private MapView mapView;
     private View view;
+    private Context context;
 
     private final String api_key = "5b3ce3597851110001cf6248cc7335a16be74902905bcba4a9d0eebf";
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-    public OpenRouteService(MapView mapView, View view) {
+    public OpenRouteService(MapView mapView, Context context) {
         this.client = new OkHttpClient();
         this.ipAddress = "localhost";
         this.port = 8000;
@@ -47,6 +52,7 @@ public class OpenRouteService {
         this.openStreetMaps = new OpenStreetMaps();
         this.mapView = mapView;
         this.view = view;
+        this.context = context;
 
         Connect();
     }
@@ -98,7 +104,7 @@ public class OpenRouteService {
                                     GeoPoint point = new GeoPoint(lat, lng);
                                     points.add(point);
                                 }
-                                
+
                                 openStreetMaps.drawRoute(mapView, points);
 
 
@@ -110,17 +116,11 @@ public class OpenRouteService {
         }
     }
 
-    public void getRoute(GeoPoint[] waypoints, String method, String language) {
+    public void getRoute(double[][] waypoints, String method, String language) {
         if (this.isConnected) {
             ArrayList<GeoPoint> points = new ArrayList<>();
-            double[][] coordinates = new double[waypoints.length][2];
 
-            for (int i = 0; i < waypoints.length; i++) {
-                coordinates[i][0] = waypoints[i].getLongitude();
-                coordinates[i][1] = waypoints[i].getLatitude();
-            }
-
-            client.newCall(createPostRequest(method, "{\"coordinates\":" + Arrays.deepToString(coordinates) + ",\"language\":\"" + language + "\"}"))
+            client.newCall(createPostRequest(method, "{\"coordinates\":" + Arrays.deepToString(waypoints) + ",\"language\":\"" + language + "\"}"))
                     .enqueue(new Callback() {
 
                         @Override
@@ -128,14 +128,17 @@ public class OpenRouteService {
                             Log.d("FAILURE", "In OnFailure() in getRoute() multiple");
                         }
 
+                        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                         @Override
                         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                             try {
+//                                System.out.println(response.body().string());
                                 JSONObject responseObject = new JSONObject(response.body().string());
                                 JSONArray routesArray = responseObject.getJSONArray("routes");
                                 JSONObject routes = (JSONObject) routesArray.get(0);
                                 String geometry = routes.getString("geometry");
                                 JSONArray coordinates = decodeGeometry(geometry, false);
+
 
                                 for (int i = 0; i < coordinates.length(); i++) {
                                     JSONArray cordArray = (JSONArray) coordinates.get(i);
@@ -143,7 +146,7 @@ public class OpenRouteService {
                                     double lng = cordArray.getDouble(1);
                                     GeoPoint point = new GeoPoint(lat, lng);
                                     points.add(point);
-//                                    System.out.println(i + ": " + cordArray.toString());
+                                    System.out.println(i + ": " + cordArray.toString());
                                 }
                                 for (GeoPoint point : waypoints) {
                                     if(view == null)
@@ -151,6 +154,21 @@ public class OpenRouteService {
                                             return;
                                         }
                                     openStreetMaps.drawMarker(mapView, point);
+                                for (int i = 0; i < waypoints.length; i++) {
+                                    if (i != 0 && i != waypoints.length - 1) {
+                                        openStreetMaps.drawMarker(
+                                                mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),
+                                                context.getDrawable(R.drawable.waypoint));
+                                    } else if (i == 0) {
+                                        openStreetMaps.drawMarker(
+                                                mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),
+                                                context.getDrawable(R.drawable.start_location));
+                                    } else {
+                                        openStreetMaps.drawMarker(
+                                                mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),
+                                                context.getDrawable(R.drawable.end_location));
+                                    }
+
                                 }
                                 openStreetMaps.drawRoute(mapView, points);
                             } catch (JSONException e) {

@@ -13,4 +13,9 @@ public class Route {
     @PrimaryKey
     public int ID;
     public String RouteName;
+
+    @Override
+    public String toString() {
+        return this.RouteName;
+    }
 }

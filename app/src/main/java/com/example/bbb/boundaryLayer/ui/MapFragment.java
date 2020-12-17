@@ -2,6 +2,7 @@ package com.example.bbb.boundaryLayer.ui;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -12,12 +13,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.bbb.R;
 import com.example.bbb.controlLayer.gps.OpenRouteService;
@@ -35,6 +39,10 @@ public class MapFragment extends Fragment {
     private MapView map;
     private OpenRouteService openRouteService;
     private Marker currentLocation;
+    private ImageButton ibRouteInfo;
+    private ImageButton ibHelpPopup;
+    private ImageButton ibUserInfo;
+    private Fragment userInfoFragment;
 
     @Nullable
     @Override
@@ -65,6 +73,10 @@ public class MapFragment extends Fragment {
 
         openRouteService = new OpenRouteService(map);
 
+        ibRouteInfo = view.findViewById(R.id.imageButtonRouteInfo);
+        ibHelpPopup = view.findViewById(R.id.imageButtonHelp);
+        ibUserInfo = view.findViewById(R.id.imageButtonUserInfo);
+        buttonClickListeners();
         return view;
     }
 
@@ -101,6 +113,39 @@ public class MapFragment extends Fragment {
         if(ContextCompat.checkSelfPermission(fragmentContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, locationListener);
+        }
+    }
+
+    public void buttonClickListeners(){
+        ibRouteInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment dialogFragment = new RoutePopUp();
+                dialogFragment.show(getActivity().getSupportFragmentManager(), "route_popup");
+            }
+        });
+
+        ibHelpPopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO laterrrr
+            }
+        });
+
+        ibUserInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setUserInfoFragment(getActivity().getSupportFragmentManager());
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, userInfoFragment).commit();
+            }
+        });
+    }
+
+    public void setUserInfoFragment(FragmentManager fm){
+        if(fm.findFragmentById(R.id.user_info_fragment) == null){
+            userInfoFragment = new UserInfoFragment();
+        } else {
+            userInfoFragment = (UserInfoFragment) fm.findFragmentById(R.id.user_info_fragment);
         }
     }
 }

@@ -62,12 +62,6 @@ public class MainActivity extends AppCompatActivity implements ReplacePOI {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Button button = findViewById(R.id.button);
-//        button.setOnClickListener(view -> {
-//            DialogFragment dialogFragment = new RoutePopUp();
-//            dialogFragment.show(getSupportFragmentManager(), "JOEJOE");
-//        });
-
         DatabaseManager databaseManager = DatabaseManager.getInstance(getApplicationContext());
         databaseManager.initDatabase();
         databaseManager.testQueries();
@@ -108,10 +102,8 @@ public class MainActivity extends AppCompatActivity implements ReplacePOI {
         } else {
             mapFragment = (MapFragment) fm.findFragmentById(R.id.map_fragment);
         }
-    }
-
-    @Override
+    } @Override
     public void setDetailPOI(POI poi) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new POIFragment(poi)).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new POIFragment(poi, this)).commit();
     }
 }

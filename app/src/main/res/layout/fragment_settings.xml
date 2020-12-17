@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:id="@+id/fragment_settings"
-    android:clickable="true">
+    android:clickable="true"
+    android:tag="FRAGMENT">
 
     <TextView
         android:id="@+id/TextViewTitle"
@@ -19,7 +20,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:fontFamily="@font/lato_black"
-        android:text="fragment_settings"
+        android:text="@string/fragment_settings"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,7 +93,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Language"
+                android:text="@string/language"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/spinnerLanguage"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -142,7 +143,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Color-blind mode"
+                android:text="@string/color_blind_mode"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/switchColorBlindMode"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -215,7 +216,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Textsize"
+                android:text="@string/textsize"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/spinnerTextSize"
                 app:layout_constraintHorizontal_bias="0.0"

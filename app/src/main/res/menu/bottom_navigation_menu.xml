@@ -4,19 +4,19 @@
     <item
         android:id="@+id/menu_map"
         android:enabled="true"
-        android:title="Map"
+        android:title="@string/map"
         android:icon="@drawable/location"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_list"
         android:enabled="true"
-        android:title="Locations"
+        android:title="@string/locations"
         android:icon="@drawable/list"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_settings"
         android:enabled="true"
-        android:title="Settings"
+        android:title="@string/settings"
         android:icon="@drawable/settings"
         app:showAsAction="ifRoom"/>
 </menu>

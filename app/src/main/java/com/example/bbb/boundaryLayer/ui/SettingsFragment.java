@@ -11,12 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -36,15 +39,20 @@ public class SettingsFragment extends Fragment {
     private Spinner textSizeSpinner;
     private ArrayList<SpinnerItem> languages;
     private ArrayList<SpinnerItem> sizes;
-    private Locale locale;
     private Context fragmentContext;
-    private boolean selected;
     private Fragment currentFragment;
     private FragmentTransaction fragmentTransaction;
-    private ViewGroup containerGlobal;
     private String currentFontSize;
     private Boolean textSizeStarted = false;
+    private Switch themeSwitch;
+    private String currentLang;
+    private Boolean currentColorMode;
 
+
+    //sharedprefs
+    private SharedPreferences.Editor fontSizeEditor;
+    private SharedPreferences.Editor languageEditor;
+    private SharedPreferences.Editor colorBlindEditor;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -58,22 +66,21 @@ public class SettingsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
         //Sharedprefs Language pref
-        SharedPreferences.Editor languageEditor = getActivity().getSharedPreferences("language", MODE_PRIVATE).edit();
+        languageEditor = getActivity().getSharedPreferences("language", MODE_PRIVATE).edit();
         SharedPreferences languagePrefs = getActivity().getSharedPreferences("language", MODE_PRIVATE);
-        String currentLang = languagePrefs.getString("language", "No name defined");//"No name defined" is the default value.
+        currentLang = languagePrefs.getString("language", "No name defined");//"No name defined" is the default value.
 
         //Sharedprefs Fontsize pref
-        SharedPreferences.Editor fontSizeEditor = getActivity().getSharedPreferences("fontsize", MODE_PRIVATE).edit();
+        fontSizeEditor = getActivity().getSharedPreferences("fontsize", MODE_PRIVATE).edit();
         SharedPreferences fontSizePrefs = getActivity().getSharedPreferences("fontsize", MODE_PRIVATE);
         currentFontSize = (fontSizePrefs.getString("fontsize", "1"));//"No name defined" is the default value.
         float convertedFontSize = Float.parseFloat(currentFontSize);
 
+        //Sharedprefs colorblindmode mode pref
+        colorBlindEditor = getActivity().getSharedPreferences("colorblind", MODE_PRIVATE).edit();
+        SharedPreferences colorBlindPrefs = getActivity().getSharedPreferences("colorblind", MODE_PRIVATE);
+        currentColorMode = colorBlindPrefs.getBoolean("colorblind", false);//"No name defined" is the default value.
 
-        System.out.println(convertedFontSize);
-
-
-        containerGlobal = container;
-        selected = false;
         initSpinnerList();
 
 
@@ -87,12 +94,22 @@ public class SettingsFragment extends Fragment {
         sizeAdapter = new SpinnerAdapter(fragmentContext, sizes);
         textSizeSpinner.setAdapter(sizeAdapter);
 
+        //Creating themeswitch switch
+        themeSwitch = view.findViewById(R.id.switchColorBlindMode);
 
         //Base scale
         adjustFontScale(getActivity().getResources().getConfiguration(), convertedFontSize);
 
 
-        //When starting the app we select the previously remembered
+        setPreviousSettings();
+        setOnClicks();
+
+
+        return view;
+    }
+
+    private void setPreviousSettings() {
+        //When starting the app we select the previously  language
         switch (currentLang) {
             case "nl":
                 languageSpinner.setSelection(0);
@@ -108,6 +125,8 @@ public class SettingsFragment extends Fragment {
                 break;
         }
 
+
+        //When starting the app we select the previously remembered font size
         switch (currentFontSize) {
             case "0.75":
                 textSizeSpinner.setSelection(0);
@@ -125,6 +144,20 @@ public class SettingsFragment extends Fragment {
                 break;
         }
 
+        if (currentColorMode.equals(false)) {
+            themeSwitch.setChecked(false);
+            getActivity().setTheme(R.style.Theme_BBB);
+
+        }
+
+        if (currentColorMode.equals(true)) {
+            themeSwitch.setChecked(true);
+            getActivity().setTheme(R.style.ThemeOverlay_MaterialComponents_Dark);
+
+        }
+    }
+
+    private void setOnClicks() {
 
         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -200,8 +233,32 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        themeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
-        return view;
+                System.out.println(getActivity().getApplicationInfo().theme);
+
+                if (b) {
+                    // Call setTheme before creation of any(!) View.
+                    getActivity().setTheme(R.style.ThemeOverlay_MaterialComponents_Dark);
+                    colorBlindEditor.putBoolean("colorblind", b);
+                    colorBlindEditor.apply();
+                    colorBlindEditor.commit();
+                    refreshScreen();
+
+                }
+
+                if (!b) {
+                    getActivity().setTheme(R.style.Theme_BBB);
+                    colorBlindEditor.putBoolean("colorblind", b);
+                    colorBlindEditor.apply();
+                    colorBlindEditor.commit();
+                    refreshScreen();
+                }
+            }
+        });
+
     }
 
     public void initSpinnerList() {
@@ -265,15 +322,11 @@ public class SettingsFragment extends Fragment {
     }
 
     private void refreshScreen() {
-        System.out.println(1);
         currentFragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         fragmentTransaction = getFragmentManager().beginTransaction();
-        System.out.println(2);
         fragmentTransaction.detach(currentFragment);
         fragmentTransaction.attach(currentFragment);
-        System.out.println(3);
         fragmentTransaction.commit();
-        System.out.println(4);
         getActivity().setContentView(R.layout.activity_main);
         getActivity().onConfigurationChanged(getActivity().getResources().getConfiguration());
     }

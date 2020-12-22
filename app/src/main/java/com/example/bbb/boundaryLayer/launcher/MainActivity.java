@@ -1,5 +1,7 @@
 package com.example.bbb.boundaryLayer.launcher;
 
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -9,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bbb.R;
+import com.example.bbb.boundaryLayer.ui.LocaleHelper;
 import com.example.bbb.boundaryLayer.ui.MapFragment;
 import com.example.bbb.boundaryLayer.ui.POIListFragment;
 import com.example.bbb.boundaryLayer.ui.SettingsFragment;
@@ -62,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
                 fragmentManager.beginTransaction().replace(R.id.fragment_container, mapFragment).addToBackStack(null).commit();
                 break;
         }
-
     }
 
     @Override
@@ -71,6 +73,12 @@ public class MainActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(UIViewModel.class);
         viewModel.init(R.id.menu_map);
+
+        SharedPreferences prefs = getSharedPreferences("language", MODE_PRIVATE);
+        String currentLang = prefs.getString("language", "No name defined");//"No name defined" is the default value.
+        System.out.println("########" + currentLang);
+
+        LocaleHelper.setLocale(this, currentLang);
 
         setContentView(R.layout.activity_main);
 
@@ -129,8 +137,21 @@ public class MainActivity extends AppCompatActivity {
         } else {
             mapFragment = (MapFragment) fm.findFragmentById(R.id.map_fragment);
         }
+    }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
 
+        // Checks the locale has changed
+        if (!LocaleHelper.getLanguage(this).equals(newConfig.locale)) {
+            LocaleHelper.setLocale(this, newConfig.locale.getLanguage());
+
+            this.setContentView(R.layout.activity_main);
+            BottomNavigationView navigationView = (BottomNavigationView)  this.findViewById(R.id.bottomNavigationView);
+            navigationView.setSelectedItemId(R.id.menu_settings);
+            navigationView.setOnNavigationItemSelectedListener(navlistener);
+        }
     }
 
 /*    @Override

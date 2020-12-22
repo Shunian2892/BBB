@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language">Taal</string>
+    <string name="color_blind_mode">Kleuren-blind modus</string>
+    <string name="textsize">Tekst grootte</string>
+    <string name="fragment_settings">Instellingen</string>
+    <string name="map">Kaart</string>
+    <string name="locations">Locaties</string>
+    <string name="settings">Instellingen</string>
+    <string name="read_more">lees meer...</string>
+</resources>

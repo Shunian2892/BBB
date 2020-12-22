@@ -9,8 +9,6 @@
     android:background="@color/white"
     android:id="@+id/map_fragment">
 
-
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewMapFragment"
         android:layout_width="match_parent"

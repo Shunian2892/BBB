@@ -7,13 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bbb.R;
 import com.example.bbb.entityLayer.data.POI;
@@ -25,20 +24,26 @@ public class POIFragment extends Fragment {
     private TextView description;
     private ImageButton ibBack;
     private POIListFragment poiListFragment;
-    private ReplacePOI replacePOI;
 
-    public POIFragment(POI poi, ReplacePOI replacePOI){
+    private UIViewModel viewModel;
+
+/*    public POIFragment(POI poi, ReplacePOI replacePOI){
         this.poi = poi;
         this.replacePOI = replacePOI;
-    }
+    }*/
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_poi, container, false);
+        viewModel.setCurrentFragment(R.id.fragment_poi);
+
         this.title = (TextView) view.findViewById(R.id.TextViewTitle);
         this.imageView = (ImageView) view.findViewById(R.id.imageViewPOI);
         this.description = (TextView) view.findViewById(R.id.textViewPOI);
+
+        viewModel = new ViewModelProvider(getActivity()).get(UIViewModel.class);
+        poi = viewModel.getSelectedPOI().getValue();
 
         ibBack = view.findViewById(R.id.imageButtonBack);
         ibBack.setOnClickListener(new View.OnClickListener() {
@@ -58,10 +63,11 @@ public class POIFragment extends Fragment {
 
     public void setPoiListFragment(FragmentManager fm) {
         if (fm.findFragmentById(R.id.fragment_poi_list) == null) {
-            poiListFragment = new POIListFragment(getContext(), replacePOI);
+            poiListFragment = new POIListFragment();
         } else {
             poiListFragment = (POIListFragment) fm.findFragmentById(R.id.fragment_poi_list);
         }
-        poiListFragment.setButtonBackVisibility(false);
+        viewModel.setBackButtonState(false);
+//        poiListFragment.setButtonBackVisibility(false);
     }
 }

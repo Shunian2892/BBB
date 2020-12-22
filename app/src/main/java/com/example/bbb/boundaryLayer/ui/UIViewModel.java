@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.bbb.entityLayer.data.POI;
+import com.example.bbb.entityLayer.data.Route;
 
 import java.util.List;
 
@@ -15,6 +16,8 @@ public class UIViewModel extends ViewModel {
     private MutableLiveData<Boolean> backButtonState;
     private MutableLiveData<Integer> currentFragment;
     private MutableLiveData<Integer> selectedRoute;
+    private IMapChanged iMapChanged;
+    private MutableLiveData<Route> routePopUpSelectedRoute;
 
     public void init(int currentFragment) {
         if (pointOfInterests != null) {
@@ -26,6 +29,7 @@ public class UIViewModel extends ViewModel {
         backButtonState = new MutableLiveData<>(false);
         this.currentFragment = new MutableLiveData<>(currentFragment);
         selectedRoute = new MutableLiveData<>(0);
+        routePopUpSelectedRoute = new MutableLiveData<>();
     }
 
     public LiveData<Boolean> getBackButtonState(){return backButtonState;}
@@ -64,5 +68,21 @@ public class UIViewModel extends ViewModel {
 
     public void setSelectedRoute(int pos) {
         this.selectedRoute.setValue(pos);
+    }
+
+    public void setIMapChanged(IMapChanged iMapChanged) {
+        this.iMapChanged = iMapChanged;
+    }
+
+    public IMapChanged getIMapChanged(){
+        return iMapChanged;
+    }
+
+    public LiveData<Route> getRoutePopUpSelectedRoute() {
+        return routePopUpSelectedRoute;
+    }
+
+    public void setRoutePopUpSelectedRoute(Route routePopUpSelectedRoute) {
+        this.routePopUpSelectedRoute.setValue(routePopUpSelectedRoute);
     }
 }

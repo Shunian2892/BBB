@@ -56,17 +56,10 @@ public class MapFragment extends Fragment implements IMapChanged {
     private ImageButton ibUserInfo;
     private ImageButton ibCenterPosition;
     private Fragment userInfoFragment;
-    private Context context;
-    private ReplacePOI replacePOI;
     private Spinner routeSpinner;
     private ArrayAdapter<String> spinnerAdapter;
     private List<String> routeNameList;
     private DatabaseManager dm;
-
-/*    public MapFragment(Context context, ReplacePOI replacePOI) {
-        this.context = context;
-        this.replacePOI = replacePOI;
-    }*/
 
     private boolean centerOnStart;
     private UIViewModel viewModel;
@@ -111,6 +104,7 @@ public class MapFragment extends Fragment implements IMapChanged {
         ibCenterPosition = view.findViewById(R.id.centerPosition);
 
         viewModel = new ViewModelProvider(getActivity()).get(UIViewModel.class);
+        viewModel.setIMapChanged(MapFragment.this);
 
         routeNameList = new ArrayList<>();
         routeNameList.add("Select a Route");
@@ -213,8 +207,6 @@ public class MapFragment extends Fragment implements IMapChanged {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, locationListener);
         }
-
-
     }
 
     public void buttonClickListeners() {
@@ -222,7 +214,8 @@ public class MapFragment extends Fragment implements IMapChanged {
             @Override
             public void onClick(View view) {
                 if (routeSpinner.getSelectedItemPosition() != 0) {
-                    DialogFragment dialogFragment = new RoutePopUp(MapFragment.this, dm.getRoutes().get(routeSpinner.getSelectedItemPosition() - 1));
+                    RoutePopUp dialogFragment = new RoutePopUp();
+                    viewModel.setRoutePopUpSelectedRoute(dm.getRoutes().get(routeSpinner.getSelectedItemPosition() - 1));
                     dialogFragment.show(getActivity().getSupportFragmentManager(), "route_popup");
                 } else {
                     Toast.makeText(fragmentContext, "Please select a route!", Toast.LENGTH_SHORT).show();
@@ -267,8 +260,8 @@ public class MapFragment extends Fragment implements IMapChanged {
     public void onMapChange() {
         map.getOverlays().clear();
         routeSpinner.setSelection(0);
+        viewModel.setSelectedRoute(0);
         getLocation();
         map.invalidate();
-
     }
 }

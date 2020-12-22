@@ -4,26 +4,25 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.bbb.R;
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
-public class VideoFragment extends Fragment {
-    private YouTubePlayerView youTubePlayerView;
+public class ImageFragment extends Fragment {
+
+    private ImageView imageView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_video, container, false);
+        View view = inflater.inflate(R.layout.fragment_detail_image, container, false);
 
-        youTubePlayerView = view.findViewById(R.id.youtubePlayer);
-        getLifecycle().addObserver(youTubePlayerView);
+        imageView = view.findViewById(R.id.imageViewPOI);
+        imageView.setImageResource(R.drawable.blindwalls);
         return view;
     }
-
 }

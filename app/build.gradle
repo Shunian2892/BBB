@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.bbb"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -39,7 +39,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
-
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 
 //    OSM and GPS location
     implementation 'org.osmdroid:osmdroid-android:6.1.5'

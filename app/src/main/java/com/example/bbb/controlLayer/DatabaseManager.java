@@ -36,7 +36,7 @@ public class DatabaseManager {
     
     public DatabaseManager(Context applicationContext) {
         mainContext = applicationContext;
-        db = Room.databaseBuilder(applicationContext, Database.class, "database-test2.2").allowMainThreadQueries().build();
+        db = Room.databaseBuilder(applicationContext, Database.class, "database-test2.3").allowMainThreadQueries().build();
     }
 
     public void initDatabase() {
@@ -54,8 +54,8 @@ public class DatabaseManager {
                     jsonObject = jsonArrayPOI.getJSONObject(i);
                     poi.ID = jsonObject.getInt("id");
                     poi.POIName = jsonObject.getString("name");
-                    poi.longitude = jsonObject.getDouble("longitude");
-                    poi.latitude = jsonObject.getDouble("latitude");
+                    poi.longitude = convertDMStoDD(jsonObject.getString("longitude"));
+                    poi.latitude = convertDMStoDD(jsonObject.getString("latitude"));
                     poi.Description = jsonObject.getString("description");
                     poi.imageURL = jsonObject.getString("imageUrl");
                     poi.VideoURL = jsonObject.getString("videoUrl");
@@ -115,6 +115,13 @@ public class DatabaseManager {
 
 
         }
+    }
+
+    private double convertDMStoDD(String point){
+        int degrees = Integer.parseInt(point.substring(0,point.indexOf("*")));
+        double minutes = Double.parseDouble(point.substring(point.indexOf("*")+1));
+
+        return degrees+(minutes/60);
     }
 
     public JSONArray readJson(int file) {

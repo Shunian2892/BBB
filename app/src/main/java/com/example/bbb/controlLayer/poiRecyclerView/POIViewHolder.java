@@ -11,11 +11,11 @@ import com.example.bbb.R;
 import com.example.bbb.controlLayer.OnItemClickListener;
 
 public class POIViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    public TextView POIRVTextviewName;
-    public TextView POIRVTextviewLatitude;
-    public TextView POIRVTextviewLongtitude;
-    public ImageView POIRVImageview;
-    public OnItemClickListener clickListener;
+    TextView POIRVTextviewName;
+    TextView POIRVTextviewLatitude;
+    TextView POIRVTextviewLongtitude;
+    ImageView POIRVImageview;
+    private OnItemClickListener clickListener;
 
     public POIViewHolder(@NonNull View itemView, OnItemClickListener listener) {
         super(itemView);

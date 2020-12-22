@@ -67,6 +67,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewWalkedRoutes" />
 
+
     <TextView
         android:id="@+id/textViewWalkedDistance"
         android:layout_width="wrap_content"
@@ -79,6 +80,16 @@
         app:layout_constraintTop_toBottomOf="@+id/title_divider" />
 
     <TextView
+        android:id="@+id/textViewValueWalkedDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/textViewWalkedDistance"
+        app:layout_constraintTop_toBottomOf="@id/title_divider"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="Distance km"/>
+
+    <TextView
         android:id="@+id/textViewWalkedRoutes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -89,7 +100,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewWalkedDistance" />
 
+    <TextView
+        android:id="@+id/textViewValueWalkedRoutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/textViewWalkedRoutes"
+        app:layout_constraintTop_toBottomOf="@id/textViewValueWalkedDistance"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="8dp"
+        android:text="route amount"/>
+
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RvWalkedRoutes"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"

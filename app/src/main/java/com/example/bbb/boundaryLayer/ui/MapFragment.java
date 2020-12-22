@@ -2,29 +2,37 @@ package com.example.bbb.boundaryLayer.ui;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bbb.R;
+import com.example.bbb.controlLayer.DatabaseManager;
 import com.example.bbb.controlLayer.gps.OpenRouteService;
+import com.example.bbb.entityLayer.data.POI;
+import com.example.bbb.entityLayer.data.Route;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -33,7 +41,11 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
-public class MapFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+public class MapFragment extends Fragment implements IMapChanged {
     private Context fragmentContext;
     private IMapController mapController;
     private MapView map;
@@ -42,8 +54,17 @@ public class MapFragment extends Fragment {
     private ImageButton ibRouteInfo;
     private ImageButton ibHelpPopup;
     private ImageButton ibUserInfo;
+    private ImageButton ibCenterPosition;
     private Fragment userInfoFragment;
+    private Spinner routeSpinner;
+    private ArrayAdapter<String> spinnerAdapter;
+    private List<String> routeNameList;
+    private DatabaseManager dm;
 
+    private boolean centerOnStart;
+    private UIViewModel viewModel;
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -52,12 +73,15 @@ public class MapFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
+        dm = DatabaseManager.getInstance(getContext());
         map = (MapView) view.findViewById(R.id.map_view);
         map.setUseDataConnection(true);
         map.setTileSource(TileSourceFactory.MAPNIK);
 
         mapController = map.getController();
         mapController.setZoom(14);
+
+        centerOnStart = false;
 
         //Check for Location permission
         if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -71,64 +95,137 @@ public class MapFragment extends Fragment {
         map.setMultiTouchControls(true);
         map.setBuiltInZoomControls(true);
 
-        openRouteService = new OpenRouteService(map);
+        openRouteService = new OpenRouteService(map, fragmentContext, view);
 
         ibRouteInfo = view.findViewById(R.id.imageButtonRouteInfo);
         ibHelpPopup = view.findViewById(R.id.imageButtonHelp);
         ibUserInfo = view.findViewById(R.id.imageButtonUserInfo);
+        routeSpinner = view.findViewById(R.id.spinner_route);
+        ibCenterPosition = view.findViewById(R.id.centerPosition);
+
+        viewModel = new ViewModelProvider(getActivity()).get(UIViewModel.class);
+        viewModel.setIMapChanged(MapFragment.this);
+
+        routeNameList = new ArrayList<>();
+        routeNameList.add("Select a Route");
+        for (Route route : dm.getRoutes()) {
+            routeNameList.add(route.RouteName);
+        }
+
+        this.spinnerAdapter = new ArrayAdapter<String>(
+                getContext(),
+                R.layout.support_simple_spinner_dropdown_item,
+                routeNameList);
+
+        routeSpinner.setAdapter(spinnerAdapter);
+        routeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                viewModel.setSelectedRoute(position);
+                createRoute(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        createRoute(viewModel.getSelectedRoute().getValue());
+        routeSpinner.setSelection(viewModel.getSelectedRoute().getValue());
+
         buttonClickListeners();
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void createRoute(int position) {
+        String routeName = routeNameList.get(position);
+        if (position != 0) {
+            for (Route route : dm.getRoutes()) {
+                if (route.RouteName.equals(routeName)) {
+                    Route selectedRoute = route;
+                    List<POI> pois = dm.getPOIsFromRoute(route.ID);
+                    double[][] coordinates = new double[pois.size()][2];
+
+                    for (int i = 0; i < pois.size(); i++) {
+                        coordinates[i][0] = pois.get(i).latitude;
+                        coordinates[i][1] = pois.get(i).longitude;
+                    }
+                    Toast.makeText(fragmentContext, "Loading route...", Toast.LENGTH_SHORT).show();
+                    openRouteService.getRoute(coordinates, "foot-walking", Locale.getDefault().getLanguage());
+                    mapController.setCenter(new GeoPoint(coordinates[0][1], coordinates[0][0]));
+                    break;
+                }
+            }
+        } else {
+            onMapChange();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        currentLocation = new Marker(map);
         getLocation();
+        mapController.setCenter(currentLocation.getPosition());
 
-        openRouteService.getRoute(new GeoPoint[]{
-                new GeoPoint(51.813297, 4.690093),
-                new GeoPoint(49.41943,8.686507),
-                new GeoPoint(49.420318,8.687872)
-        }, "driving-car", "de");
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void getLocation() {
         LocationManager locationManager = (LocationManager) fragmentContext.getSystemService(Context.LOCATION_SERVICE);
 
         LocationListener locationListener = location -> {
-            if (getView() == null){
+            if (getView() == null) {
                 return;
             }
             Log.d("Latitude", "onLocationChanged: " + location.getLatitude());
             GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
-            mapController.setCenter(point);
+
             Marker startPoint = new Marker(map);
             startPoint.setPosition(point);
+            startPoint.setIcon(fragmentContext.getDrawable(R.drawable.my_location));
             map.getOverlays().remove(currentLocation);
             currentLocation = startPoint;
             map.getOverlays().add(startPoint);
+
+            if (!centerOnStart) {
+                mapController.setCenter(currentLocation.getPosition());
+                centerOnStart = true;
+            }
+
+            map.invalidate();
         };
 
-        if(ContextCompat.checkSelfPermission(fragmentContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(fragmentContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, locationListener);
         }
     }
 
-    public void buttonClickListeners(){
+    public void buttonClickListeners() {
         ibRouteInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment dialogFragment = new RoutePopUp();
-                dialogFragment.show(getActivity().getSupportFragmentManager(), "route_popup");
+                if (routeSpinner.getSelectedItemPosition() != 0) {
+                    RoutePopUp dialogFragment = new RoutePopUp();
+                    viewModel.setRoutePopUpSelectedRoute(dm.getRoutes().get(routeSpinner.getSelectedItemPosition() - 1));
+                    dialogFragment.show(getActivity().getSupportFragmentManager(), "route_popup");
+                } else {
+                    Toast.makeText(fragmentContext, "Please select a route!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         ibHelpPopup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO laterrrr
+                DialogFragment dialogFragment = new HelpPopUp();
+                dialogFragment.show(getActivity().getSupportFragmentManager(), "help_popup");
             }
         });
 
@@ -136,16 +233,33 @@ public class MapFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 setUserInfoFragment(getActivity().getSupportFragmentManager());
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, userInfoFragment).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, userInfoFragment).addToBackStack(null).commit();
+            }
+        });
+
+        ibCenterPosition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mapController.setCenter(currentLocation.getPosition());
             }
         });
     }
 
-    public void setUserInfoFragment(FragmentManager fm){
-        if(fm.findFragmentById(R.id.user_info_fragment) == null){
+    public void setUserInfoFragment(FragmentManager fm) {
+        if (fm.findFragmentById(R.id.user_info_fragment) == null) {
             userInfoFragment = new UserInfoFragment();
         } else {
             userInfoFragment = (UserInfoFragment) fm.findFragmentById(R.id.user_info_fragment);
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onMapChange() {
+        map.getOverlays().clear();
+        routeSpinner.setSelection(0);
+        viewModel.setSelectedRoute(0);
+        getLocation();
+        map.invalidate();
     }
 }

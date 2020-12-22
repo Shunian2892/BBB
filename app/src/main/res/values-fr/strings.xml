@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language">\@</string>
+    <string name="color_blind_mode">\@</string>
+    <string name="textsize">\@</string>
+    <string name="fragment_settings">\@</string>
+    <string name="map">\@</string>
+    <string name="locations">\@</string>
+    <string name="settings">\@</string>
+    <string name="read_more">\@@</string>
+</resources>

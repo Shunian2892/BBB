@@ -1,23 +1,21 @@
 package com.example.bbb.boundaryLayer.launcher;
 
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.room.Room;
-
-import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.view.MenuItem;
-import android.widget.Button;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bbb.R;
+import com.example.bbb.boundaryLayer.ui.LocaleHelper;
 import com.example.bbb.boundaryLayer.ui.MapFragment;
-import com.example.bbb.boundaryLayer.ui.POIFragment;
 import com.example.bbb.boundaryLayer.ui.POIListFragment;
-import com.example.bbb.boundaryLayer.ui.ReplacePOI;
-import com.example.bbb.boundaryLayer.ui.RoutePopUp;
 import com.example.bbb.boundaryLayer.ui.SettingsFragment;
+import com.example.bbb.boundaryLayer.ui.UIViewModel;
 import com.example.bbb.controlLayer.DatabaseManager;
 import com.example.bbb.entityLayer.data.POI;
 import com.example.bbb.entityLayer.data.Route;
@@ -28,48 +26,73 @@ import java.util.Date;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements ReplacePOI {
+public class MainActivity extends AppCompatActivity {
+    private static final String BACK_STACK_TAG = "back_stack";
     private SettingsFragment settingsFragment;
     private MapFragment mapFragment;
     private POIListFragment poiListFragment;
+    FragmentManager fragmentManager;
+    private BottomNavigationView bottomNav;
+    private UIViewModel viewModel;
+    private int currentFragment;
 
     private BottomNavigationView.OnNavigationItemSelectedListener navlistener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    FragmentManager fm = getSupportFragmentManager();
-                    switch (item.getItemId()) {
-                        case R.id.menu_settings:
-                            setSettingFragment(fm);
-                            fm.beginTransaction().replace(R.id.fragment_container, settingsFragment).commit();
-                            break;
-                        case R.id.menu_list:
-                            setPoiListFragment(fm);
-                            fm.beginTransaction().replace(R.id.fragment_container, poiListFragment).commit();
-                            break;
-                        case R.id.menu_map:
-                            setMapFragment(fm);
-                            fm.beginTransaction().replace(R.id.fragment_container, mapFragment).commit();
-                            break;
-                    }
+                    currentFragment = item.getItemId();
+                    viewModel.setCurrentFragment(currentFragment);
+                    item.setChecked(true);
+                    setDisplayFragment(currentFragment);
 
                     return true;
                 }
             };
 
+    private void setDisplayFragment(int item) {
+        fragmentManager = getSupportFragmentManager();
+        switch (item) {
+            case R.id.menu_settings:
+                setSettingFragment(fragmentManager);
+                fragmentManager.beginTransaction().replace(R.id.fragment_container, settingsFragment).addToBackStack(null).commit();
+                break;
+            case R.id.menu_list:
+                setPoiListFragment(fragmentManager);
+                fragmentManager.beginTransaction().replace(R.id.fragment_container, poiListFragment).addToBackStack(null).commit();
+                break;
+            case R.id.menu_map:
+                setMapFragment(fragmentManager);
+                fragmentManager.beginTransaction().replace(R.id.fragment_container, mapFragment).addToBackStack(null).commit();
+                break;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        viewModel = new ViewModelProvider(this).get(UIViewModel.class);
+        viewModel.init(R.id.menu_map);
+
+        SharedPreferences prefs = getSharedPreferences("language", MODE_PRIVATE);
+        String currentLang = prefs.getString("language", "No name defined");//"No name defined" is the default value.
+        System.out.println("########" + currentLang);
+
+        LocaleHelper.setLocale(this, currentLang);
+
         setContentView(R.layout.activity_main);
 
         DatabaseManager databaseManager = DatabaseManager.getInstance(getApplicationContext());
         databaseManager.initDatabase();
         databaseManager.testQueries();
 
+
         List<POI> poiList = databaseManager.getPOIs();
         List<Route> routeList = databaseManager.getRoutes();
+        for (Route route : routeList) {
+            databaseManager.addWalkedRoute(route.ID, new Date(System.currentTimeMillis()).toString());
+        }
 
-        databaseManager.addWalkedRoute(1, new Date(System.currentTimeMillis()).toString());
         List<WalkedRoute> testList = databaseManager.getWalkedRoutes();
 
         for (int i = 0; i < testList.size(); i++) {
@@ -78,32 +101,51 @@ public class MainActivity extends AppCompatActivity implements ReplacePOI {
 
         System.out.println(databaseManager.searchLocation("Stadhouderspoort").ID);
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+        bottomNav = findViewById(R.id.bottomNavigationView);
         bottomNav.setOnNavigationItemSelectedListener(navlistener);
+
+        setDisplayFragment(viewModel.getCurrentFragment().getValue());
     }
 
-    public void setPoiListFragment(FragmentManager fm){
-        if(fm.findFragmentById(R.id.fragment_poi_list) == null){
-            poiListFragment = new POIListFragment(this,this);
+    public void setPoiListFragment(FragmentManager fm) {
+        if (fm.findFragmentById(R.id.fragment_poi_list) == null) {
+            poiListFragment = new POIListFragment();
         } else {
             poiListFragment = (POIListFragment) fm.findFragmentById(R.id.fragment_poi_list);
         }
+        viewModel.setBackButtonState(false);
     }
-    public void setSettingFragment(FragmentManager fm){
-        if(fm.findFragmentById(R.id.fragment_settings)== null){
+
+    public void setSettingFragment(FragmentManager fm) {
+        if (fm.findFragmentById(R.id.fragment_settings) == null) {
             settingsFragment = new SettingsFragment();
         } else {
             settingsFragment = (SettingsFragment) fm.findFragmentById(R.id.fragment_settings);
         }
+
     }
-    public void setMapFragment(FragmentManager fm){
-        if(fm.findFragmentById(R.id.map_fragment) == null){
+
+    public void setMapFragment(FragmentManager fm) {
+
+        if (fm.findFragmentById(R.id.map_fragment) == null) {
             mapFragment = new MapFragment();
         } else {
             mapFragment = (MapFragment) fm.findFragmentById(R.id.map_fragment);
         }
-    } @Override
-    public void setDetailPOI(POI poi) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new POIFragment(poi, this)).commit();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the locale has changed
+        if (!LocaleHelper.getLanguage(this).equals(newConfig.locale)) {
+            LocaleHelper.setLocale(this, newConfig.locale.getLanguage());
+
+            this.setContentView(R.layout.activity_main);
+            BottomNavigationView navigationView = (BottomNavigationView)  this.findViewById(R.id.bottomNavigationView);
+            navigationView.setSelectedItemId(R.id.menu_settings);
+            navigationView.setOnNavigationItemSelectedListener(navlistener);
+        }
     }
 }

@@ -1,262 +1,262 @@
 [
-	{
-		"id": 1,
-		"name": "VVV",
-		"longitude": 51.356467,
-		"latitude": 4.467650,
-		"description": "Dit is het VVV kantoor van Breda.",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 2,
-		"name": "Liefdeszuster",
-		"longitude": 51.355967,
-		"latitude": 4.467633,
-		"description": "Symbolisch beeld voor het religieus verleden van Breda.",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 3,
-		"name": "Nassau Baronie Monument",
-		"longitude": 51.35500,
-		"latitude": 4.467817,
-		"description": "Het Baroniemonument of Nassau-Baroniemonument is een beeld van de Nederlandse architect Pierre Cuypers.",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 4,
-		"name": "The Light House",
-		"longitude": 51.355700,
-		"latitude": 4.467083,
-		"description": "Lighthouse (Nederlands: Vuurtoren) is een kunstwerk van de Italiaanse architect Aldo Rossi in Park Valkenberg in Breda. .",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 5,
-		"name": "Kasteel van Breda",
-		"longitude": 51.354367,
-		"latitude": 4.465700,
-		"description": "Kasteelplein",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 6,
-		"name": "Stadhouderspoort",
-		"longitude": 51.353817,
-		"latitude": 4.465683,
-		"description": "Stadhouderspoort",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 7,
-		"name": "Huis van Brecht (rechter zijde)",
-		"longitude": 51.354017,
-		"latitude": 4.464617,
-		"description": "Huis van Brecht (rechter zijde).",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 8,
-		"name": "Spanjaardsgat (rechter zijde)",
-		"longitude": 51.354117,
-		"latitude": 4.464067,
-		"description": "Spanjaardsgat (rechter zijde).",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 9,
-		"name": "Begin Vismarkt",
-		"longitude": 51.353900,
-		"latitude": 4.464999,
-		"description": "Begin Vismarkt",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 10,
-		"name": "Begin Havermarkt",
-		"longitude": 51.353617,
-		"latitude": 4.464667,
-		"description": "Begin Havermarkt",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 11,
-		"name": "Grote Kerk",
-		"longitude": 51.353300,
-		"latitude": 4.465167,
-		"description": "Grote Kerk",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 12,
-		"name": "Het Poortje",
-		"longitude": 51.352917,
-		"latitude": 4.465083,
-		"description": "Het Poortje",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 13,
-		"name": "Ridderstraat",
-		"longitude": 51.352250,
-		"latitude": 4.465450,
-		"description": "Ridderstraat",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 14,
-		"name": "Grote Markt",
-		"longitude": 51.352450,
-		"latitude": 4.465933,
-		"description": "Zuidpunt Grote Markt",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 15,
-		"name": "Bevrijdingsmonument",
-		"longitude": 51.352817,
-		"latitude": 4.465800,
-		"description": "Het Monument staat op de kruising van de Claudius Prinsenlaan en de Wilhelminasingel.",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 16,
-		"name": "Stadhuis",
-		"longitude": 51.353250,
-		"latitude": 4.465667,
-		"description": "Dit is het stadhuis van Breda.",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 17,
-		"name": "Antonius van Paduakerk",
-		"longitude": 51.352583,
-		"latitude": 4.466350,
-		"description": "Dit is Antonius van Paduakerk.",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 18,
-		"name": "Bibliotheek-nieuwe Veste",
-		"longitude": 51.352800,
-		"latitude": 4.467367,
-		"description": "Dit is de Bibliotheek-nieuwe Veste.",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 19,
-		"name": "Kloosterkazerne",
-		"longitude": 51.352633,
-		"latitude": 4.468617,
-		"description": "Dit is de Kloosterkazerne.",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 20,
-		"name": "Chasse theater",
-		"longitude": 51.352650,
-		"latitude": 4.469200,
-		"description": "Dit is het Chasse theater.",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 21,
-		"name": "Binding van Isaac",
-		"longitude": 51.353167,
-		"latitude": 4.468533,
-		"description": "Dit is de Binding van Isaac.",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 22,
-		"name": "Beyerd",
-		"longitude": 51.353800,
-		"latitude": 4.468600,
-		"description": "Dit is de Beyerd.",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 23,
-		"name": "Gasthuispoort",
-		"longitude": 51.353733,
-		"latitude": 4.468000,
-		"description": "Dit is de Gasthuispoort.",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 24,
-		"name": "Willem Merkxtuin",
-		"longitude": 51.353467,
-		"latitude": 4.466767,
-		"description": "Dit is de Willem Merkxtuin.",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 25,
-		"name": "Begrijnenhof",
-		"longitude": 51.353817,
-		"latitude": 4.467017,
-		"description": "Dit is de Begrijnenhof.",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	},
-	{
-		"id": 26,
-		"name": "Einde stadswandeling",
-		"longitude": 51.353700,
-		"latitude": 4.465750,
-		"description": "Dit is het einde van de stadswandeling.",
-		"imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
-		"isVisited": false
-	}
+  {
+    "id": 1,
+    "name": "VVV",
+    "longitude": "51*35.6467",
+    "latitude": "4*46.7650",
+    "description": "Dit is het VVV kantoor van Breda.",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 2,
+    "name": "Liefdeszuster",
+    "longitude": "51*35.5967",
+    "latitude": "4*46.7633",
+    "description": "Symbolisch beeld voor het religieus verleden van Breda.",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 3,
+    "name": "Nassau Baronie Monument",
+    "longitude": "51*35.500",
+    "latitude": "4*46.7817",
+    "description": "Het Baroniemonument of Nassau-Baroniemonument is een beeld van de Nederlandse architect Pierre Cuypers.",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 4,
+    "name": "The Light House",
+    "longitude": "51*35.5700",
+    "latitude": "4*46.7083",
+    "description": "Lighthouse (Nederlands: Vuurtoren) is een kunstwerk van de Italiaanse architect Aldo Rossi in Park Valkenberg in Breda. .",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 5,
+    "name": "Kasteel van Breda",
+    "longitude": "51*35.4367",
+    "latitude": "4*46.5700",
+    "description": "Kasteelplein",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 6,
+    "name": "Stadhouderspoort",
+    "longitude": "51*35.3817",
+    "latitude": "4*46.5683",
+    "description": "Stadhouderspoort",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 7,
+    "name": "Huis van Brecht (rechter zijde)",
+    "longitude": "51*35.4017",
+    "latitude": "4*46.4617",
+    "description": "Huis van Brecht (rechter zijde).",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 8,
+    "name": "Spanjaardsgat (rechter zijde)",
+    "longitude": "51*35.4117",
+    "latitude": "4*46.4067",
+    "description": "Spanjaardsgat (rechter zijde).",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 9,
+    "name": "Begin Vismarkt",
+    "longitude": "51*35.3900",
+    "latitude": "4*46.4999",
+    "description": "Begin Vismarkt",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 10,
+    "name": "Begin Havermarkt",
+    "longitude": "51*35.3617",
+    "latitude": "4*46.4667",
+    "description": "Begin Havermarkt",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 11,
+    "name": "Grote Kerk",
+    "longitude": "51*35.3300",
+    "latitude": "4*46.5167",
+    "description": "Grote Kerk",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 12,
+    "name": "Het Poortje",
+    "longitude": "51*35.2917",
+    "latitude": "4*46.5083",
+    "description": "Het Poortje",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 13,
+    "name": "Ridderstraat",
+    "longitude": "51*35.2250",
+    "latitude": "4*46.5450",
+    "description": "Ridderstraat",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 14,
+    "name": "Grote Markt",
+    "longitude": "51*35.2450",
+    "latitude": "4*46.5933",
+    "description": "Zuidpunt Grote Markt",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 15,
+    "name": "Bevrijdingsmonument",
+    "longitude": "51*35.2817",
+    "latitude": "4*46.5800",
+    "description": "Het Monument staat op de kruising van de Claudius Prinsenlaan en de Wilhelminasingel.",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 16,
+    "name": "Stadhuis",
+    "longitude": "51*35.3250",
+    "latitude": "4*46.5667",
+    "description": "Dit is het stadhuis van Breda.",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 17,
+    "name": "Antonius van Paduakerk",
+    "longitude": "51*35.2583",
+    "latitude": "4*46.6350",
+    "description": "Dit is Antonius van Paduakerk.",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 18,
+    "name": "Bibliotheek-nieuwe Veste",
+    "longitude": "51*35.2800",
+    "latitude": "4*46.7367",
+    "description": "Dit is de Bibliotheek-nieuwe Veste.",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 19,
+    "name": "Kloosterkazerne",
+    "longitude": "51*35.2633",
+    "latitude": "4*46.8617",
+    "description": "Dit is de Kloosterkazerne.",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 20,
+    "name": "Chasse theater",
+    "longitude": "51*35.2650",
+    "latitude": "4*46.9200",
+    "description": "Dit is het Chasse theater.",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 21,
+    "name": "Binding van Isaac",
+    "longitude": "51*35.3167",
+    "latitude": "4*46.8533",
+    "description": "Dit is de Binding van Isaac.",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 22,
+    "name": "Beyerd",
+    "longitude": "51*35.3800",
+    "latitude": "4*46.8600",
+    "description": "Dit is de Beyerd.",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 23,
+    "name": "Gasthuispoort",
+    "longitude": "51*35.3733",
+    "latitude": "4*46.8000",
+    "description": "Dit is de Gasthuispoort.",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 24,
+    "name": "Willem Merkxtuin",
+    "longitude": "51*35.3467",
+    "latitude": "4*46.6767",
+    "description": "Dit is de Willem Merkxtuin.",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 25,
+    "name": "Begrijnenhof",
+    "longitude": "51*35.3817",
+    "latitude": "4*46.7017",
+    "description": "Dit is de Begrijnenhof.",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  },
+  {
+    "id": 26,
+    "name": "Einde stadswandeling",
+    "longitude": "51*35.3700",
+    "latitude": "4*46.5750",
+    "description": "Dit is het einde van de stadswandeling.",
+    "imageUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "videoUrl": "https://unsplash.com/photos/yC-Yzbqy7PY",
+    "isVisited": false
+  }
 ]

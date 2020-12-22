@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,16 +32,11 @@ public class POIListFragment extends Fragment implements OnItemClickListener {
     private Context context;
     private ReplacePOI replacePOI;
     private Boolean isBackButtonVisible;
+    private UIViewModel viewModel;
 
-    public POIListFragment(Context context, ReplacePOI replacePOI) {
-        this.context = context;
-        this.replacePOI = replacePOI;
-        poiList = new ArrayList<>();
-    }
-
-    public void setPoiList(List<POI> poiList) {
-        this.poiList = poiList;
-    }
+//    public void setPoiList(List<POI> poiList) {
+//        this.poiList = poiList;
+//    }
 
     @Nullable
     @Override
@@ -48,7 +44,10 @@ public class POIListFragment extends Fragment implements OnItemClickListener {
         this.container = container;
         View view = inflater.inflate(R.layout.fragment_poi_list, container, false);
         ImageButton buttonBack = view.findViewById(R.id.imageButtonBackPOIList);
-        if (isBackButtonVisible) {
+
+        viewModel = new ViewModelProvider(getActivity()).get(UIViewModel.class);
+
+        if (viewModel.getBackButtonState().getValue()) {
             buttonBack.setVisibility(View.VISIBLE);
         } else {
             buttonBack.setVisibility(View.GONE);
@@ -61,6 +60,10 @@ public class POIListFragment extends Fragment implements OnItemClickListener {
                 }
             }
         });
+        poiList = new ArrayList<>();
+
+
+
         return view;
     }
 
@@ -69,12 +72,13 @@ public class POIListFragment extends Fragment implements OnItemClickListener {
         super.onStart();
 
         this.poiRv = this.container.findViewById(R.id.poi_rv);
-        this.poiListManager = new POIListManager(this.context);
+        this.poiListManager = new POIListManager(getActivity().getApplicationContext());
         if (poiList.size() == 0) {
             this.poiList = this.poiListManager.getPOIList();
+//            viewModel.setPointOfInterests(poiList);
         }
         this.poiAdapter = new POIAdapter(this, this.poiList);
-        this.poiRv.setLayoutManager(new LinearLayoutManager(this.context));
+        this.poiRv.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         this.poiRv.setAdapter(this.poiAdapter);
 
     }
@@ -82,10 +86,12 @@ public class POIListFragment extends Fragment implements OnItemClickListener {
     @Override
     public void OnItemClick(int clickedPosition) {
         POI poi = poiList.get(clickedPosition);
-        replacePOI.setDetailPOI(poi);
+        viewModel.setSelectedPOI(poi);
+        getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new POIFragment()).addToBackStack(null).commit();
+
     }
 
-    public void setButtonBackVisibility(boolean state) {
-        isBackButtonVisible = state;
-    }
+//    public void setButtonBackVisibility(boolean state) {
+//        isBackButtonVisible = state;
+//    }
 }

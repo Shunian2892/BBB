@@ -6,13 +6,13 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bbb.R;
 import com.example.bbb.boundaryLayer.ui.MapFragment;
-import com.example.bbb.boundaryLayer.ui.POIFragment;
 import com.example.bbb.boundaryLayer.ui.POIListFragment;
-import com.example.bbb.boundaryLayer.ui.ReplacePOI;
 import com.example.bbb.boundaryLayer.ui.SettingsFragment;
+import com.example.bbb.boundaryLayer.ui.UIViewModel;
 import com.example.bbb.controlLayer.DatabaseManager;
 import com.example.bbb.entityLayer.data.POI;
 import com.example.bbb.entityLayer.data.Route;
@@ -23,55 +23,56 @@ import java.util.Date;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements ReplacePOI {
+public class MainActivity extends AppCompatActivity {
     private static final String BACK_STACK_TAG = "back_stack";
     private SettingsFragment settingsFragment;
     private MapFragment mapFragment;
     private POIListFragment poiListFragment;
     FragmentManager fragmentManager;
-    public BottomNavigationView bottomNav;
+    private BottomNavigationView bottomNav;
+    private UIViewModel viewModel;
+    private int currentFragment;
 
     private BottomNavigationView.OnNavigationItemSelectedListener navlistener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    fragmentManager = getSupportFragmentManager();
-                    switch (item.getItemId()) {
-                        case R.id.menu_settings:
-                            setSettingFragment(fragmentManager);
-                            fragmentManager.beginTransaction().replace(R.id.fragment_container, settingsFragment).addToBackStack(null).commit();
-                            break;
-                        case R.id.menu_list:
-                            setPoiListFragment(fragmentManager);
-                            fragmentManager.beginTransaction().replace(R.id.fragment_container, poiListFragment).addToBackStack(null).commit();
-                            break;
-                        case R.id.menu_map:
-                            setMapFragment(fragmentManager);
-                            fragmentManager.beginTransaction().replace(R.id.fragment_container, mapFragment).addToBackStack(null).commit();
-                            break;
-                    }
+                    currentFragment = item.getItemId();
+                    viewModel.setCurrentFragment(currentFragment);
+                    item.setChecked(true);
+                    setDisplayFragment(currentFragment);
+
                     return true;
                 }
             };
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-//        FragmentManager.BackStackEntry entry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1);
-//        entry.
-//        bottomNav.setSelectedItemId(item.getItemId());
-//        bottomNav.getse
+    private void setDisplayFragment(int item) {
+        fragmentManager = getSupportFragmentManager();
+        switch (item) {
+            case R.id.menu_settings:
+                setSettingFragment(fragmentManager);
+                fragmentManager.beginTransaction().replace(R.id.fragment_container, settingsFragment).addToBackStack(null).commit();
+                break;
+            case R.id.menu_list:
+                setPoiListFragment(fragmentManager);
+                fragmentManager.beginTransaction().replace(R.id.fragment_container, poiListFragment).addToBackStack(null).commit();
+                break;
+            case R.id.menu_map:
+                setMapFragment(fragmentManager);
+                fragmentManager.beginTransaction().replace(R.id.fragment_container, mapFragment).addToBackStack(null).commit();
+                break;
+        }
+
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
 
+        viewModel = new ViewModelProvider(this).get(UIViewModel.class);
+        viewModel.init(R.id.menu_map);
 
         setContentView(R.layout.activity_main);
-
 
         DatabaseManager databaseManager = DatabaseManager.getInstance(getApplicationContext());
         databaseManager.initDatabase();
@@ -95,20 +96,20 @@ public class MainActivity extends AppCompatActivity implements ReplacePOI {
         bottomNav = findViewById(R.id.bottomNavigationView);
         bottomNav.setOnNavigationItemSelectedListener(navlistener);
 
-        setMapFragment(getSupportFragmentManager());
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mapFragment).commit();
+        setDisplayFragment(viewModel.getCurrentFragment().getValue());
 
-
+//        setMapFragment(getSupportFragmentManager());
+//        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mapFragment).commit();
     }
-
 
     public void setPoiListFragment(FragmentManager fm) {
         if (fm.findFragmentById(R.id.fragment_poi_list) == null) {
-            poiListFragment = new POIListFragment(this, this);
+            poiListFragment = new POIListFragment();
         } else {
             poiListFragment = (POIListFragment) fm.findFragmentById(R.id.fragment_poi_list);
         }
-        poiListFragment.setButtonBackVisibility(false);
+        viewModel.setBackButtonState(false);
+//        poiListFragment.setButtonBackVisibility(false);
 
     }
 
@@ -124,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements ReplacePOI {
     public void setMapFragment(FragmentManager fm) {
 
         if (fm.findFragmentById(R.id.map_fragment) == null) {
-            mapFragment = new MapFragment(this, this);
+            mapFragment = new MapFragment();
         } else {
             mapFragment = (MapFragment) fm.findFragmentById(R.id.map_fragment);
         }
@@ -132,8 +133,8 @@ public class MainActivity extends AppCompatActivity implements ReplacePOI {
 
     }
 
-    @Override
+/*    @Override
     public void setDetailPOI(POI poi) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new POIFragment(poi, this)).addToBackStack(null).commit();
-    }
+    }*/
 }

@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,16 +42,20 @@ public class UserInfoFragment extends Fragment implements OnItemClickListener {
     private Context context;
     private ReplacePOI replacePOI;
     private POIListFragment poiListFragment;
+    private UIViewModel viewModel;
 
-    public UserInfoFragment(Context context, ReplacePOI replacePOI) {
-        this.context = context;
-        this.replacePOI = replacePOI;
-    }
+//    public UserInfoFragment(Context context, ReplacePOI replacePOI) {
+//        this.context = context;
+//        this.replacePOI = replacePOI;
+//    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_info, container, false);
+
+        viewModel = new ViewModelProvider(getActivity()).get(UIViewModel.class);
+        viewModel.setCurrentFragment(R.id.user_info_fragment);
 
         this.container = container;
         ibBack = view.findViewById(R.id.imageButtonBack);
@@ -77,14 +82,14 @@ public class UserInfoFragment extends Fragment implements OnItemClickListener {
         super.onStart();
         walkedRouteList = new ArrayList<>();
         this.walkedRoutesRv = this.container.findViewById(R.id.RvWalkedRoutes);
-        this.userAdapter = new UserAdapter(this, this.context);
-        this.walkedRoutesRv.setLayoutManager( new LinearLayoutManager(this.context));
+        this.userAdapter = new UserAdapter(this, getActivity().getApplicationContext());
+        this.walkedRoutesRv.setLayoutManager( new LinearLayoutManager(getActivity().getApplicationContext()));
         this.walkedRoutesRv.setAdapter(this.userAdapter);
     }
 
     public void setMapFragment(FragmentManager fm){
         if(fm.findFragmentById(R.id.map_fragment) == null){
-            mapFragment = new MapFragment(context,replacePOI);
+            mapFragment = new MapFragment();
         } else {
             mapFragment = (MapFragment) fm.findFragmentById(R.id.map_fragment);
         }
@@ -92,12 +97,14 @@ public class UserInfoFragment extends Fragment implements OnItemClickListener {
 
     public void setPoiListFragment(FragmentManager fm){
         if(fm.findFragmentById(R.id.fragment_poi_list) == null){
-            poiListFragment = new POIListFragment(context,replacePOI);
+            poiListFragment = new POIListFragment();
         } else {
             poiListFragment = (POIListFragment) fm.findFragmentById(R.id.fragment_poi_list);
         }
-        poiListFragment.setPoiList(testData());
-        poiListFragment.setButtonBackVisibility(true);
+        viewModel.setPointOfInterests(testData());
+//        poiListFragment.setPoiList(testData());
+        viewModel.setBackButtonState(true);
+//        poiListFragment.setButtonBackVisibility(true);
 
     }
 
@@ -118,7 +125,8 @@ public class UserInfoFragment extends Fragment implements OnItemClickListener {
     @Override
     public void OnItemClick(int clickedPosition) {
         setPoiListFragment(getFragmentManager());
-        poiListFragment.setPoiList(databaseManager.getPOIsFromRoute(databaseManager.getWalkedRoutes().get(clickedPosition).routeID));
+//        poiListFragment.setPoiList(databaseManager.getPOIsFromRoute(databaseManager.getWalkedRoutes().get(clickedPosition).routeID));
+        viewModel.setPointOfInterests(databaseManager.getPOIsFromRoute(databaseManager.getWalkedRoutes().get(clickedPosition).routeID));
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, poiListFragment).addToBackStack(null).commit();
     }
 }

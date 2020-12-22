@@ -32,8 +32,6 @@ public class POIFragment extends Fragment {
     private Button buttonVideo;
     private boolean isVideo;
 
-    public static final String API_KEY = "AIzaSyAp_wiz5PXq3s_apvQtMrNEWLln7zfQwbg";
-    public static final int RECOVERY_DIALOG_REQUEST = 1;
 
     public POIFragment(POI poi, ReplacePOI replacePOI){
         this.poi = poi;

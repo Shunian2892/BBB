@@ -16,6 +16,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:videoId="1FJHYqE0RDg"
-        app:autoPlay="true"
-        app:showFullScreenButton="true" />
+        app:autoPlay="false"
+        app:showFullScreenButton="false" />
 </androidx.constraintlayout.widget.ConstraintLayout>

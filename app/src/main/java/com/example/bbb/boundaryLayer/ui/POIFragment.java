@@ -33,14 +33,12 @@ public class POIFragment extends Fragment {
     private boolean isVideo;
 
     private UIViewModel viewModel;
-        this.poi = poi;
-        this.replacePOI = replacePOI;
-    }*/
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_poi, container, false);
+        viewModel = new ViewModelProvider(getActivity()).get(UIViewModel.class);
         viewModel.setCurrentFragment(R.id.fragment_poi);
 
         this.title = (TextView) view.findViewById(R.id.TextViewTitle);
@@ -48,7 +46,7 @@ public class POIFragment extends Fragment {
 
         isVideo = false;
 
-        viewModel = new ViewModelProvider(getActivity()).get(UIViewModel.class);
+
         poi = viewModel.getSelectedPOI().getValue();
 
         ibBack = view.findViewById(R.id.imageButtonBack);

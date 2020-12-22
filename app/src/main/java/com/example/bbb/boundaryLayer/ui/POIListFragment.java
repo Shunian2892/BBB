@@ -29,14 +29,7 @@ public class POIListFragment extends Fragment implements OnItemClickListener {
     private POIAdapter poiAdapter;
     private POIListManager poiListManager;
     private ViewGroup container;
-    private Context context;
-    private ReplacePOI replacePOI;
-    private Boolean isBackButtonVisible;
     private UIViewModel viewModel;
-
-//    public void setPoiList(List<POI> poiList) {
-//        this.poiList = poiList;
-//    }
 
     @Nullable
     @Override
@@ -61,9 +54,6 @@ public class POIListFragment extends Fragment implements OnItemClickListener {
             }
         });
         poiList = new ArrayList<>();
-
-
-
         return view;
     }
 
@@ -75,8 +65,8 @@ public class POIListFragment extends Fragment implements OnItemClickListener {
         this.poiListManager = new POIListManager(getActivity().getApplicationContext());
         if (poiList.size() == 0) {
             this.poiList = this.poiListManager.getPOIList();
-//            viewModel.setPointOfInterests(poiList);
         }
+
         this.poiAdapter = new POIAdapter(this, this.poiList);
         this.poiRv.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         this.poiRv.setAdapter(this.poiAdapter);
@@ -90,8 +80,4 @@ public class POIListFragment extends Fragment implements OnItemClickListener {
         getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new POIFragment()).addToBackStack(null).commit();
 
     }
-
-//    public void setButtonBackVisibility(boolean state) {
-//        isBackButtonVisible = state;
-//    }
 }

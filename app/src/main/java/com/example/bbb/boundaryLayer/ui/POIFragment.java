@@ -4,12 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -21,11 +20,18 @@ import com.example.bbb.entityLayer.data.POI;
 public class POIFragment extends Fragment {
     private POI poi;
     private TextView title;
-    private ImageView imageView;
     private TextView description;
     private ImageButton ibBack;
     private POIListFragment poiListFragment;
     private ReplacePOI replacePOI;
+    private FragmentManager fragmentManager;
+
+    private VideoFragment videoFragment;
+    private ImageFragment imageFragment;
+
+    private Button buttonVideo;
+    private boolean isVideo;
+
 
     public POIFragment(POI poi, ReplacePOI replacePOI){
         this.poi = poi;
@@ -37,8 +43,9 @@ public class POIFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_poi, container, false);
         this.title = (TextView) view.findViewById(R.id.TextViewTitle);
-        this.imageView = (ImageView) view.findViewById(R.id.imageViewPOI);
         this.description = (TextView) view.findViewById(R.id.textViewPOI);
+
+        isVideo = false;
 
         ibBack = view.findViewById(R.id.imageButtonBack);
         ibBack.setOnClickListener(new View.OnClickListener() {
@@ -49,10 +56,30 @@ public class POIFragment extends Fragment {
                }
             }
         });
-
         title.setText(poi.POIName);
         description.setText(poi.Description);
-        imageView.setImageResource(R.drawable.breda);
+
+        fragmentManager = getFragmentManager();
+        setImageFragment();
+        setVideoFragment();
+
+        fragmentManager.beginTransaction().replace(R.id.detail_container,imageFragment).commit();
+
+        buttonVideo = view.findViewById(R.id.buttonVideo);
+        buttonVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isVideo) {
+                    fragmentManager.beginTransaction().replace(R.id.detail_container,imageFragment).commit();
+                    buttonVideo.setText("Show Video");
+                }else{
+                    fragmentManager.beginTransaction().replace(R.id.detail_container, videoFragment).commit();
+                    buttonVideo.setText("Hide Video");
+                }
+                isVideo = !isVideo;
+            }
+        });
+
         return view;
     }
 
@@ -63,5 +90,22 @@ public class POIFragment extends Fragment {
             poiListFragment = (POIListFragment) fm.findFragmentById(R.id.fragment_poi_list);
         }
         poiListFragment.setButtonBackVisibility(false);
+    }
+
+    public void setImageFragment() {
+        if (fragmentManager.findFragmentById(R.id.fragment_image) == null) {
+            imageFragment = new ImageFragment();
+        } else {
+            imageFragment = (ImageFragment) fragmentManager.findFragmentById(R.id.fragment_image);
+        }
+
+    }
+    public void setVideoFragment() {
+        if (fragmentManager.findFragmentById(R.id.fragment_video) == null) {
+            videoFragment = new VideoFragment();
+        } else {
+            videoFragment = (VideoFragment) fragmentManager.findFragmentById(R.id.fragment_video);
+        }
+
     }
 }

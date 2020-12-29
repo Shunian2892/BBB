@@ -18,6 +18,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);

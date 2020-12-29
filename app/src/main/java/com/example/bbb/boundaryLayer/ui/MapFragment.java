@@ -189,9 +189,16 @@ public class MapFragment extends Fragment implements IMapChanged {
             Marker startPoint = new Marker(map);
             startPoint.setPosition(point);
             startPoint.setIcon(fragmentContext.getDrawable(R.drawable.my_location));
+
+            Marker geoFence = new Marker(map);
+            GeoPoint Kerkie = new GeoPoint(51.59055720605067, 4.765112269496669);
+            geoFence.setPosition(Kerkie);
+            geoFence.setIcon(fragmentContext.getDrawable(R.drawable.my_location));
+
             map.getOverlays().remove(currentLocation);
             currentLocation = startPoint;
             map.getOverlays().add(startPoint);
+            map.getOverlays().add(geoFence);
 
             if (!centerOnStart) {
                 mapController.setCenter(currentLocation.getPosition());

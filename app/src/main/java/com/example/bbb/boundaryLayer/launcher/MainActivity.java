@@ -17,6 +17,7 @@ import com.example.bbb.boundaryLayer.ui.POIListFragment;
 import com.example.bbb.boundaryLayer.ui.SettingsFragment;
 import com.example.bbb.boundaryLayer.ui.UIViewModel;
 import com.example.bbb.controlLayer.DatabaseManager;
+import com.example.bbb.controlLayer.geofencing.GeoFenceSetup;
 import com.example.bbb.entityLayer.data.POI;
 import com.example.bbb.entityLayer.data.Route;
 import com.example.bbb.entityLayer.data.WalkedRoute;
@@ -24,6 +25,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel.init(R.id.menu_map);
 
         SharedPreferences prefs = getSharedPreferences("language", MODE_PRIVATE);
-        String currentLang = prefs.getString("language", "No name defined");//"No name defined" is the default value.
+        String currentLang = prefs.getString("language", Locale.getDefault().getLanguage());//"No name defined" is the default value.
         System.out.println("########" + currentLang);
 
         LocaleHelper.setLocale(this, currentLang);
@@ -87,11 +89,19 @@ public class MainActivity extends AppCompatActivity {
         databaseManager.testQueries();
 
 
+        GeoFenceSetup setupexe = new GeoFenceSetup(getApplicationContext(), this);
+        setupexe.setupGeoFencing();
+
+
         List<POI> poiList = databaseManager.getPOIs();
         List<Route> routeList = databaseManager.getRoutes();
         for (Route route : routeList) {
             databaseManager.addWalkedRoute(route.ID, new Date(System.currentTimeMillis()).toString());
         }
+
+        //Setup Geofencing
+        //GeoFenceSetup geoFenceSetup = new GeoFenceSetup(getApplicationContext(), this, poiList);
+        //geoFenceSetup.setupGeoFencing(poiList);
 
         List<WalkedRoute> testList = databaseManager.getWalkedRoutes();
 

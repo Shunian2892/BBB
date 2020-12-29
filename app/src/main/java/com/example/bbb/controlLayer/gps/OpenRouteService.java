@@ -44,6 +44,7 @@ public class OpenRouteService {
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public OpenRouteService(MapView mapView, Context context, View view) {
         this.client = new OkHttpClient();
         this.ipAddress = "localhost";
@@ -53,6 +54,8 @@ public class OpenRouteService {
         this.mapView = mapView;
         this.view = view;
         this.context = context;
+
+
 
         Connect();
     }

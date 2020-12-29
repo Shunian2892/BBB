@@ -153,7 +153,6 @@ public class OpenRouteService {
                                     double lng = cordArray.getDouble(1);
                                     GeoPoint point = new GeoPoint(lat, lng);
                                     points.add(point);
-                                    System.out.println(i + ": " + cordArray.toString());
                                 }
 
 

@@ -89,11 +89,8 @@ public class MainActivity extends AppCompatActivity {
         databaseManager.testQueries();
 
 
-        GeoFenceSetup setupexe = new GeoFenceSetup(getApplicationContext(), this);
-        setupexe.setupGeoFencing();
 
 
-        List<POI> poiList = databaseManager.getPOIs();
         List<Route> routeList = databaseManager.getRoutes();
         for (Route route : routeList) {
             databaseManager.addWalkedRoute(route.ID, new Date(System.currentTimeMillis()).toString());

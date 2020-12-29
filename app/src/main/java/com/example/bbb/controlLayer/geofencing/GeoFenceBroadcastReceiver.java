@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.bbb.boundaryLayer.ui.UIViewModel;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 
@@ -14,6 +18,7 @@ import java.util.List;
 import static android.content.ContentValues.TAG;
 
 public class GeoFenceBroadcastReceiver extends BroadcastReceiver {
+
     @Override
     public void onReceive(Context context, Intent intent) {
 
@@ -25,7 +30,13 @@ public class GeoFenceBroadcastReceiver extends BroadcastReceiver {
             return;
         }
 
-        //List<Geofence> geofenceList = geofencingEvent.getTriggeringGeofences();
+        List<Geofence> geofenceList = geofencingEvent.getTriggeringGeofences();
+
+        System.out.println("@@##@#@#@#@@#@# Triggered Geofences: ");
+        for (int i = 0; i < geofenceList.size(); i++) {
+            System.out.println(geofenceList.get(i).getRequestId());
+
+        }
 
         int transitionType = geofencingEvent.getGeofenceTransition();
 

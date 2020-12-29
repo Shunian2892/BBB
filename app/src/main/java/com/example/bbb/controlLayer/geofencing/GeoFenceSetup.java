@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Build;
 import android.util.Log;
 
@@ -13,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.bbb.entityLayer.data.POI;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.GeofencingRequest;
@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.osmdroid.util.GeoPoint;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -40,7 +41,7 @@ public class GeoFenceSetup {
 
     }
 
-    public void setupGeoFencing() {
+    public void setupGeoFencing(List<POI> poiList) {
         checkFineLocationPermission();
 
 
@@ -51,7 +52,7 @@ public class GeoFenceSetup {
             //If API is higher then 29 we need background permission
 
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                addFences();
+                addFences(poiList);
             } else {
                 //Permission is not granted!! Need to request it..
                 if (ActivityCompat.shouldShowRequestPermissionRationale(appActivity, Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
@@ -63,30 +64,30 @@ public class GeoFenceSetup {
                 }
             }
         } else {
-            addFences();
+            addFences(poiList);
         }
 
 
     }
 
-    private void addFences() {
+    private void addFences(List<POI> poiList) {
 
-        GeoPoint monkeyTown = new GeoPoint(51.59055720605067, 4.765112269496669);
-        addGeoFence(monkeyTown, 200, monkeyTown.toString());
+        System.out.println(":::::" + poiList.size());
 
-        GeoPoint brug = new GeoPoint(51.59244308378478, 4.7700728786915185);
-        addGeoFence(brug, 200, monkeyTown.toString());
+        for (int i = 0; i < poiList.size(); i++) {
+            System.out.println(poiList.get(i).longitude + "---" + poiList.get(i).latitude + "---" + poiList.get(i).POIName);
+            GeoPoint tempPoint = new GeoPoint(poiList.get(i).longitude, poiList.get(i).latitude);
+            addGeoFence(tempPoint, 45, poiList.get(i).POIName);
 
+        }
     }
 
     private void addGeoFence(GeoPoint geoPoint, float radius, String ID) {
         checkFineLocationPermission();
-        
 
 
         Geofence geofence = geoFenceHelper.getGeofence(ID, geoPoint, radius,
                 Geofence.GEOFENCE_TRANSITION_DWELL | Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT);
-
 
 
         GeofencingRequest geofencingRequest = geoFenceHelper.getGeoFencingRequest(geofence);
@@ -108,6 +109,40 @@ public class GeoFenceSetup {
 
 
         });
+    }
+
+    public void removeGeoFences(List<POI> poiList) {
+        geofencingClient = LocationServices.getGeofencingClient(context);
+        geoFenceHelper = new GeoFenceHelper(context);
+        PendingIntent pendingIntent = geoFenceHelper.getPendingIntent();
+
+
+        List <String> poiNameList = new ArrayList<>();
+
+        for (int i = 0; i < poiList.size(); i++) {
+            poiNameList.add(poiList.get(i).POIName);
+        }
+
+
+        System.out.println("@@@@@@@@@@@@@@" + poiNameList.size());
+
+        geofencingClient.removeGeofences(pendingIntent).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.v(TAG, "Geofence is removed... ");
+            }
+
+
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.v(TAG, e.getLocalizedMessage());
+            }
+
+
+        });
+
+        poiNameList.clear();
     }
 
 

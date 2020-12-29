@@ -30,6 +30,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bbb.R;
 import com.example.bbb.controlLayer.DatabaseManager;
+import com.example.bbb.controlLayer.geofencing.GeoFenceSetup;
 import com.example.bbb.controlLayer.gps.OpenRouteService;
 import com.example.bbb.entityLayer.data.POI;
 import com.example.bbb.entityLayer.data.Route;
@@ -60,6 +61,7 @@ public class MapFragment extends Fragment implements IMapChanged {
     private ArrayAdapter<String> spinnerAdapter;
     private List<String> routeNameList;
     private DatabaseManager dm;
+    private GeoFenceSetup setupGF;
 
     private boolean centerOnStart;
     private UIViewModel viewModel;
@@ -82,6 +84,8 @@ public class MapFragment extends Fragment implements IMapChanged {
         mapController.setZoom(14);
 
         centerOnStart = false;
+
+        setupGF = new GeoFenceSetup(getContext(), getActivity());
 
         //Check for Location permission
         if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -123,6 +127,10 @@ public class MapFragment extends Fragment implements IMapChanged {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 viewModel.setSelectedRoute(position);
+                List<POI> pois = dm.getPOIsFromRoute(position);
+
+                setupGF.setupGeoFencing(pois);
+
                 createRoute(position);
             }
 
@@ -183,22 +191,15 @@ public class MapFragment extends Fragment implements IMapChanged {
             if (getView() == null) {
                 return;
             }
-            Log.d("Latitude", "onLocationChanged: " + location.getLatitude());
             GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
 
             Marker startPoint = new Marker(map);
             startPoint.setPosition(point);
             startPoint.setIcon(fragmentContext.getDrawable(R.drawable.my_location));
 
-            Marker geoFence = new Marker(map);
-            GeoPoint Kerkie = new GeoPoint(51.59055720605067, 4.765112269496669);
-            geoFence.setPosition(Kerkie);
-            geoFence.setIcon(fragmentContext.getDrawable(R.drawable.my_location));
-
             map.getOverlays().remove(currentLocation);
             currentLocation = startPoint;
             map.getOverlays().add(startPoint);
-            map.getOverlays().add(geoFence);
 
             if (!centerOnStart) {
                 mapController.setCenter(currentLocation.getPosition());
@@ -268,5 +269,8 @@ public class MapFragment extends Fragment implements IMapChanged {
         viewModel.setSelectedRoute(0);
         getLocation();
         map.invalidate();
+
+
+        setupGF.removeGeoFences(dm.getPOIs());
     }
 }

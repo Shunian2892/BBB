@@ -32,9 +32,6 @@
     <string name="loading_route">Route laden...</string>
     <string name="please_select_a_route">Selecteer een route, alstublieft!</string>
     <string name="hide_video">Verberg video</string>
-    <string name="dutch">Nederlands</string>
-    <string name="english">Engels</string>
-    <string name="french">Frans</string>
     <string name="small">Klein</string>
     <string name="medium">Gemiddeld</string>
     <string name="large">Groot</string>

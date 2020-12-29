@@ -18,32 +18,29 @@
     <string name="routes">itinéraires:</string>
     <string name="help">Aider</string>
     <string name="ok">Ok</string>
-    <string name="route_information">informations sur l\'itinéraire</string>
+    <string name="route_information">Informations sur l\'itinéraire</string>
     <string name="stop">Arrêt</string>
     <string name="name">Nom</string>
-    <string name="amount_pois">montante POI\'s:</string>
+    <string name="amount_pois">Montante POI\'s:</string>
     <string name="date">Date</string>
-    <string name="show_points">afficher les points...</string>
-    <string name="route">l\'itinéraire:</string>
-    <string name="heading_to">en direction de</string>
-    <string name="last_poi">dernière POI:</string>
-    <string name="progress">le progrès</string>
-    <string name="select_a_route">sélectionnez un itinéraire</string>
-    <string name="please_select_a_route">veuillez sélectionner un itinéraire</string>
-    <string name="loading_route">itinéraire de chargement...</string>
+    <string name="show_points">Afficher les points...</string>
+    <string name="route">L\'itinéraire:</string>
+    <string name="heading_to">En direction de</string>
+    <string name="last_poi">Dernière POI:</string>
+    <string name="progress">Le progrès</string>
+    <string name="select_a_route">Sélectionnez un itinéraire</string>
+    <string name="please_select_a_route">Veuillez sélectionner un itinéraire</string>
+    <string name="loading_route">Itinéraire de chargement...</string>
     <string name="hide_video">Masquer la vidéo</string>
-    <string name="dutch">langue néerlandaise</string>
-    <string name="english">langue Anglaise</string>
-    <string name="french">langue française</string>
-    <string name="small">petit</string>
-    <string name="medium">moyen</string>
-    <string name="large">grand</string>
+    <string name="small">Petit</string>
+    <string name="medium">Moyen</string>
+    <string name="large">Grand</string>
     <string name="explanation">Avec Begeleid Buddy Breda (BBB), il est facile de parcourir différents itinéraires à travers les villes.
                                 L\'écran principal affiche la carte indiquant votre position actuelle.
                                 Si un itinéraire est choisi en haut, il sera affiché sur la carte, en plus vous pouvez cliquer sur le bouton en haut à gauche pour plus d\'informations sur l\'itinéraire.
                                 Vous pouvez également retrouver vos itinéraires en cliquant sur le bouton en haut à droite.
                                 Le bouton rond en bas à droite centrera la carte sur votre position actuelle.
-                                Si vous appuyez sur le bouton ‘emplacements’, vous verrez les différents emplacements(POI’s) de l\'itinéraire actuel, ou tous les emplacements(POI’s) si aucun itinéraire n'est sélectionné.
-                                En cliquant sur un élément de la liste des emplacements, il est possible de trouver plus d'informations sur cet emplacement.
+                                Si vous appuyez sur le bouton \‘emplacements\’, vous verrez les différents emplacements(POI\’s) de l\'itinéraire actuel, ou tous les emplacements(POI’s) si aucun itinéraire n\'est sélectionné.
+                                En cliquant sur un élément de la liste des emplacements, il est possible de trouver plus d\'informations sur cet emplacement.
                                 Vous pouvez également accéder aux paramètres pour entrer vos préférences en matière de langue et de taille de police, et activer un mode daltonien si nécessaire.</string>
 </resources>

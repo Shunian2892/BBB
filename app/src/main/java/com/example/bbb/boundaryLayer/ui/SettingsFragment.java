@@ -162,7 +162,7 @@ public class SettingsFragment extends Fragment {
                 System.out.println(clickedItemName);
 
                 switch (clickedItemName) {
-                    case "Dutch":
+                    case "Nederlands":
                         setLocale("nl");
                         languageEditor.putString("language", "nl");
                         languageEditor.apply();
@@ -175,7 +175,7 @@ public class SettingsFragment extends Fragment {
                         languageEditor.apply();
                         languageEditor.commit();
                         break;
-                    case "French":
+                    case "Français":
                         setLocale("fr");
                         languageEditor.putString("language", "fr");
                         languageEditor.apply();
@@ -198,27 +198,21 @@ public class SettingsFragment extends Fragment {
                 String clickedItemName = clickedItem.getName();
                 System.out.println(clickedItemName);
 
-                switch (clickedItemName) {
-                    case "Small":
-                        fontSizeEditor.putString("fontsize", "0.75");
-                        fontSizeEditor.apply();
-                        fontSizeEditor.commit();
-                        adjustFontScale(getActivity().getResources().getConfiguration(), (float) 0.75);
-                        break;
-
-                    case "Medium":
-                        fontSizeEditor.putString("fontsize", "1");
-                        fontSizeEditor.apply();
-                        fontSizeEditor.commit();
-                        adjustFontScale(getActivity().getResources().getConfiguration(), (float) 1);
-                        break;
-
-                    case "Large":
-                        fontSizeEditor.putString("fontsize", "1.25");
-                        fontSizeEditor.apply();
-                        fontSizeEditor.commit();
-                        adjustFontScale(getActivity().getResources().getConfiguration(), (float) 1.25);
-                        break;
+                if (clickedItemName.equals(getActivity().getResources().getString(R.string.small))){
+                    fontSizeEditor.putString("fontsize", "0.75");
+                    fontSizeEditor.apply();
+                    fontSizeEditor.commit();
+                    adjustFontScale(getActivity().getResources().getConfiguration(), (float) 0.75);
+                } else if (clickedItemName.equals(getActivity().getResources().getString(R.string.medium))){
+                    fontSizeEditor.putString("fontsize", "1");
+                    fontSizeEditor.apply();
+                    fontSizeEditor.commit();
+                    adjustFontScale(getActivity().getResources().getConfiguration(), (float) 1);
+                } else if (clickedItemName.equals(getActivity().getResources().getString(R.string.large))){
+                    fontSizeEditor.putString("fontsize", "1.25");
+                    fontSizeEditor.apply();
+                    fontSizeEditor.commit();
+                    adjustFontScale(getActivity().getResources().getConfiguration(), (float) 1.25);
                 }
             }
 

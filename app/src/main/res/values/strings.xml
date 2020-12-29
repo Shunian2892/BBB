@@ -31,9 +31,9 @@
     <string name="loading_route">Loading route...</string>
     <string name="please_select_a_route">Please select a route!</string>
     <string name="hide_video">Hide video</string>
-    <string name="dutch">Dutch</string>
-    <string name="english">English</string>
-    <string name="french">French</string>
+    <string name="dutch" translatable="false">Nederlands</string>
+    <string name="english" translatable="false">English</string>
+    <string name="french" translatable="false">Français</string>
     <string name="small">Small</string>
     <string name="medium">Medium</string>
     <string name="large">Large</string>
@@ -45,4 +45,5 @@
                                 If you press the "locations" button you will see the different locations(POI’s) of the current route, or all locations(POI’s) if no route is selected.
                                 By clicking on an item from the list of locations it is possible to find more information about this location.
                                 You can also go to settings to enter your preference for language and font size, and enable a color blind mode if necessary.</string>
+    <string name="fragment_settings">Settings</string>
 </resources>

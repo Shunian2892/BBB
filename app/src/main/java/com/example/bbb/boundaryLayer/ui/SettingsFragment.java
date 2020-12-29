@@ -258,14 +258,14 @@ public class SettingsFragment extends Fragment {
 
     public void initSpinnerList() {
         languages = new ArrayList<>();
-        languages.add(new SpinnerItem("Dutch", R.drawable.dutch_flag));
-        languages.add(new SpinnerItem("English", R.drawable.american_flag));
-        languages.add(new SpinnerItem("French", R.drawable.french_flag));
+        languages.add(new SpinnerItem(getResources().getString(R.string.dutch), R.drawable.dutch_flag));
+        languages.add(new SpinnerItem(getResources().getString(R.string.english), R.drawable.american_flag));
+        languages.add(new SpinnerItem(getResources().getString(R.string.french), R.drawable.french_flag));
 
         sizes = new ArrayList<>();
-        sizes.add(new SpinnerItem("Small", R.drawable.text_size));
-        sizes.add(new SpinnerItem("Medium", R.drawable.text_size));
-        sizes.add(new SpinnerItem("Large", R.drawable.text_size));
+        sizes.add(new SpinnerItem(getResources().getString(R.string.small), R.drawable.text_size));
+        sizes.add(new SpinnerItem(getResources().getString(R.string.medium), R.drawable.text_size));
+        sizes.add(new SpinnerItem(getResources().getString(R.string.large), R.drawable.text_size));
     }
 
     public void setLocale(String language) {

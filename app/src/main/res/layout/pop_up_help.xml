@@ -27,7 +27,7 @@
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/lato_black"
             android:gravity="center"
-            android:text="Help"
+            android:text="@string/help"
             android:textColor="@color/black"
             android:textSize="36sp" />
 
@@ -40,7 +40,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque tristique libero et urna commodo, ac convallis magna dictum. Etiam faucibus consequat facilisis. Mauris tempus justo elit, a varius mi egestas vel. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce convallis, velit vulputate sodales faucibus, urna est viverra tellus."
+            android:text="@string/explanation"
             android:textAlignment="center" />
 
         <Button
@@ -54,7 +54,7 @@
             android:backgroundTint="@color/StarCommandBlue"
             android:fontFamily="@font/lato_black"
             android:gravity="center"
-            android:text="Ok"
+            android:text="@string/ok"
             android:textColor="@color/white" />
     </LinearLayout>
 

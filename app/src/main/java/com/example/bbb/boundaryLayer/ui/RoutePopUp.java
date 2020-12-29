@@ -56,22 +56,22 @@ public class RoutePopUp extends DialogFragment {
         Route selectedRoute = viewModel.getRoutePopUpSelectedRoute().getValue();
         List<POI> poiList = DatabaseManager.getInstance(getContext()).getPOIsFromRoute(selectedRoute.ID);
 
-        textViewRouteName.setText("Route: " + selectedRoute.RouteName);
+        textViewRouteName.setText(getResources().getString(R.string.route) + selectedRoute.RouteName);
 
         for (int i = 0; i < poiList.size(); i++) {
             POI poi = poiList.get(i);
             if (!poi.IsVisited) {
-                textViewNextPOI.setText("Heading to: " + poi.POIName);
+                textViewNextPOI.setText(getResources().getString(R.string.heading_to)+ poi.POIName);
 
                 if (i != 0) {
-                    textViewLastPOI.setText("Last POI: " + poiList.get(i - 1).POIName);
+                    textViewLastPOI.setText(getResources().getString(R.string.last_poi) + poiList.get(i - 1).POIName);
                 } else {
-                    textViewLastPOI.setText("Last POI: -");
+                    textViewLastPOI.setText(getResources().getString(R.string.last_poi) + "-");
                 }
             }
         }
 
-        textViewProgress.setText("Progress: ???");
+        textViewProgress.setText(getResources().getString(R.string.progress) + "???");
 
         return alertDialog;
     }

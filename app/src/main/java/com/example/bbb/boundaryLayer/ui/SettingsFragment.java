@@ -165,7 +165,6 @@ public class SettingsFragment extends Fragment {
                         languageEditor.putString("language", "nl");
                         languageEditor.apply();
                         languageEditor.commit();
-
                         break;
                     case "English":
                         setLocale("en");
@@ -232,6 +231,8 @@ public class SettingsFragment extends Fragment {
                     colorBlindEditor.putBoolean("colorblind", b);
                     colorBlindEditor.apply();
                     colorBlindEditor.commit();
+                    System.out.println("THEME ~~~~~~~~~~~~~~~~~~~~~~~~~~ " + getActivity().getTheme());
+
                     refreshScreen();
 
                 }
@@ -241,6 +242,7 @@ public class SettingsFragment extends Fragment {
                     colorBlindEditor.putBoolean("colorblind", b);
                     colorBlindEditor.apply();
                     colorBlindEditor.commit();
+                    System.out.println("THEME ~~~~~~~~~~~~~~~~~~~~~~~~~~ " + getActivity().getTheme());
                     refreshScreen();
                 }
             }
@@ -272,7 +274,6 @@ public class SettingsFragment extends Fragment {
             refreshScreen();
         }
     }
-
 
     public void adjustFontScale(Configuration configuration, float scale) {
         float convFont = Float.parseFloat(currentFontSize);

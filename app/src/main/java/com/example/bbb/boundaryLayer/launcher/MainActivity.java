@@ -24,6 +24,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel.init(R.id.menu_map);
 
         SharedPreferences prefs = getSharedPreferences("language", MODE_PRIVATE);
-        String currentLang = prefs.getString("language", "No name defined");//"No name defined" is the default value.
+        String currentLang = prefs.getString("language", Locale.getDefault().getLanguage());//"No name defined" is the default value.
         System.out.println("########" + currentLang);
 
         //Set the theme of the app based on colorblind mode
@@ -115,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(navlistener);
 
         setDisplayFragment(viewModel.getCurrentFragment().getValue());
+
     }
 
     public void setPoiListFragment(FragmentManager fm) {

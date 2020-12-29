@@ -33,7 +33,6 @@ import static android.content.Context.MODE_PRIVATE;
 import static android.content.Context.WINDOW_SERVICE;
 
 public class SettingsFragment extends Fragment {
-    private SpinnerItem spinnerItem;
     private SpinnerAdapter languageAdapter, sizeAdapter;
     private Spinner languageSpinner;
     private Spinner textSizeSpinner;
@@ -47,7 +46,6 @@ public class SettingsFragment extends Fragment {
     private SwitchCompat themeSwitch;
     private String currentLang;
     private Boolean currentColorMode;
-
 
     //sharedprefs
     private SharedPreferences.Editor fontSizeEditor;
@@ -83,7 +81,6 @@ public class SettingsFragment extends Fragment {
 
         initSpinnerList();
 
-
         //Creating language spinner
         languageSpinner = view.findViewById(R.id.spinnerLanguage);
         languageAdapter = new SpinnerAdapter(fragmentContext, languages);
@@ -100,10 +97,8 @@ public class SettingsFragment extends Fragment {
         //Base scale
         adjustFontScale(getActivity().getResources().getConfiguration(), convertedFontSize);
 
-
         setPreviousSettings();
         setOnClicks();
-
 
         return view;
     }
@@ -283,8 +278,6 @@ public class SettingsFragment extends Fragment {
             ft.detach(this).attach(this).commit();
 
             refreshScreen();
-
-
         }
     }
 
@@ -317,8 +310,6 @@ public class SettingsFragment extends Fragment {
             getActivity().getBaseContext().getResources().updateConfiguration(configuration, metrics);
             refreshScreen();
         }
-
-
     }
 
     private void refreshScreen() {

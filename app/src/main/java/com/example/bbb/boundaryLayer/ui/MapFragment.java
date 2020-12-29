@@ -152,8 +152,6 @@ public class MapFragment extends Fragment implements IMapChanged {
                     for (int i = 0; i < pois.size(); i++) {
                         coordinates[i][0] = pois.get(i).latitude;
                         coordinates[i][1] = pois.get(i).longitude;
-
-//                                System.out.println(pois.get(i).POIName);
                     }
                     Toast.makeText(fragmentContext, "Loading route...", Toast.LENGTH_SHORT).show();
                     openRouteService.getRoute(coordinates, "foot-walking", Locale.getDefault().getLanguage());

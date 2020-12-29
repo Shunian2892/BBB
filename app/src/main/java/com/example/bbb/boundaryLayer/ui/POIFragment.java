@@ -85,16 +85,6 @@ public class POIFragment extends Fragment {
         return view;
     }
 
-    public void setPoiListFragment(FragmentManager fm) {
-        if (fm.findFragmentById(R.id.fragment_poi_list) == null) {
-            poiListFragment = new POIListFragment();
-        } else {
-            poiListFragment = (POIListFragment) fm.findFragmentById(R.id.fragment_poi_list);
-        }
-        viewModel.setBackButtonState(false);
-//        poiListFragment.setButtonBackVisibility(false);
-    }
-
     public void setImageFragment() {
         if (fragmentManager.findFragmentById(R.id.fragment_image) == null) {
             imageFragment = new ImageFragment();

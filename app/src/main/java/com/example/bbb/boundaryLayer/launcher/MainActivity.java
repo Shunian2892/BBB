@@ -111,9 +111,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(navlistener);
 
         setDisplayFragment(viewModel.getCurrentFragment().getValue());
-
-//        setMapFragment(getSupportFragmentManager());
-//        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mapFragment).commit();
     }
 
     public void setPoiListFragment(FragmentManager fm) {
@@ -123,8 +120,6 @@ public class MainActivity extends AppCompatActivity {
             poiListFragment = (POIListFragment) fm.findFragmentById(R.id.fragment_poi_list);
         }
         viewModel.setBackButtonState(false);
-//        poiListFragment.setButtonBackVisibility(false);
-
     }
 
     public void setSettingFragment(FragmentManager fm) {
@@ -159,9 +154,4 @@ public class MainActivity extends AppCompatActivity {
             navigationView.setOnNavigationItemSelectedListener(navlistener);
         }
     }
-
-/*    @Override
-    public void setDetailPOI(POI poi) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new POIFragment(poi, this)).addToBackStack(null).commit();
-    }*/
 }

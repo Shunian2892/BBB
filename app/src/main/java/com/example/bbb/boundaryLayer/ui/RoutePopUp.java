@@ -44,8 +44,6 @@ public class RoutePopUp extends DialogFragment {
 
         Button buttonStopRoute = view.findViewById(R.id.buttonRouteStop);
         buttonStopRoute.setOnClickListener(view2 -> {
-            //need to change
-//            mapChanged.onMapChange();
             viewModel.getIMapChanged().onMapChange();
             alertDialog.dismiss();
         });

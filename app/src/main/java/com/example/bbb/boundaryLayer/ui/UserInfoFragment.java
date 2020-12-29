@@ -33,21 +33,13 @@ public class UserInfoFragment extends Fragment implements OnItemClickListener {
     private TextView listSize;
     private TextView distance;
     private DatabaseManager databaseManager;
-    private MapFragment mapFragment;
 
     private RecyclerView walkedRoutesRv;
     private List<WalkedRoute> walkedRouteList;
     private UserAdapter userAdapter;
     private ViewGroup container;
-    private Context context;
-    private ReplacePOI replacePOI;
     private POIListFragment poiListFragment;
     private UIViewModel viewModel;
-
-//    public UserInfoFragment(Context context, ReplacePOI replacePOI) {
-//        this.context = context;
-//        this.replacePOI = replacePOI;
-//    }
 
     @Nullable
     @Override
@@ -87,14 +79,6 @@ public class UserInfoFragment extends Fragment implements OnItemClickListener {
         this.walkedRoutesRv.setAdapter(this.userAdapter);
     }
 
-    public void setMapFragment(FragmentManager fm){
-        if(fm.findFragmentById(R.id.map_fragment) == null){
-            mapFragment = new MapFragment();
-        } else {
-            mapFragment = (MapFragment) fm.findFragmentById(R.id.map_fragment);
-        }
-    }
-
     public void setPoiListFragment(FragmentManager fm){
         if(fm.findFragmentById(R.id.fragment_poi_list) == null){
             poiListFragment = new POIListFragment();
@@ -102,10 +86,7 @@ public class UserInfoFragment extends Fragment implements OnItemClickListener {
             poiListFragment = (POIListFragment) fm.findFragmentById(R.id.fragment_poi_list);
         }
         viewModel.setPointOfInterests(testData());
-//        poiListFragment.setPoiList(testData());
         viewModel.setBackButtonState(true);
-//        poiListFragment.setButtonBackVisibility(true);
-
     }
 
     private ArrayList<POI> testData(){
@@ -125,7 +106,6 @@ public class UserInfoFragment extends Fragment implements OnItemClickListener {
     @Override
     public void OnItemClick(int clickedPosition) {
         setPoiListFragment(getFragmentManager());
-//        poiListFragment.setPoiList(databaseManager.getPOIsFromRoute(databaseManager.getWalkedRoutes().get(clickedPosition).routeID));
         viewModel.setPointOfInterests(databaseManager.getPOIsFromRoute(databaseManager.getWalkedRoutes().get(clickedPosition).routeID));
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, poiListFragment).addToBackStack(null).commit();
     }

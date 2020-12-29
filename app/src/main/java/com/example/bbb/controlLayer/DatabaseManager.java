@@ -41,8 +41,6 @@ public class DatabaseManager {
 
     public void initDatabase() {
         //add poi's from Json
-
-
         if (db.poiDao().getAll().size() == 0) {
 
             ArrayList<POI> poiList = new ArrayList<>();

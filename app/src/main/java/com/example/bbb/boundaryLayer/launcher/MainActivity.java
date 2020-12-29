@@ -78,6 +78,12 @@ public class MainActivity extends AppCompatActivity {
         String currentLang = prefs.getString("language", "No name defined");//"No name defined" is the default value.
         System.out.println("########" + currentLang);
 
+
+        if (currentLang.equals("No name defined")) {
+            currentLang = "nl";
+        }
+
+
         LocaleHelper.setLocale(this, currentLang);
 
         setContentView(R.layout.activity_main);

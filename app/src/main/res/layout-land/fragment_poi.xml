@@ -76,25 +76,28 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/buttonMap"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/button_background"
-                android:text="@string/show_on_map"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewPOI" />
-
-            <Button
                 android:id="@+id/buttonVideo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/button_background"
                 android:text="@string/show_video"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textViewPOI" />
+
+            <Button
+                android:id="@+id/buttonMap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/button_background"
+                android:text="@string/show_on_map"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.503"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonVideo" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
@@ -108,4 +111,5 @@
         app:layout_constraintEnd_toStartOf="@+id/scrollView2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_divider"></FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

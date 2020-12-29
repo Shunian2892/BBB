@@ -73,10 +73,10 @@ public class POIFragment extends Fragment {
             public void onClick(View v) {
                 if (isVideo) {
                     fragmentManager.beginTransaction().replace(R.id.detail_container,imageFragment).commit();
-                    buttonVideo.setText("Show Video");
+                    buttonVideo.setText(getResources().getString(R.string.show_video));
                 }else{
                     fragmentManager.beginTransaction().replace(R.id.detail_container, videoFragment).commit();
-                    buttonVideo.setText("Hide Video");
+                    buttonVideo.setText(getResources().getString(R.string.hide_video));
                 }
                 isVideo = !isVideo;
             }

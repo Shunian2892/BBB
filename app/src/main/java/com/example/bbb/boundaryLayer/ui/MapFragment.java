@@ -107,7 +107,7 @@ public class MapFragment extends Fragment implements IMapChanged {
         viewModel.setIMapChanged(MapFragment.this);
 
         routeNameList = new ArrayList<>();
-        routeNameList.add("Select a Route");
+        routeNameList.add(getResources().getString(R.string.select_a_route));
         for (Route route : dm.getRoutes()) {
             routeNameList.add(route.RouteName);
         }
@@ -153,7 +153,7 @@ public class MapFragment extends Fragment implements IMapChanged {
                         coordinates[i][0] = pois.get(i).latitude;
                         coordinates[i][1] = pois.get(i).longitude;
                     }
-                    Toast.makeText(fragmentContext, "Loading route...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(fragmentContext, getResources().getString(R.string.loading_route), Toast.LENGTH_SHORT).show();
                     openRouteService.getRoute(coordinates, "foot-walking", Locale.getDefault().getLanguage());
                     mapController.setCenter(new GeoPoint(coordinates[0][1], coordinates[0][0]));
                     break;
@@ -216,7 +216,7 @@ public class MapFragment extends Fragment implements IMapChanged {
                     viewModel.setRoutePopUpSelectedRoute(dm.getRoutes().get(routeSpinner.getSelectedItemPosition() - 1));
                     dialogFragment.show(getActivity().getSupportFragmentManager(), "route_popup");
                 } else {
-                    Toast.makeText(fragmentContext, "Please select a route!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(fragmentContext, getResources().getString(R.string.please_select_a_route), Toast.LENGTH_SHORT).show();
                 }
             }
         });

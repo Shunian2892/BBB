@@ -154,7 +154,6 @@ public class DatabaseManager {
         System.out.println("Size of routes: " + db.routeDao().getAll().size()); //get route amount
         System.out.println("Size of join: " + db.poi_route_Dao().getAll().size()); //get join amount
         System.out.println("Name: " + db.routeDao().getPOIs(1).get(0).POIName); //get name of first POI of the first route
-        System.out.println("Longitude: " + db.poiDao().matchedPOIs("Liefdeszuster").longitude); //get longitude of Liefdeszuster
     }
 
     public List<POI> getPOIs() {
@@ -186,8 +185,9 @@ public class DatabaseManager {
         return walkedRouteList;
     }
 
-    public POI searchLocation(String name) {
-        POI poi = db.poiDao().matchedPOIs(name);
+    public List<POI> searchLocation(String name) {
+        List<POI> poi = db.poiDao().matchedPOIs(name);
+        System.out.println("found: " + db.poiDao().matchedPOIs(name).size());
         return poi;
     }
 }

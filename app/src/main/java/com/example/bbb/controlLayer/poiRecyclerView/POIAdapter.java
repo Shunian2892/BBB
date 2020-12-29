@@ -45,4 +45,9 @@ public class POIAdapter extends RecyclerView.Adapter<POIViewHolder> {
     public int getItemCount() {
         return poiList.size();
     }
+
+    public void setPoiList(List<POI> poiList){
+        this.poiList = poiList;
+        this.notifyDataSetChanged();
+    }
 }

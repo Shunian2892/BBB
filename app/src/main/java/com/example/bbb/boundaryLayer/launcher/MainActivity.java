@@ -99,8 +99,6 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("Walked route " + testList.get(i).routeID + " on " + testList.get(i).date);
         }
 
-        System.out.println(databaseManager.searchLocation("Stadhouderspoort").ID);
-
         bottomNav = findViewById(R.id.bottomNavigationView);
         bottomNav.setOnNavigationItemSelectedListener(navlistener);
 

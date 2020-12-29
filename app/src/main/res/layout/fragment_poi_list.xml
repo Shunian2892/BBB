@@ -55,19 +55,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TextViewTitle" />
 
-    <ImageView
-        android:id="@+id/imageViewSearch"
+    <ImageButton
+        android:id="@+id/imageButtonSearchPOI"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
+        android:scaleType="fitCenter"
+        android:background="@android:color/transparent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_divider"
         app:srcCompat="@drawable/search" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/etSearchPOI"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -76,9 +78,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:hint="@string/search"
-        app:layout_constraintBottom_toBottomOf="@+id/imageViewSearch"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButtonSearchPOI"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageViewSearch"
+        app:layout_constraintStart_toEndOf="@+id/imageButtonSearchPOI"
         app:layout_constraintTop_toBottomOf="@+id/title_divider" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -94,5 +96,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/etSearchPOI" />
 </androidx.constraintlayout.widget.ConstraintLayout>

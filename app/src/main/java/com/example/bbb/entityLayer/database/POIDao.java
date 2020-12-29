@@ -15,8 +15,8 @@ public interface POIDao {
     @Query("SELECT * FROM POI")
     List<POI> getAll();
 
-    @Query("SELECT * FROM POI WHERE POIName LIKE :name")
-    POI matchedPOIs(String name);
+    @Query("SELECT * FROM POI WHERE POIName LIKE '%' || :name || '%'")
+    List<POI> matchedPOIs(String name);
 
     //add new queries here
     //@Query("QUERY")

@@ -54,13 +54,11 @@
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="258dp"
-        android:layout_height="236dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="294dp"
+        android:layout_height="248dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/detail_container"
         app:layout_constraintTop_toBottomOf="@+id/title_divider">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -73,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque tristique libero et urna commodo, ac convallis magna dictum. Etiam faucibus consequat facilisis. Mauris tempus justo elit, a varius mi egestas vel. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce convallis, velit vulputate sodales faucibus, urna est viverra tellus."
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.666"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -81,36 +79,33 @@
                 android:id="@+id/buttonMap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="52dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/button_background"
                 android:text="@string/show_on_map"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/buttonVideo" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewPOI" />
 
             <Button
                 android:id="@+id/buttonVideo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="60dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/button_background"
                 android:text="@string/show_video"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textViewPOI" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-
     <FrameLayout
         android:id="@+id/detail_container"
-        android:layout_width="336dp"
-        android:layout_height="254dp"
+        android:layout_width="331dp"
+        android:layout_height="258dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.081"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/scrollView2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_divider"></FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

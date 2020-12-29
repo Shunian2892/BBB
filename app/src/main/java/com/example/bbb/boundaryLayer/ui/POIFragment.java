@@ -1,6 +1,9 @@
 package com.example.bbb.boundaryLayer.ui;
 
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +14,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bbb.R;
 import com.example.bbb.entityLayer.data.POI;
+
+import java.util.Locale;
 
 public class POIFragment extends Fragment {
     private POI poi;
@@ -33,6 +39,8 @@ public class POIFragment extends Fragment {
     private boolean isVideo;
 
     private UIViewModel viewModel;
+
+    private TextToSpeech tts;
 
     @Nullable
     @Override
@@ -82,7 +90,30 @@ public class POIFragment extends Fragment {
             }
         });
 
+        SharedPreferences prefs = getActivity().getSharedPreferences("language", getActivity().getBaseContext().MODE_PRIVATE);
+        String currentLanguage = prefs.getString("language","no Name defined");
+
+        tts = new TextToSpeech(getActivity().getBaseContext(), new TextToSpeech.OnInitListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    tts.setLanguage(Locale.forLanguageTag(currentLanguage));
+                }
+            }
+        });
+
+        tts.speak("Testing...",TextToSpeech.QUEUE_FLUSH,null);
+
         return view;
+    }
+
+    public void onPause(){
+        if(tts !=null){
+            tts.stop();
+            tts.shutdown();
+        }
+        super.onPause();
     }
 
     public void setImageFragment() {

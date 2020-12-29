@@ -14,4 +14,11 @@
     <color name="CeruleanCrayola">#00B4D8</color>
     <color name="SpanishGray">#979797</color>
     <color name="OrangeWeb">#FFA400</color>
+
+    <!--    Colors of color blind pallet -->
+    <color name="SanMarino">#435BB8</color>
+    <color name="MediumPurple">#8C74DB</color>
+    <color name="ElectricViolet">#624BFF</color>
+
+
 </resources>

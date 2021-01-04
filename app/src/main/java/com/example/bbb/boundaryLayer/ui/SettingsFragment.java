@@ -120,7 +120,6 @@ public class SettingsFragment extends Fragment {
                 break;
         }
 
-
         //When starting the app we select the previously remembered font size
         switch (currentFontSize) {
             case "0.75":
@@ -147,8 +146,7 @@ public class SettingsFragment extends Fragment {
 
         if (currentColorMode.equals(true)) {
             themeSwitch.setChecked(true);
-            getActivity().setTheme(R.style.ThemeOverlay_MaterialComponents_Dark);
-
+            getActivity().setTheme(R.style.Theme_BBB_colorblind);
         }
     }
 
@@ -167,7 +165,6 @@ public class SettingsFragment extends Fragment {
                         languageEditor.putString("language", "nl");
                         languageEditor.apply();
                         languageEditor.commit();
-
                         break;
                     case "English":
                         setLocale("en");
@@ -230,10 +227,12 @@ public class SettingsFragment extends Fragment {
 
                 if (b) {
                     // Call setTheme before creation of any(!) View.
-                    getActivity().setTheme(R.style.ThemeOverlay_MaterialComponents_Dark);
+                    getActivity().setTheme(R.style.Theme_BBB_colorblind);
                     colorBlindEditor.putBoolean("colorblind", b);
                     colorBlindEditor.apply();
                     colorBlindEditor.commit();
+                    System.out.println("THEME ~~~~~~~~~~~~~~~~~~~~~~~~~~ " + getActivity().getTheme());
+
                     refreshScreen();
 
                 }
@@ -243,6 +242,7 @@ public class SettingsFragment extends Fragment {
                     colorBlindEditor.putBoolean("colorblind", b);
                     colorBlindEditor.apply();
                     colorBlindEditor.commit();
+                    System.out.println("THEME ~~~~~~~~~~~~~~~~~~~~~~~~~~ " + getActivity().getTheme());
                     refreshScreen();
                 }
             }
@@ -275,10 +275,8 @@ public class SettingsFragment extends Fragment {
         }
     }
 
-
     public void adjustFontScale(Configuration configuration, float scale) {
         float convFont = Float.parseFloat(currentFontSize);
-
 
         System.out.println(convFont + " ----  " + scale);
         System.out.println(textSizeStarted);

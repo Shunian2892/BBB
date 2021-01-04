@@ -78,6 +78,16 @@ public class MainActivity extends AppCompatActivity {
         String currentLang = prefs.getString("language", "No name defined");//"No name defined" is the default value.
         System.out.println("########" + currentLang);
 
+        //Set the theme of the app based on colorblind mode
+        SharedPreferences colorBlindPrefs = getSharedPreferences("colorblind", MODE_PRIVATE);
+        boolean currentColorMode = colorBlindPrefs.getBoolean("colorblind", false);//"No name defined" is the default value.
+
+        if(currentColorMode){
+            setTheme(R.style.Theme_BBB_colorblind);
+        } else if (!currentColorMode){
+            setTheme(R.style.Theme_BBB);
+        }
+
         LocaleHelper.setLocale(this, currentLang);
 
         setContentView(R.layout.activity_main);

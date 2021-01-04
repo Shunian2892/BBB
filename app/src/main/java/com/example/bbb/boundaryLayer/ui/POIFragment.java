@@ -150,7 +150,7 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
                     tts.setLanguage(Locale.FRANCE);
                     break;
                 case "nl":
-                    tts.setLanguage(new Locale("nl_NL"));
+                    tts.setLanguage(Locale.ENGLISH);
                     break;
             }
         }

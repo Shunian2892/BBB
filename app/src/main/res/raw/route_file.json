@@ -1,26 +1,38 @@
 [
 	{
 		"id": 1,
-		"name": "Historisch"
+		"name nl": "Historisch",
+		"name en": "Historic",
+		"name fr": "Historique"
 	},
 	{
 		"id": 2,
-		"name": "Breda Centrum"
+		"name nl": "Breda Centrum",
+		"name en": "Breda Center",
+		"name fr": "Centre de Breda"
 	},
 	{
 		"id": 3,
-		"name": "Kerken en kloosters"
+		"name nl": "Kerken en kloosters",
+		"name en": "Churches and monasteries",
+		"name fr": "Églises et monastères\n"
 	},
 	{
 		"id": 4,
-		"name": "Markten en winkelen"
+		"name nl": "Markten en winkelen",
+		"name en": "Market places and shopping",
+		"name fr": "Marchés et shopping"
 	},
 	{
 		"id": 5,
-		"name": "Monumenten en beelden"
+		"name nl": "Monumenten en beelden",
+		"name en": "Monuments and statues",
+		"name fr": "Monuments et statues"
 	},
 	{
 		"id": 6,
-		"name": "Restaurants en vermaak"
+		"name nl": "Restaurants en vermaak",
+		"name en": "Restaurants and amusement",
+		"name fr": "Restaurants et amusement"
 	}
 ]

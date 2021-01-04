@@ -36,7 +36,7 @@ public class DatabaseManager {
     
     public DatabaseManager(Context applicationContext) {
         mainContext = applicationContext;
-        db = Room.databaseBuilder(applicationContext, Database.class, "database-test2.5").allowMainThreadQueries().build();
+        db = Room.databaseBuilder(applicationContext, Database.class, "database-test2.6").allowMainThreadQueries().build();
     }
 
     public void initDatabase() {
@@ -84,7 +84,9 @@ public class DatabaseManager {
                 try {
                     jsonObject = jsonArrayRoute.getJSONObject(i);
                     route.ID = jsonObject.getInt("id");
-                    route.RouteName = jsonObject.getString("name");
+                    route.RouteName_nl = jsonObject.getString("name nl");
+                    route.RouteName_en = jsonObject.getString("name en");
+                    route.RouteName_fr = jsonObject.getString("name fr");
                     routeList.add(route);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -168,6 +170,10 @@ public class DatabaseManager {
         List<Route> routeList = new ArrayList<>();
         routeList = db.routeDao().getAll();
         return routeList;
+    }
+
+    public Route getRoute(int ID){
+        return db.routeDao().getRoute(ID);
     }
 
     public List<POI> getPOIsFromRoute(int routeID) {

@@ -2,6 +2,7 @@ package com.example.bbb.boundaryLayer.ui;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -62,6 +63,8 @@ public class MapFragment extends Fragment implements IMapChanged {
     private List<String> routeNameList;
     private DatabaseManager dm;
     private GeoFenceSetup setupGF;
+    private SharedPreferences prefs;
+    private String currentLang ;
 
     private boolean centerOnStart;
     private UIViewModel viewModel;
@@ -74,6 +77,9 @@ public class MapFragment extends Fragment implements IMapChanged {
         Configuration.getInstance().load(fragmentContext, PreferenceManager.getDefaultSharedPreferences(fragmentContext));
 
         View view = inflater.inflate(R.layout.fragment_map, container, false);
+
+        prefs =  getActivity().getSharedPreferences("language", Context.MODE_PRIVATE);
+        currentLang = prefs.getString("language", Locale.getDefault().getLanguage());
 
         dm = DatabaseManager.getInstance(getContext());
         map = (MapView) view.findViewById(R.id.map_view);
@@ -107,19 +113,33 @@ public class MapFragment extends Fragment implements IMapChanged {
         routeSpinner = view.findViewById(R.id.spinner_route);
         ibCenterPosition = view.findViewById(R.id.centerPosition);
 
+
         viewModel = new ViewModelProvider(getActivity()).get(UIViewModel.class);
         viewModel.setIMapChanged(MapFragment.this);
+
+        buttonClickListeners();
 
         routeNameList = new ArrayList<>();
         routeNameList.add(getResources().getString(R.string.select_a_route));
         for (Route route : dm.getRoutes()) {
-            routeNameList.add(route.RouteName);
+            switch (currentLang) {
+                case "en":
+                    routeNameList.add(route.RouteName_en);
+                    break;
+                case "fr":
+                    routeNameList.add(route.RouteName_fr);
+                    break;
+                case "nl":
+                    routeNameList.add(route.RouteName_nl);
+                    break;
+            }
         }
 
         this.spinnerAdapter = new ArrayAdapter<String>(
                 getContext(),
                 R.layout.support_simple_spinner_dropdown_item,
                 routeNameList);
+
 
         routeSpinner.setAdapter(spinnerAdapter);
         routeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -131,7 +151,20 @@ public class MapFragment extends Fragment implements IMapChanged {
 
                 setupGF.setupGeoFencing(pois);
 
-                createRoute(position);
+                if(position != 0){
+                    switch (currentLang) {
+                        case "en":
+                            createRoute(position, dm.getRoute(position).RouteName_en);
+                            break;
+                        case "fr":
+                            createRoute(position, dm.getRoute(position).RouteName_fr);
+                            break;
+                        case "nl":
+                            createRoute(position, dm.getRoute(position).RouteName_nl);
+                            break;
+                    }
+                }
+
             }
 
             @Override
@@ -140,20 +173,31 @@ public class MapFragment extends Fragment implements IMapChanged {
             }
         });
 
-        createRoute(viewModel.getSelectedRoute().getValue());
+//        switch (currentLang) {
+//            case "en":
+//                createRoute(viewModel.getSelectedRoute().getValue(), viewModel.getRoutePopUpSelectedRoute().getValue().RouteName_en);
+//                break;
+//            case "fr":
+//                createRoute(viewModel.getSelectedRoute().getValue(), viewModel.getRoutePopUpSelectedRoute().getValue().RouteName_fr);
+//                break;
+//            case "nl":
+//                createRoute(viewModel.getSelectedRoute().getValue(), viewModel.getRoutePopUpSelectedRoute().getValue().RouteName_nl);
+//                break;
+//        }
+
         routeSpinner.setSelection(viewModel.getSelectedRoute().getValue());
 
-        buttonClickListeners();
+
         return view;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void createRoute(int position) {
+    private void createRoute(int position, String routeNameLang) {
         String routeName = routeNameList.get(position);
         if (position != 0) {
+
             for (Route route : dm.getRoutes()) {
-                if (route.RouteName.equals(routeName)) {
-                    Route selectedRoute = route;
+                if (routeNameLang.equals(route.RouteName_en) || routeNameLang.equals(route.RouteName_fr) || routeNameLang.equals(route.RouteName_nl)) {
                     List<POI> pois = dm.getPOIsFromRoute(route.ID);
                     double[][] coordinates = new double[pois.size()][2];
 
@@ -161,6 +205,7 @@ public class MapFragment extends Fragment implements IMapChanged {
                         coordinates[i][0] = pois.get(i).latitude;
                         coordinates[i][1] = pois.get(i).longitude;
                     }
+
                     Toast.makeText(fragmentContext, getResources().getString(R.string.loading_route), Toast.LENGTH_SHORT).show();
                     openRouteService.getRoute(coordinates, "foot-walking", Locale.getDefault().getLanguage());
                     mapController.setCenter(new GeoPoint(coordinates[0][1], coordinates[0][0]));

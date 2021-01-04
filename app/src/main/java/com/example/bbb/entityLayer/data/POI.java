@@ -13,7 +13,9 @@ public class POI {
     public String POIName;
     public double longitude;
     public double latitude;
-    public String Description;
+    public String Description_nl;
+    public String Description_en;
+    public String Description_fr;
     public String imageURL;
     public String VideoURL;
     public Boolean IsVisited;

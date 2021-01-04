@@ -19,6 +19,9 @@ public interface RouteDao {
     @Query("SELECT * FROM POI_Route, POI WHERE POI_Route.RouteID = :routeID AND POI.ID = POI_Route.PoiID")
     List<POI> getPOIs(int routeID);
 
+    @Query("SELECT * FROM Route WHERE ID = :routeID")
+    Route getRoute(int routeID);
+
     //add new queries here
     //@Query("QUERY")
     //method name + method type

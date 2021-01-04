@@ -58,5 +58,187 @@
   {
     "routeID": 1,
     "poiID": 15
+  },
+  {
+    "routeID": 2,
+    "poiID": 11
+  },
+  {
+    "routeID": 2,
+    "poiID": 14
+  },
+  {
+    "routeID": 2,
+    "poiID": 13
+  },
+  {
+    "routeID": 2,
+    "poiID": 16
+  },
+  {
+    "routeID": 2,
+    "poiID": 17
+  },
+  {
+    "routeID": 2,
+    "poiID": 19
+  },
+  {
+    "routeID": 2,
+    "poiID": 20
+  },
+  {
+    "routeID": 2,
+    "poiID": 21
+  },
+  {
+    "routeID": 2,
+    "poiID": 22
+  },
+  {
+  "routeID": 2,
+  "poiID": 23
+  },
+  {
+    "routeID": 2,
+    "poiID": 24
+  },
+  {
+    "routeID": 2,
+    "poiID": 25
+  },
+  {
+    "routeID": 3,
+    "poiID": 5
+  },
+  {
+    "routeID": 3,
+    "poiID": 6
+  },
+  {
+    "routeID": 3,
+    "poiID": 7
+  },
+  {
+    "routeID": 3,
+    "poiID": 8
+  },
+  {
+    "routeID": 3,
+    "poiID": 11
+  },
+  {
+    "routeID": 3,
+    "poiID": 17
+  },
+  {
+    "routeID": 3,
+    "poiID": 19
+  },
+  {
+    "routeID": 3,
+    "poiID": 24
+  },
+  {
+    "routeID": 3,
+    "poiID": 25
+  },
+  {
+    "routeID": 4,
+    "poiID": 1
+  },
+  {
+    "routeID": 4,
+    "poiID": 9
+  },
+  {
+    "routeID": 4,
+    "poiID": 10
+  },
+  {
+    "routeID": 4,
+    "poiID": 14
+  },
+  {
+    "routeID": 4,
+    "poiID": 13
+  },
+  {
+    "routeID": 4,
+    "poiID": 23
+  },
+  {
+    "routeID": 5,
+    "poiID": 2
+  },
+  {
+    "routeID": 5,
+    "poiID": 3
+  },
+  {
+    "routeID": 5,
+    "poiID": 4
+  },
+  {
+    "routeID": 5,
+    "poiID": 5
+  },
+  {
+    "routeID": 5,
+    "poiID": 11
+  },
+  {
+    "routeID": 5,
+    "poiID": 12
+  },
+  {
+    "routeID": 5,
+    "poiID": 15
+  },
+  {
+    "routeID": 5,
+    "poiID": 16
+  },
+  {
+    "routeID": 5,
+    "poiID": 17
+  },
+  {
+    "routeID": 5,
+    "poiID": 21
+  },
+  {
+    "routeID": 5,
+    "poiID": 24
+  },
+  {
+    "routeID": 5,
+    "poiID": 25
+  },
+  {
+    "routeID": 6,
+    "poiID": 9
+  },
+  {
+    "routeID": 6,
+    "poiID": 10
+  },
+  {
+    "routeID": 6,
+    "poiID": 14
+  },
+  {
+    "routeID": 6,
+    "poiID": 20
+  },
+  {
+    "routeID": 6,
+    "poiID": 22
+  },
+  {
+    "routeID": 6,
+    "poiID": 23
   }
+
+
 ]

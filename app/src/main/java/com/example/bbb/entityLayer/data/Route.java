@@ -12,10 +12,13 @@ public class Route {
 
     @PrimaryKey
     public int ID;
-    public String RouteName;
+    public String RouteName_nl;
+    public String RouteName_en;
+    public String RouteName_fr;
 
-    @Override
-    public String toString() {
-        return this.RouteName;
-    }
+//    @Override
+//    public String toString() {
+//
+//        return this.RouteName;
+//    }
 }

@@ -2,6 +2,8 @@ package com.example.bbb.boundaryLayer.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ import com.example.bbb.entityLayer.data.Route;
 import org.osmdroid.views.MapView;
 
 import java.util.List;
+import java.util.Locale;
 
 public class RoutePopUp extends DialogFragment {
 
@@ -60,7 +63,19 @@ public class RoutePopUp extends DialogFragment {
         Route selectedRoute = viewModel.getRoutePopUpSelectedRoute().getValue();
         List<POI> poiList = DatabaseManager.getInstance(getContext()).getPOIsFromRoute(selectedRoute.ID);
 
-        textViewRouteName.setText(getResources().getString(R.string.route) + selectedRoute.RouteName);
+        SharedPreferences prefs = getActivity().getSharedPreferences("language", Context.MODE_PRIVATE);
+        String currentLang = prefs.getString("language", Locale.getDefault().getLanguage());//"No name defined" is the default value.
+        switch (currentLang) {
+            case "en":
+                textViewRouteName.setText(getResources().getString(R.string.route) + selectedRoute.RouteName_en);
+                break;
+            case "fr":
+                textViewRouteName.setText(getResources().getString(R.string.route) + selectedRoute.RouteName_fr);
+                break;
+            case "nl":
+                textViewRouteName.setText(getResources().getString(R.string.route) + selectedRoute.RouteName_nl);
+                break;
+        }
 
         for (int i = 0; i < poiList.size(); i++) {
             POI poi = poiList.get(i);

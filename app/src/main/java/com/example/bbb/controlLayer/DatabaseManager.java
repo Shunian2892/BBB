@@ -56,7 +56,9 @@ public class DatabaseManager {
                     poi.POIName = jsonObject.getString("name");
                     poi.longitude = convertDMStoDD(jsonObject.getString("longitude"));
                     poi.latitude = convertDMStoDD(jsonObject.getString("latitude"));
-                    poi.Description = jsonObject.getString("description");
+                    poi.Description_nl = jsonObject.getString("description nl");
+                    poi.Description_en = jsonObject.getString("description en");
+                    poi.Description_fr = jsonObject.getString("description fr");
                     poi.imageURL = jsonObject.getString("imageUrl");
                     poi.VideoURL = jsonObject.getString("videoUrl");
                     poi.IsVisited = jsonObject.getBoolean("isVisited");
@@ -82,7 +84,9 @@ public class DatabaseManager {
                 try {
                     jsonObject = jsonArrayRoute.getJSONObject(i);
                     route.ID = jsonObject.getInt("id");
-                    route.RouteName = jsonObject.getString("name");
+                    route.RouteName_nl = jsonObject.getString("name nl");
+                    route.RouteName_en = jsonObject.getString("name en");
+                    route.RouteName_fr = jsonObject.getString("name fr");
                     routeList.add(route);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -166,6 +170,10 @@ public class DatabaseManager {
         List<Route> routeList = new ArrayList<>();
         routeList = db.routeDao().getAll();
         return routeList;
+    }
+
+    public Route getRoute(int ID){
+        return db.routeDao().getRoute(ID);
     }
 
     public List<POI> getPOIsFromRoute(int routeID) {

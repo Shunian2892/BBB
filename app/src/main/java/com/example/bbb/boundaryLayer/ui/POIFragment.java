@@ -2,6 +2,7 @@ package com.example.bbb.boundaryLayer.ui;
 
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.content.Context;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
@@ -69,7 +70,22 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
             }
         });
         title.setText(poi.POIName);
-        description.setText(poi.Description);
+
+        SharedPreferences prefs = getActivity().getSharedPreferences("language", Context.MODE_PRIVATE);
+        String currentLang = prefs.getString("language", Locale.getDefault().getLanguage());//"No name defined" is the default value.
+
+        switch (currentLang) {
+            case "en":
+                description.setText(poi.Description_en);
+                break;
+            case "fr":
+                description.setText(poi.Description_fr);
+                break;
+            case "nl":
+                description.setText(poi.Description_nl);
+                break;
+        }
+
 
         fragmentManager = getFragmentManager();
         setImageFragment();

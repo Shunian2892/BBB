@@ -25,7 +25,7 @@ public class POIListManager {
     private DatabaseManager databaseManager;
     private UIViewModel viewModel;
 
-    public POIListManager(Context context, UIViewModel viewModel){
+    public POIListManager(Context context, UIViewModel viewModel) {
         POIList = new ArrayList<>();
         this.appContext = context;
         this.viewModel = viewModel;
@@ -38,11 +38,13 @@ public class POIListManager {
         POIReader();
     }
 
-    public void POIReader(){
-        if (viewModel.getPOIs().getValue().size() == 0){
-            this.POIList = viewModel.getPOIs().getValue();
-        } else {
+    public void POIReader() {
+        if (viewModel.getPOIs().getValue() == null) {
             this.POIList = databaseManager.getPOIs();
+        } else if (viewModel.getPOIs().getValue().size() == 0) {
+            this.POIList = databaseManager.getPOIs();
+        } else {
+            this.POIList = viewModel.getPOIs().getValue();
         }
 
 //        for(int i = 0; i<15; i++){
@@ -70,10 +72,10 @@ public class POIListManager {
         return POIList;
     }
 
-    public void setPOIList(String searchString){
+    public void setPOIList(String searchString) {
         this.POIList.clear();
-        if (!searchString.equals("")){
-            if (databaseManager.searchLocation(searchString).size() != 0){
+        if (!searchString.equals("")) {
+            if (databaseManager.searchLocation(searchString).size() != 0) {
                 this.POIList = databaseManager.searchLocation(searchString);
             }
         } else {

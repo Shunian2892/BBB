@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.menu_list:
                 setPoiListFragment(fragmentManager);
+                viewModel.setPointOfInterests(DatabaseManager.getInstance(getApplicationContext()).getPOIs());
                 fragmentManager.beginTransaction().replace(R.id.fragment_container, poiListFragment).addToBackStack(null).commit();
                 break;
             case R.id.menu_map:

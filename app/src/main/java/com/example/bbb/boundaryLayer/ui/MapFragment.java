@@ -112,6 +112,7 @@ public class MapFragment extends Fragment implements IMapChanged {
             routeNameList.add(route.RouteName);
         }
 
+
         this.spinnerAdapter = new ArrayAdapter<String>(
                 getContext(),
                 R.layout.support_simple_spinner_dropdown_item,

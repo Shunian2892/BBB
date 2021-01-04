@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.room.Room;
 
 import com.example.bbb.R;
+import com.example.bbb.boundaryLayer.App;
 import com.example.bbb.entityLayer.data.POI;
 import com.example.bbb.entityLayer.data.POI_Route;
 import com.example.bbb.entityLayer.data.Route;
@@ -23,7 +24,7 @@ import java.util.List;
 
 public class DatabaseManager {
 
-    public static DatabaseManager instance = null;
+    private static DatabaseManager instance;
     synchronized public static DatabaseManager getInstance(Context context){
         if (instance == null){
             instance = new DatabaseManager(context);
@@ -31,10 +32,15 @@ public class DatabaseManager {
         return instance;
     }
 
+    //fix in the future.
+    public DatabaseManager getInstance(){
+        return instance;
+    }
+
     Database db;
     Context mainContext;
-    
-    public DatabaseManager(Context applicationContext) {
+
+    private DatabaseManager(Context applicationContext) {
         mainContext = applicationContext;
         db = Room.databaseBuilder(applicationContext, Database.class, "database-test2.3").allowMainThreadQueries().build();
     }
@@ -42,13 +48,13 @@ public class DatabaseManager {
     public void initDatabase() {
         //add poi's from Json
 
-
         if (db.poiDao().getAll().size() == 0) {
 
             ArrayList<POI> poiList = new ArrayList<>();
             JSONArray jsonArrayPOI = readJson(R.raw.poi_file);
+
             for (int i = 0; i < jsonArrayPOI.length(); i++) {
-                JSONObject jsonObject = null;
+                JSONObject jsonObject;
                 POI poi = new POI();
                 try {
                     jsonObject = jsonArrayPOI.getJSONObject(i);
@@ -66,9 +72,7 @@ public class DatabaseManager {
                 }
             }
             db.poiDao().insertAll(poiList);
-
         }
-
 
         if (db.routeDao().getAll().size() == 0) {
 
@@ -124,6 +128,10 @@ public class DatabaseManager {
         return degrees+(minutes/60);
     }
 
+/*    public Database getDB(){
+        return db;
+    }*/
+
     public JSONArray readJson(int file) {
         JSONArray array = null;
         try {
@@ -137,7 +145,7 @@ public class DatabaseManager {
     public String loadJSONFromFile(int file) {
         String json = null;
         try {
-            InputStream inputStream = mainContext.getResources().openRawResource(file);
+            InputStream inputStream = App.getContext().getResources().openRawResource(file);
             int size = inputStream.available();
             byte[] buffer = new byte[size];
             inputStream.read(buffer);

@@ -86,7 +86,7 @@ public class POIListFragment extends Fragment implements OnItemClickListener {
             this.poiList = this.poiListManager.getPOIList();
         }
 
-        this.poiAdapter = new POIAdapter(this, this.poiList);
+        this.poiAdapter = new POIAdapter(this, this.poiList, getContext());
         this.poiRv.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         this.poiRv.setAdapter(this.poiAdapter);
 

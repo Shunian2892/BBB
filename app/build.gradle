@@ -58,6 +58,8 @@ dependencies {
     //Mockito
     testImplementation 'org.mockito:mockito-core:3.6.28'
 
+    testImplementation 'org.json:json:20140107'
+
 //    //JUnit
 //    testImplementation(platform('org.junit:junit-bom:5.7.0'))
 //    implementation 'org.junit.jupiter:junit-jupiter'

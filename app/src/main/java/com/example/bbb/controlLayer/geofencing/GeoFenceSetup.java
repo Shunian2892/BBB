@@ -85,10 +85,8 @@ public class GeoFenceSetup {
     private void addGeoFence(GeoPoint geoPoint, float radius, String ID) {
         checkFineLocationPermission();
 
-
         Geofence geofence = geoFenceHelper.getGeofence(ID, geoPoint, radius,
                 Geofence.GEOFENCE_TRANSITION_DWELL | Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT);
-
 
         GeofencingRequest geofencingRequest = geoFenceHelper.getGeoFencingRequest(geofence);
         PendingIntent pendingIntent = geoFenceHelper.getPendingIntent();

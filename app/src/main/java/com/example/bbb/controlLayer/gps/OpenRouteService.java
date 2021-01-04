@@ -160,15 +160,20 @@ public class OpenRouteService {
                                     if (view == null) {
                                         return;
                                     }
-                                    if (i != 0 && i != waypoints.length - 1) {
+                                    if (i != 1 && i != waypoints.length-1 && i != 0) {
                                         openStreetMaps.drawMarker(
                                                 mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),
                                                 context.getDrawable(R.drawable.waypoint));
-                                    } else if (i == 0) {
+                                    }else if(i == 0){
+                                        openStreetMaps.drawMarker(
+                                                mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),
+                                                context.getDrawable(R.drawable.my_location));
+                                    }
+                                    else if (i == 1) {
                                         openStreetMaps.drawMarker(
                                                 mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),
                                                 context.getDrawable(R.drawable.start_location));
-                                    } else {
+                                    } else if (i == waypoints.length-1) {
                                         openStreetMaps.drawMarker(
                                                 mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),
                                                 context.getDrawable(R.drawable.end_location));

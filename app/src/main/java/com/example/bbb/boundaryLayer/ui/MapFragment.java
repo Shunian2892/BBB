@@ -131,7 +131,7 @@ public class MapFragment extends Fragment implements IMapChanged {
 
                 setupGF.setupGeoFencing(pois);
 
-                createRoute(position);
+                createRoute(position, currentLocation.getPosition());
             }
 
             @Override
@@ -140,7 +140,8 @@ public class MapFragment extends Fragment implements IMapChanged {
             }
         });
 
-        createRoute(viewModel.getSelectedRoute().getValue());
+        if (currentLocation != null & viewModel != null)
+            createRoute(viewModel.getSelectedRoute().getValue(), currentLocation.getPosition());
         routeSpinner.setSelection(viewModel.getSelectedRoute().getValue());
 
         buttonClickListeners();
@@ -148,18 +149,20 @@ public class MapFragment extends Fragment implements IMapChanged {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void createRoute(int position) {
+    private void createRoute(int position, GeoPoint currentLocation) {
         String routeName = routeNameList.get(position);
         if (position != 0) {
             for (Route route : dm.getRoutes()) {
                 if (route.RouteName.equals(routeName)) {
-                    Route selectedRoute = route;
                     List<POI> pois = dm.getPOIsFromRoute(route.ID);
-                    double[][] coordinates = new double[pois.size()][2];
+                    double[][] coordinates = new double[pois.size() + 1][2];
 
-                    for (int i = 0; i < pois.size(); i++) {
-                        coordinates[i][0] = pois.get(i).latitude;
-                        coordinates[i][1] = pois.get(i).longitude;
+                    coordinates[0][0] = currentLocation.getLongitude();
+                    coordinates[0][1] = currentLocation.getLatitude();
+
+                    for (int i = 1; i < pois.size() + 1; i++) {
+                        coordinates[i][0] = pois.get(i - 1).latitude;
+                        coordinates[i][1] = pois.get(i - 1).longitude;
                     }
                     Toast.makeText(fragmentContext, getResources().getString(R.string.loading_route), Toast.LENGTH_SHORT).show();
                     openRouteService.getRoute(coordinates, "foot-walking", Locale.getDefault().getLanguage());
@@ -169,6 +172,30 @@ public class MapFragment extends Fragment implements IMapChanged {
             }
         } else {
             onMapChange();
+        }
+    }
+
+    private void createRoute(String routeName, GeoPoint currentLocation) {
+        for (Route route : dm.getRoutes()) {
+            if (route.RouteName.equals(routeName)) {
+                map.getOverlays().clear();
+                map.invalidate();
+
+                List<POI> pois = dm.getPOIsFromRoute(route.ID);
+                double[][] coordinates = new double[pois.size() + 1][2];
+
+                coordinates[0][0] = currentLocation.getLongitude();
+                coordinates[0][1] = currentLocation.getLatitude();
+
+                for (int i = 1; i < pois.size() + 1; i++) {
+                    coordinates[i][0] = pois.get(i - 1).latitude;
+                    coordinates[i][1] = pois.get(i - 1).longitude;
+                }
+                Toast.makeText(fragmentContext, getResources().getString(R.string.loading_route), Toast.LENGTH_SHORT).show();
+                openRouteService.getRoute(coordinates, "foot-walking", Locale.getDefault().getLanguage());
+                mapController.setCenter(new GeoPoint(coordinates[0][1], coordinates[0][0]));
+                break;
+            }
         }
     }
 
@@ -206,11 +233,12 @@ public class MapFragment extends Fragment implements IMapChanged {
                 centerOnStart = true;
             }
 
+            createRoute(routeNameList.get(routeSpinner.getSelectedItemPosition()), currentLocation.getPosition());
             map.invalidate();
         };
 
         if (ContextCompat.checkSelfPermission(fragmentContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 10, locationListener);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, locationListener);
         }
     }

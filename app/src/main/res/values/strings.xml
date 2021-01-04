@@ -9,7 +9,6 @@
     <string name="read_more">read more...</string>
     <string name="show_on_map">Show on map</string>
     <string name="show_video">Show video</string>
-    <string name="fragment_poi_list">POI list</string>
     <string name="fragment_poi">POI</string>
     <string name="search">Search...</string>
     <string name="fragment_statistics">Statistics</string>
@@ -37,13 +36,13 @@
     <string name="small">Small</string>
     <string name="medium">Medium</string>
     <string name="large">Large</string>
-    <string name="explanation">It is easy to walk different routes through cities with Begeleid Buddy Breda(BBB).
-                               The main screen shows the map with your current location.
-                                If a route is chosen at the top, it will be shown on the map, in addition, you can click on the button in the top left corner for more information about the route.
-                                You can also find your walked routes by clicking on the button at the top right.
-                                The round button at the bottom right will center the map back to your current location.
-                                If you press the "locations" button you will see the different locations(POI’s) of the current route, or all locations(POI’s) if no route is selected.
-                                By clicking on an item from the list of locations it is possible to find more information about this location.
+    <string name="explanation">It is easy to walk different routes through cities with Begeleid Buddy Breda(BBB).\n
+                               The main screen shows the map with your current location.\n
+                                If a route is chosen at the top, it will be shown on the map, in addition, you can click on the button in the top left corner for more information about the route.\n
+                                You can also find your walked routes by clicking on the button at the top right.\n
+                                The round button at the bottom right will center the map back to your current location.\n
+                                If you press the "locations" button you will see the different locations(POI’s) of the current route, or all locations(POI’s) if no route is selected.\n
+                                By clicking on an item from the list of locations it is possible to find more information about this location.\n
                                 You can also go to settings to enter your preference for language and font size, and enable a color blind mode if necessary.</string>
     <string name="fragment_settings">Settings</string>
 </resources>

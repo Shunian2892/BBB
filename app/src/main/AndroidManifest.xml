@@ -20,6 +20,7 @@
         </activity>
 
         <activity android:name=".boundaryLayer.launcher.MainActivity"/>
+        <receiver android:name=".controlLayer.geofencing.GeoFenceBroadcastReceiver"/>
 
     </application>
 

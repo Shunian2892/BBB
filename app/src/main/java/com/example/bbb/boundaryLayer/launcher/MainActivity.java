@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(navlistener);
 
         setDisplayFragment(viewModel.getCurrentFragment().getValue());
+
     }
 
     public void setPoiListFragment(FragmentManager fm) {

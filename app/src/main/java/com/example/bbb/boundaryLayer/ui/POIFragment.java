@@ -1,6 +1,10 @@
 package com.example.bbb.boundaryLayer.ui;
 
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,10 +23,13 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.bbb.R;
 import com.example.bbb.entityLayer.data.POI;
 
-public class POIFragment extends Fragment {
+import java.util.Locale;
+
+public class POIFragment extends Fragment implements TextToSpeech.OnInitListener {
     private POI poi;
     private TextView title;
     private TextView description;
+    private ImageButton ibTTS;
     private ImageButton ibBack;
     private POIListFragment poiListFragment;
     private FragmentManager fragmentManager;
@@ -33,6 +41,8 @@ public class POIFragment extends Fragment {
     private boolean isVideo;
 
     private UIViewModel viewModel;
+
+    private TextToSpeech tts;
 
     @Nullable
     @Override
@@ -53,9 +63,9 @@ public class POIFragment extends Fragment {
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               if(getFragmentManager().getBackStackEntryCount()>0){
-                   getFragmentManager().popBackStackImmediate();
-               }
+                if (getFragmentManager().getBackStackEntryCount() > 0) {
+                    getFragmentManager().popBackStackImmediate();
+                }
             }
         });
         title.setText(poi.POIName);
@@ -65,16 +75,16 @@ public class POIFragment extends Fragment {
         setImageFragment();
         setVideoFragment();
 
-        fragmentManager.beginTransaction().replace(R.id.detail_container,imageFragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.detail_container, imageFragment).commit();
 
         buttonVideo = view.findViewById(R.id.buttonVideo);
         buttonVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isVideo) {
-                    fragmentManager.beginTransaction().replace(R.id.detail_container,imageFragment).commit();
+                    fragmentManager.beginTransaction().replace(R.id.detail_container, imageFragment).commit();
                     buttonVideo.setText(getResources().getString(R.string.show_video));
-                }else{
+                } else {
                     fragmentManager.beginTransaction().replace(R.id.detail_container, videoFragment).commit();
                     buttonVideo.setText(getResources().getString(R.string.hide_video));
                 }
@@ -82,7 +92,29 @@ public class POIFragment extends Fragment {
             }
         });
 
+        SharedPreferences prefs = getActivity().getSharedPreferences("language", getActivity().getApplicationContext().MODE_PRIVATE);
+        String currentLanguage = prefs.getString("language", "No name defined");
+
+        tts = new TextToSpeech(getActivity().getApplicationContext(), this::onInit);
+
+        ibTTS = view.findViewById(R.id.imageButtonTTS);
+        ibTTS.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View v) {
+                tts.speak(poi.Description, TextToSpeech.QUEUE_FLUSH, null, null);
+            }
+        });
+
         return view;
+    }
+
+    public void onPause() {
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
+        super.onPause();
     }
 
     public void setImageFragment() {
@@ -93,11 +125,34 @@ public class POIFragment extends Fragment {
         }
 
     }
+
     public void setVideoFragment() {
         if (fragmentManager.findFragmentById(R.id.fragment_video) == null) {
             videoFragment = new VideoFragment();
         } else {
             videoFragment = (VideoFragment) fragmentManager.findFragmentById(R.id.fragment_video);
+        }
+
+    }
+
+    @Override
+    public void onInit(int status) {
+        SharedPreferences prefs = getActivity().getSharedPreferences("language", getActivity().getApplicationContext().MODE_PRIVATE);
+        String currentLanguage = prefs.getString("language", "No name defined");
+
+        Log.d("IN INIT", "in init of tts ##########################");
+        if (status == TextToSpeech.SUCCESS) {
+            switch (currentLanguage) {
+                case "en":
+                    tts.setLanguage(Locale.ENGLISH);
+                    break;
+                case "fr":
+                    tts.setLanguage(Locale.FRANCE);
+                    break;
+                case "nl":
+                    tts.setLanguage(Locale.ENGLISH);
+                    break;
+            }
         }
 
     }

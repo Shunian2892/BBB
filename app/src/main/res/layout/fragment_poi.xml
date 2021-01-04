@@ -16,7 +16,6 @@
         android:fontFamily="@font/lato_black"
         android:text="@string/fragment_poi"
         android:textSize="30sp"
-        app:layout_constraintStart_toEndOf="@id/imageButtonBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.442"
         app:layout_constraintStart_toEndOf="@+id/imageButtonBack"

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.bbb.entityLayer.data.POI;
 import com.example.bbb.entityLayer.data.Route;
+import com.example.bbb.entityLayer.data.WalkedRoute;
 
 import java.util.List;
 

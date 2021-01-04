@@ -4,6 +4,10 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.bbb.boundaryLayer.ui.UIViewModel;
 import com.example.bbb.controlLayer.DatabaseManager;
 import com.example.bbb.entityLayer.data.POI;
 import com.example.bbb.entityLayer.database.Database;
@@ -19,10 +23,12 @@ public class POIListManager {
     private List<POI> POIList;
     private Context appContext;
     private DatabaseManager databaseManager;
+    private UIViewModel viewModel;
 
-    public POIListManager(Context context){
+    public POIListManager(Context context, UIViewModel viewModel){
         POIList = new ArrayList<>();
         this.appContext = context;
+        this.viewModel = viewModel;
         init();
     }
 
@@ -33,7 +39,11 @@ public class POIListManager {
     }
 
     public void POIReader(){
-        this.POIList = databaseManager.getPOIs();
+        if (viewModel.getPOIs().getValue().size() == 0){
+            this.POIList = viewModel.getPOIs().getValue();
+        } else {
+            this.POIList = databaseManager.getPOIs();
+        }
 
 //        for(int i = 0; i<15; i++){
 //            POIList.add(new POI(Integer.toString(i),"x", "y", "beschrijving"));

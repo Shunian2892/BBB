@@ -97,7 +97,9 @@ public class UserInfoFragment extends Fragment implements OnItemClickListener {
             poi.POIName = "name " + i;
             poi.latitude = i;
             poi.longitude = i;
-            poi.Description = "Temp Description";
+            poi.Description_nl = "Temp Description";
+            poi.Description_en = "Temp Description";
+            poi.Description_fr = "Temp Description";
             list.add(poi);
         }
         return list;

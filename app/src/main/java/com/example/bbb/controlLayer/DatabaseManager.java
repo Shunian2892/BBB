@@ -36,7 +36,7 @@ public class DatabaseManager {
     
     public DatabaseManager(Context applicationContext) {
         mainContext = applicationContext;
-        db = Room.databaseBuilder(applicationContext, Database.class, "database-test2.3").allowMainThreadQueries().build();
+        db = Room.databaseBuilder(applicationContext, Database.class, "database-test2.5").allowMainThreadQueries().build();
     }
 
     public void initDatabase() {
@@ -56,7 +56,9 @@ public class DatabaseManager {
                     poi.POIName = jsonObject.getString("name");
                     poi.longitude = convertDMStoDD(jsonObject.getString("longitude"));
                     poi.latitude = convertDMStoDD(jsonObject.getString("latitude"));
-                    poi.Description = jsonObject.getString("description");
+                    poi.Description_nl = jsonObject.getString("description nl");
+                    poi.Description_en = jsonObject.getString("description en");
+                    poi.Description_fr = jsonObject.getString("description fr");
                     poi.imageURL = jsonObject.getString("imageUrl");
                     poi.VideoURL = jsonObject.getString("videoUrl");
                     poi.IsVisited = jsonObject.getBoolean("isVisited");

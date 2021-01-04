@@ -1,5 +1,7 @@
 package com.example.bbb.boundaryLayer.ui;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bbb.R;
 import com.example.bbb.entityLayer.data.POI;
+
+import java.util.Locale;
 
 public class POIFragment extends Fragment {
     private POI poi;
@@ -53,28 +57,43 @@ public class POIFragment extends Fragment {
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               if(getFragmentManager().getBackStackEntryCount()>0){
-                   getFragmentManager().popBackStackImmediate();
-               }
+                if (getFragmentManager().getBackStackEntryCount() > 0) {
+                    getFragmentManager().popBackStackImmediate();
+                }
             }
         });
         title.setText(poi.POIName);
-        description.setText(poi.Description);
+
+        SharedPreferences prefs = getActivity().getSharedPreferences("language", Context.MODE_PRIVATE);
+        String currentLang = prefs.getString("language", Locale.getDefault().getLanguage());//"No name defined" is the default value.
+
+        switch (currentLang) {
+            case "en":
+                description.setText(poi.Description_en);
+                break;
+            case "fr":
+                description.setText(poi.Description_fr);
+                break;
+            case "nl":
+                description.setText(poi.Description_nl);
+                break;
+        }
+
 
         fragmentManager = getFragmentManager();
         setImageFragment();
         setVideoFragment();
 
-        fragmentManager.beginTransaction().replace(R.id.detail_container,imageFragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.detail_container, imageFragment).commit();
 
         buttonVideo = view.findViewById(R.id.buttonVideo);
         buttonVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isVideo) {
-                    fragmentManager.beginTransaction().replace(R.id.detail_container,imageFragment).commit();
+                    fragmentManager.beginTransaction().replace(R.id.detail_container, imageFragment).commit();
                     buttonVideo.setText(getResources().getString(R.string.show_video));
-                }else{
+                } else {
                     fragmentManager.beginTransaction().replace(R.id.detail_container, videoFragment).commit();
                     buttonVideo.setText(getResources().getString(R.string.hide_video));
                 }
@@ -93,6 +112,7 @@ public class POIFragment extends Fragment {
         }
 
     }
+
     public void setVideoFragment() {
         if (fragmentManager.findFragmentById(R.id.fragment_video) == null) {
             videoFragment = new VideoFragment();

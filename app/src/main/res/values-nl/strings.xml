@@ -10,7 +10,6 @@
     <string name="read_more">lees meer...</string>
     <string name="show_on_map">Toon op de kaart</string>
     <string name="show_video">Toon de video</string>
-    <string name="fragment_poi_list">POI lijst</string>
     <string name="fragment_poi">POI</string>
     <string name="search">zoeken...</string>
     <string name="fragment_statistics">Statistieken</string>
@@ -35,13 +34,13 @@
     <string name="small">Klein</string>
     <string name="medium">Gemiddeld</string>
     <string name="large">Groot</string>
-    <string name="explanation">Met Begeleid Buddy Breda(BBB) is het makkelijk om verschillende routes door steden te lopen.
-                               Op het hoofdscherm is de kaart te zien met daarop uw huidige locatie.
-                               Als er bovenin een route wordt gekozen komt deze op de kaart te staan, daarnaast kan u op de knop linksboven klikken voor meer informatie over de route.
-                               Ook kan u uw gelopen routes terug vinden door op de knop rechtsboven te klikken.
-                               De ronde knop rechts onderin zal de kaart weer centreren naar uw huidige locatie.
-                               Als u op de knop ‘locaties’ drukt zult u de verschillende locaties(POI’s) van de huidige route te zien krijgen, of alle locaties(POI’s) als er geen route is geselecteerd.
-                               Door op een item uit de lijst met locaties te klikken is het mogelijk om meer informatie over deze locatie te vinden.
+    <string name="explanation">Met Begeleid Buddy Breda(BBB) is het makkelijk om verschillende routes door steden te lopen.\n
+                               Op het hoofdscherm is de kaart te zien met daarop uw huidige locatie.\n
+                               Als er bovenin een route wordt gekozen komt deze op de kaart te staan, daarnaast kan u op de knop linksboven klikken voor meer informatie over de route.\n
+                               Ook kan u uw gelopen routes terug vinden door op de knop rechtsboven te klikken.\n
+                               De ronde knop rechts onderin zal de kaart weer centreren naar uw huidige locatie.\n
+                               Als u op de knop ‘locaties’ drukt zult u de verschillende locaties(POI’s) van de huidige route te zien krijgen, of alle locaties(POI’s) als er geen route is geselecteerd.\n
+                               Door op een item uit de lijst met locaties te klikken is het mogelijk om meer informatie over deze locatie te vinden.\n
                                Ook kan u naar instellingen gaan om uw voorkeur voor taal en lettergrootte in te voeren, en zo nodig een kleurenblind modus aan te zetten.
 
 </string>

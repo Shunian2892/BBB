@@ -10,7 +10,6 @@
     <string name="language">Langue</string>
     <string name="show_on_map">Montrer sur la carte</string>
     <string name="show_video">Montrer la vidéo</string>
-    <string name="fragment_poi_list">POI liste</string>
     <string name="fragment_poi">POI</string>
     <string name="search">chercher...</string>
     <string name="fragment_statistics">Statistiques</string>
@@ -35,12 +34,12 @@
     <string name="small">Petit</string>
     <string name="medium">Moyen</string>
     <string name="large">Grand</string>
-    <string name="explanation">Avec Begeleid Buddy Breda (BBB), il est facile de parcourir différents itinéraires à travers les villes.
-                                L\'écran principal affiche la carte indiquant votre position actuelle.
-                                Si un itinéraire est choisi en haut, il sera affiché sur la carte, en plus vous pouvez cliquer sur le bouton en haut à gauche pour plus d\'informations sur l\'itinéraire.
-                                Vous pouvez également retrouver vos itinéraires en cliquant sur le bouton en haut à droite.
-                                Le bouton rond en bas à droite centrera la carte sur votre position actuelle.
-                                Si vous appuyez sur le bouton \‘emplacements\’, vous verrez les différents emplacements(POI\’s) de l\'itinéraire actuel, ou tous les emplacements(POI’s) si aucun itinéraire n\'est sélectionné.
-                                En cliquant sur un élément de la liste des emplacements, il est possible de trouver plus d\'informations sur cet emplacement.
+    <string name="explanation">Avec Begeleid Buddy Breda (BBB), il est facile de parcourir différents itinéraires à travers les villes.\n
+                                L\'écran principal affiche la carte indiquant votre position actuelle.\n
+                                Si un itinéraire est choisi en haut, il sera affiché sur la carte, en plus vous pouvez cliquer sur le bouton en haut à gauche pour plus d\'informations sur l\'itinéraire.\n
+                                Vous pouvez également retrouver vos itinéraires en cliquant sur le bouton en haut à droite.\n
+                                Le bouton rond en bas à droite centrera la carte sur votre position actuelle.\n
+                                Si vous appuyez sur le bouton \‘emplacements\’, vous verrez les différents emplacements(POI\’s) de l\'itinéraire actuel, ou tous les emplacements(POI’s) si aucun itinéraire n\'est sélectionné.\n
+                                En cliquant sur un élément de la liste des emplacements, il est possible de trouver plus d\'informations sur cet emplacement.\n
                                 Vous pouvez également accéder aux paramètres pour entrer vos préférences en matière de langue et de taille de police, et activer un mode daltonien si nécessaire.</string>
 </resources>

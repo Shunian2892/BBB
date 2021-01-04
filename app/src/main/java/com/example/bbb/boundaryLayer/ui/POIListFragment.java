@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +32,8 @@ public class POIListFragment extends Fragment implements OnItemClickListener {
     private POIListManager poiListManager;
     private ViewGroup container;
     private UIViewModel viewModel;
+    private EditText etSearchPOI;
+    private ImageButton ibSearchPOI;
 
     @Nullable
     @Override
@@ -37,6 +41,8 @@ public class POIListFragment extends Fragment implements OnItemClickListener {
         this.container = container;
         View view = inflater.inflate(R.layout.fragment_poi_list, container, false);
         ImageButton buttonBack = view.findViewById(R.id.imageButtonBackPOIList);
+        etSearchPOI = view.findViewById(R.id.etSearchPOI);
+        ibSearchPOI = view.findViewById(R.id.imageButtonSearchPOI);
 
         viewModel = new ViewModelProvider(getActivity()).get(UIViewModel.class);
 
@@ -53,6 +59,19 @@ public class POIListFragment extends Fragment implements OnItemClickListener {
                 }
             }
         });
+
+        ibSearchPOI.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("Search string:    " + etSearchPOI.getText().toString());
+                poiListManager.setPOIList(etSearchPOI.getText().toString());
+                viewModel.setPointOfInterests(poiListManager.getPOIList());
+                poiAdapter.setPoiList(poiListManager.getPOIList());
+                poiList = poiListManager.getPOIList();
+                poiAdapter.notifyDataSetChanged();
+            }
+        });
+
         poiList = new ArrayList<>();
         return view;
     }

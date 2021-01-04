@@ -2,6 +2,7 @@ package com.example.bbb.controlLayer.poiRecyclerView;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.bbb.controlLayer.DatabaseManager;
 import com.example.bbb.entityLayer.data.POI;
@@ -31,8 +32,8 @@ public class POIListManager {
         POIReader();
     }
 
-    private void POIReader(){
-        POIList = databaseManager.getPOIs();
+    public void POIReader(){
+        this.POIList = databaseManager.getPOIs();
 
 //        for(int i = 0; i<15; i++){
 //            POIList.add(new POI(Integer.toString(i),"x", "y", "beschrijving"));
@@ -57,5 +58,16 @@ public class POIListManager {
 
     public List<POI> getPOIList() {
         return POIList;
+    }
+
+    public void setPOIList(String searchString){
+        this.POIList.clear();
+        if (!searchString.equals("")){
+            if (databaseManager.searchLocation(searchString).size() != 0){
+                this.POIList = databaseManager.searchLocation(searchString);
+            }
+        } else {
+            this.POIList = databaseManager.getPOIs();
+        }
     }
 }

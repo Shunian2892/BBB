@@ -10,5 +10,17 @@
 	{
 		"id": 3,
 		"name": "Kerken en kloosters"
+	},
+	{
+		"id": 4,
+		"name": "Markten en winkelen"
+	},
+	{
+		"id": 5,
+		"name": "Monumenten en beelden"
+	},
+	{
+		"id": 6,
+		"name": "Restaurants en vermaak"
 	}
 ]

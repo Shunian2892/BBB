@@ -2,5 +2,13 @@
 	{
 		"id": 1,
 		"name": "Historisch"
+	},
+	{
+		"id": 2,
+		"name": "Breda Centrum"
+	},
+	{
+		"id": 3,
+		"name": "Kerken en kloosters"
 	}
 ]

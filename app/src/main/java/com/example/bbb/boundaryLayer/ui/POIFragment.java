@@ -45,6 +45,9 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
 
     private TextToSpeech tts;
 
+    private SharedPreferences prefs;
+    private String currentLang;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,6 +57,9 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
 
         this.title = (TextView) view.findViewById(R.id.TextViewTitle);
         this.description = (TextView) view.findViewById(R.id.textViewPOI);
+
+        prefs = getActivity().getSharedPreferences("language", Context.MODE_PRIVATE);
+        currentLang= prefs.getString("language", Locale.getDefault().getLanguage());//"No name defined" is the default value.
 
         isVideo = false;
 
@@ -70,9 +76,6 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
             }
         });
         title.setText(poi.POIName);
-
-        SharedPreferences prefs = getActivity().getSharedPreferences("language", Context.MODE_PRIVATE);
-        String currentLang = prefs.getString("language", Locale.getDefault().getLanguage());//"No name defined" is the default value.
 
         switch (currentLang) {
             case "en":
@@ -108,9 +111,6 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
             }
         });
 
-        SharedPreferences prefs = getActivity().getSharedPreferences("language", getActivity().getApplicationContext().MODE_PRIVATE);
-        String currentLanguage = prefs.getString("language", "No name defined");
-
         tts = new TextToSpeech(getActivity().getApplicationContext(), this::onInit);
 
         ibTTS = view.findViewById(R.id.imageButtonTTS);
@@ -118,10 +118,16 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
-                tts.speak(poi.Description, TextToSpeech.QUEUE_FLUSH, null, null);
+                switch (currentLang) {
+                    case "en":
+                        tts.speak(poi.Description_en, TextToSpeech.QUEUE_FLUSH, null, null);                        break;
+                    case "fr":
+                        tts.speak(poi.Description_fr, TextToSpeech.QUEUE_FLUSH, null, null);                        break;
+                    case "nl":
+                        tts.speak(poi.Description_nl, TextToSpeech.QUEUE_FLUSH, null, null);                        break;
+                }
             }
         });
-
         return view;
     }
 

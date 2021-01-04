@@ -11,6 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BBB"
         android:usesCleartextTraffic="true"
+        android:largeHeap="true"
         >
         <activity android:name=".boundaryLayer.launcher.SplashScreenActivity">
             <intent-filter>

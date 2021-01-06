@@ -46,7 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MapFragment extends Fragment implements IMapChanged, POIClickListener {
+public class MapFragment extends Fragment implements IMapChanged {
     private Context fragmentContext;
     private IMapController mapController;
     private MapView map;
@@ -112,10 +112,8 @@ public class MapFragment extends Fragment implements IMapChanged, POIClickListen
         routeSpinner = view.findViewById(R.id.spinner_route);
         ibCenterPosition = view.findViewById(R.id.centerPosition);
 
-
         viewModel = new ViewModelProvider(getActivity()).get(UIViewModel.class);
         viewModel.setIMapChanged(MapFragment.this);
-        viewModel.setPoiClickListener(MapFragment.this);
 
         buttonClickListeners();
 
@@ -163,15 +161,22 @@ public class MapFragment extends Fragment implements IMapChanged, POIClickListen
                             createRoute(position, dm.getRoute(position).RouteName_nl);
                             break;
                     }
-                }
 
+                    map.getOverlays().clear();
+                    getLocation();
+                    map.invalidate();
+                }else if(viewModel.getVisiblePOI().getValue() == null){
+                    onMapChange();
+                }
             }
+
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
+
 
 //        switch (currentLang) {
 //            case "en":
@@ -192,7 +197,7 @@ public class MapFragment extends Fragment implements IMapChanged, POIClickListen
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void createRoute(int position, String routeNameLang) {
-        String routeName = routeNameList.get(position);
+//        String routeName = routeNameList.get(position);
         if (position != 0) {
 
             for (Route route : dm.getRoutes()) {
@@ -222,20 +227,19 @@ public class MapFragment extends Fragment implements IMapChanged, POIClickListen
         super.onViewCreated(view, savedInstanceState);
 
         currentLocation = new Marker(map);
-//        getLocation();
+        getLocation();
         mapController.setCenter(currentLocation.getPosition());
 
         if (viewModel.getVisiblePOI().getValue() != null) {
             POI poi = viewModel.getVisiblePOI().getValue();
-            GeoPoint poiLocation = new GeoPoint(poi.latitude, poi.longitude);
-            System.out.println("Lat " + poi.latitude);
-            System.out.println("Lat " + poi.longitude);
+            GeoPoint poiLocation = new GeoPoint(poi.longitude, poi.latitude);
             Marker poiMarker = new Marker(map);
             poiMarker.setPosition(poiLocation);
             poiMarker.setTitle(poi.POIName);
             mapController.setCenter(poiMarker.getPosition());
             mapController.setZoom(18.0);
             map.getOverlays().add(poiMarker);
+            map.invalidate();
         }
 
     }
@@ -274,6 +278,7 @@ public class MapFragment extends Fragment implements IMapChanged, POIClickListen
 
     public void buttonClickListeners() {
         ibRouteInfo.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
                 if (routeSpinner.getSelectedItemPosition() != 0) {
@@ -281,6 +286,7 @@ public class MapFragment extends Fragment implements IMapChanged, POIClickListen
                     viewModel.setRoutePopUpSelectedRoute(dm.getRoutes().get(routeSpinner.getSelectedItemPosition() - 1));
                     dialogFragment.show(getActivity().getSupportFragmentManager(), "route_popup");
                 } else {
+                    onMapChange();
                     Toast.makeText(fragmentContext, getResources().getString(R.string.please_select_a_route), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -330,38 +336,4 @@ public class MapFragment extends Fragment implements IMapChanged, POIClickListen
         setupGF.removeGeoFences(dm.getPOIs());
     }
 
-//    @Override
-//    public void onResume() {
-////        drawPOIMarker();
-//        super.onResume();
-//
-//    }
-//
-//    public void drawPOIMarker(){
-//
-//        if(viewModel.getSelectedPOI().getValue() != null){
-//            POI selectedPOI = viewModel.getSelectedPOI().getValue();
-//            GeoPoint poiLocation = new GeoPoint(selectedPOI.latitude, selectedPOI.longitude);
-//            Marker poiMarker = new Marker(map);
-//            poiMarker.setPosition(poiLocation);
-//            poiMarker.setTitle(selectedPOI.POIName);
-//            map.getOverlays().add(poiMarker);
-//        } else {
-//            System.out.println("nothing");
-//        }
-//    }
-
-
-    @Override
-    public void onClick(POI poi) {
-        //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, this).addToBackStack(null).commit();
-//        map.onResume();
-//
-//        POI selectedPOI = viewModel.getSelectedPOI().getValue();
-//        GeoPoint poiLocation = new GeoPoint(selectedPOI.latitude, selectedPOI.longitude);
-//        Marker poiMarker = new Marker(map);
-//        poiMarker.setPosition(poiLocation);
-//        poiMarker.setTitle(selectedPOI.POIName);
-//        map.getOverlays().add(poiMarker);
-    }
 }

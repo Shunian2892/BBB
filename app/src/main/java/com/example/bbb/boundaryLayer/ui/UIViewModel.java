@@ -19,7 +19,6 @@ public class UIViewModel extends ViewModel {
     private MutableLiveData<Integer> selectedRoute;
     private IMapChanged iMapChanged;
     private MutableLiveData<Route> routePopUpSelectedRoute;
-    private POIClickListener poiClickListener;
     private MutableLiveData<POI> visiblePOI;
 
     public void init(int currentFragment) {
@@ -90,14 +89,6 @@ public class UIViewModel extends ViewModel {
         this.routePopUpSelectedRoute.setValue(routePopUpSelectedRoute);
     }
 
-    public POIClickListener getPoiClickListener() {
-        return poiClickListener;
-    }
-
-    public void setPoiClickListener(POIClickListener poiClickListener) {
-        this.poiClickListener = poiClickListener;
-    }
-
     public LiveData<POI> getVisiblePOI() {
         return visiblePOI;
     }
@@ -105,4 +96,5 @@ public class UIViewModel extends ViewModel {
     public void setVisiblePOI(POI poi){
         visiblePOI.setValue(poi);
     }
+
 }

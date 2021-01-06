@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bbb.R;
 import com.example.bbb.entityLayer.data.POI;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Locale;
 
@@ -56,8 +57,8 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
         viewModel = new ViewModelProvider(getActivity()).get(UIViewModel.class);
         viewModel.setCurrentFragment(R.id.fragment_poi);
 
-        this.title = (TextView) view.findViewById(R.id.TextViewTitle);
-        this.description = (TextView) view.findViewById(R.id.textViewPOI);
+        this.title = view.findViewById(R.id.TextViewTitle);
+        this.description = view.findViewById(R.id.textViewPOI);
 
         prefs = getActivity().getSharedPreferences("language", Context.MODE_PRIVATE);
         currentLang= prefs.getString("language", Locale.getDefault().getLanguage());//"No name defined" is the default value.
@@ -65,7 +66,6 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
         isVideo = false;
 
         poi = viewModel.getSelectedPOI().getValue();
-//        System.out.println(poi.toString());
         fragmentManager = getParentFragmentManager();
 
         ibBack = view.findViewById(R.id.imageButtonBack);
@@ -113,13 +113,11 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
         });
 
         buttonMap = view.findViewById(R.id.buttonMap);
-        buttonMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                viewModel.setVisiblePOI(poi);
-
-                getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, mapFragment).addToBackStack(null).commit();
-            }
+        buttonMap.setOnClickListener(view1 -> {
+            viewModel.setVisiblePOI(poi);
+            BottomNavigationView bottom = getActivity().findViewById(R.id.bottomNavigationView);
+            bottom.setSelectedItemId(R.id.menu_map);
+            getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, mapFragment).addToBackStack(null).commit();
         });
 
         tts = new TextToSpeech(getActivity().getApplicationContext(), this::onInit);

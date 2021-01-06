@@ -10,13 +10,16 @@ import com.example.bbb.entityLayer.data.WalkedRoute;
 
 import java.util.List;
 
+import javax.net.ssl.SSLSession;
+
 public class UIViewModel extends ViewModel {
 
     private MutableLiveData<List<POI>> pointOfInterests;
     private MutableLiveData<POI> selectedPOI;
-    private MutableLiveData<Boolean> backButtonState;
+    private MutableLiveData<Boolean> backButtonState, isVideoState;
     private MutableLiveData<Integer> currentFragment;
     private MutableLiveData<Integer> selectedRoute;
+    private MutableLiveData<Float> videoSecond;
     private IMapChanged iMapChanged;
     private MutableLiveData<Route> routePopUpSelectedRoute;
 
@@ -28,9 +31,11 @@ public class UIViewModel extends ViewModel {
         pointOfInterests = new MutableLiveData<>();
         selectedPOI = new MutableLiveData<>();
         backButtonState = new MutableLiveData<>(false);
+        isVideoState = new MutableLiveData<>(false);
         this.currentFragment = new MutableLiveData<>(currentFragment);
         selectedRoute = new MutableLiveData<>(0);
         routePopUpSelectedRoute = new MutableLiveData<>();
+        videoSecond = new MutableLiveData<>(0.0f);
     }
 
     public LiveData<Boolean> getBackButtonState(){return backButtonState;}
@@ -86,4 +91,9 @@ public class UIViewModel extends ViewModel {
     public void setRoutePopUpSelectedRoute(Route routePopUpSelectedRoute) {
         this.routePopUpSelectedRoute.setValue(routePopUpSelectedRoute);
     }
+
+    public void setIsVideoState(boolean isVideo) {
+        this.isVideoState.setValue(isVideo);
+    }
+    public LiveData<Boolean> getIsVideoState(){return isVideoState;}
 }

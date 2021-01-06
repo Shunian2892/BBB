@@ -61,10 +61,9 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
         prefs = getActivity().getSharedPreferences("language", Context.MODE_PRIVATE);
         currentLang= prefs.getString("language", Locale.getDefault().getLanguage());//"No name defined" is the default value.
 
-        isVideo = false;
-
 
         poi = viewModel.getSelectedPOI().getValue();
+
 
         ibBack = view.findViewById(R.id.imageButtonBack);
         ibBack.setOnClickListener(new View.OnClickListener() {
@@ -96,20 +95,35 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
 
         fragmentManager.beginTransaction().replace(R.id.detail_container, imageFragment).commit();
 
+        isVideo = viewModel.getIsVideoState().getValue();
         buttonVideo = view.findViewById(R.id.buttonVideo);
+        if (!isVideo) {
+            fragmentManager.beginTransaction().replace(R.id.detail_container, imageFragment).commit();
+            buttonVideo.setText(getResources().getString(R.string.show_video));
+        } else {
+            fragmentManager.beginTransaction().replace(R.id.detail_container, videoFragment).commit();
+            buttonVideo.setText(getResources().getString(R.string.hide_video));
+        }
+        viewModel.setIsVideoState(isVideo);
+        isVideo = !isVideo;
+
         buttonVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isVideo) {
+
+                if (!isVideo) {
                     fragmentManager.beginTransaction().replace(R.id.detail_container, imageFragment).commit();
                     buttonVideo.setText(getResources().getString(R.string.show_video));
                 } else {
                     fragmentManager.beginTransaction().replace(R.id.detail_container, videoFragment).commit();
                     buttonVideo.setText(getResources().getString(R.string.hide_video));
                 }
+                viewModel.setIsVideoState(isVideo);
                 isVideo = !isVideo;
+
             }
         });
+
 
         tts = new TextToSpeech(getActivity().getApplicationContext(), this::onInit);
 
@@ -137,6 +151,7 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
             tts.shutdown();
         }
         super.onPause();
+
     }
 
     public void setImageFragment() {

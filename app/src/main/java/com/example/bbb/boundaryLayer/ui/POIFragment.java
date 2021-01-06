@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,12 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.bbb.R;
 import com.example.bbb.entityLayer.data.POI;
 
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Marker;
-
 import java.util.Locale;
-import java.util.Map;
 
 public class POIFragment extends Fragment implements TextToSpeech.OnInitListener {
     private POI poi;
@@ -71,13 +65,15 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
         isVideo = false;
 
         poi = viewModel.getSelectedPOI().getValue();
+//        System.out.println(poi.toString());
+        fragmentManager = getParentFragmentManager();
 
         ibBack = view.findViewById(R.id.imageButtonBack);
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (getFragmentManager().getBackStackEntryCount() > 0) {
-                    getFragmentManager().popBackStackImmediate();
+                if (fragmentManager.getBackStackEntryCount() > 0) {
+                    fragmentManager.popBackStackImmediate();
                 }
             }
         });
@@ -95,8 +91,6 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
                 break;
         }
 
-
-        fragmentManager = getFragmentManager();
         setImageFragment();
         setVideoFragment();
         setMapFragment();
@@ -122,7 +116,9 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
         buttonMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewModel.getPoiClickListener().onClick(poi);
+                viewModel.setVisiblePOI(poi);
+
+                getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, mapFragment).addToBackStack(null).commit();
             }
         });
 

@@ -9,7 +9,6 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +63,7 @@ public class MapFragment extends Fragment implements IMapChanged, POIClickListen
     private DatabaseManager dm;
     private GeoFenceSetup setupGF;
     private SharedPreferences prefs;
-    private String currentLang ;
+    private String currentLang;
 
     private boolean centerOnStart;
     private UIViewModel viewModel;
@@ -78,7 +77,7 @@ public class MapFragment extends Fragment implements IMapChanged, POIClickListen
 
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
-        prefs =  getActivity().getSharedPreferences("language", Context.MODE_PRIVATE);
+        prefs = getActivity().getSharedPreferences("language", Context.MODE_PRIVATE);
         currentLang = prefs.getString("language", Locale.getDefault().getLanguage());
 
         dm = DatabaseManager.getInstance(getContext());
@@ -152,7 +151,7 @@ public class MapFragment extends Fragment implements IMapChanged, POIClickListen
 
                 setupGF.setupGeoFencing(pois);
 
-                if(position != 0){
+                if (position != 0) {
                     switch (currentLang) {
                         case "en":
                             createRoute(position, dm.getRoute(position).RouteName_en);
@@ -223,8 +222,21 @@ public class MapFragment extends Fragment implements IMapChanged, POIClickListen
         super.onViewCreated(view, savedInstanceState);
 
         currentLocation = new Marker(map);
-        getLocation();
+//        getLocation();
         mapController.setCenter(currentLocation.getPosition());
+
+        if (viewModel.getVisiblePOI().getValue() != null) {
+            POI poi = viewModel.getVisiblePOI().getValue();
+            GeoPoint poiLocation = new GeoPoint(poi.latitude, poi.longitude);
+            System.out.println("Lat " + poi.latitude);
+            System.out.println("Lat " + poi.longitude);
+            Marker poiMarker = new Marker(map);
+            poiMarker.setPosition(poiLocation);
+            poiMarker.setTitle(poi.POIName);
+            mapController.setCenter(poiMarker.getPosition());
+            mapController.setZoom(18.0);
+            map.getOverlays().add(poiMarker);
+        }
 
     }
 
@@ -343,13 +355,13 @@ public class MapFragment extends Fragment implements IMapChanged, POIClickListen
     @Override
     public void onClick(POI poi) {
         //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, this).addToBackStack(null).commit();
-        map.onResume();
-
-        POI selectedPOI = viewModel.getSelectedPOI().getValue();
-        GeoPoint poiLocation = new GeoPoint(selectedPOI.latitude, selectedPOI.longitude);
-        Marker poiMarker = new Marker(map);
-        poiMarker.setPosition(poiLocation);
-        poiMarker.setTitle(selectedPOI.POIName);
-        map.getOverlays().add(poiMarker);
+//        map.onResume();
+//
+//        POI selectedPOI = viewModel.getSelectedPOI().getValue();
+//        GeoPoint poiLocation = new GeoPoint(selectedPOI.latitude, selectedPOI.longitude);
+//        Marker poiMarker = new Marker(map);
+//        poiMarker.setPosition(poiLocation);
+//        poiMarker.setTitle(selectedPOI.POIName);
+//        map.getOverlays().add(poiMarker);
     }
 }

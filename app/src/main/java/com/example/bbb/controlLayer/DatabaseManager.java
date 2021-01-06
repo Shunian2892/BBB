@@ -33,7 +33,7 @@ public class DatabaseManager {
     private final Database db;
 
     private DatabaseManager() {
-        db = Room.databaseBuilder(App.getContext(), Database.class, "database-test3.0").allowMainThreadQueries().build();
+        db = Room.databaseBuilder(App.getContext(), Database.class, "database-test4.0").allowMainThreadQueries().build();
         initDatabase();
     }
 

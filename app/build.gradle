@@ -47,6 +47,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata:2.2.0'
     annotationProcessor "android.arch.lifecycle:compiler:2.2.0"
 
+
     //OSM and GPS location
     implementation 'org.osmdroid:osmdroid-android:6.1.5'
     implementation 'com.google.android.gms:play-services-location:17.1.0'

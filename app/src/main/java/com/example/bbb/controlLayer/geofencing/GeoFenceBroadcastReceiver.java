@@ -34,7 +34,7 @@ public class GeoFenceBroadcastReceiver extends BroadcastReceiver {
         }
         int transitionType = geofencingEvent.getGeofenceTransition();
 
-        DatabaseManager databaseManager = DatabaseManager.getInstance(context);
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
         switch (transitionType) {
             case Geofence.GEOFENCE_TRANSITION_ENTER:
                 List<Geofence> geofenceList = geofencingEvent.getTriggeringGeofences();

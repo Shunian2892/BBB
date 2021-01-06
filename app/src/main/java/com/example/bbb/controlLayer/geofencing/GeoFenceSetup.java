@@ -122,7 +122,7 @@ public class GeoFenceSetup {
         }
 
 
-        System.out.println("@@@@@@@@@@@@@@" + poiNameList.size());
+        System.out.println("ERROR TESTING @@@@@@@@@@@@@@" + poiNameList.size());
 
         geofencingClient.removeGeofences(pendingIntent).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

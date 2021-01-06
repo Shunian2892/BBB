@@ -52,9 +52,8 @@ public class OpenRouteService {
         Connect();
     }
 
-    //Only used once. Is useless. (Remove?)
-    private void Connect() {
-        this.isConnected = true;
+    public ArrayList<GeoPoint> getRouteGeoPoints() {
+        return routeGeoPoints;
     }
 
     private Request createGetRequest(String method, String url) {
@@ -74,59 +73,94 @@ public class OpenRouteService {
     public void getRoute(GeoPoint startPoint, GeoPoint endPoint, String method) {
         ArrayList<GeoPoint> points = new ArrayList<>();
 
-        if (this.isConnected) {
-            client.newCall(createGetRequest(method,
-                    "&start=" + startPoint.getLongitude() + "," + startPoint.getLatitude()
-                            + "&end=" + endPoint.getLongitude() + "," + endPoint.getLatitude()))
-                    .enqueue(new Callback() {
+        client.newCall(createGetRequest(method,
+                "&start=" + startPoint.getLongitude() + "," + startPoint.getLatitude()
+                        + "&end=" + endPoint.getLongitude() + "," + endPoint.getLatitude()))
+                .enqueue(new Callback() {
 
-                        @Override
-                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                            Log.d("FAILURE", "In OnFailure() in example()");
-                        }
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                        Log.d("FAILURE", "In OnFailure() in example()");
+                    }
 
-                        @Override
-                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                            try {
-                                JSONObject responseObject = new JSONObject(response.body().string());
-                                JSONArray featureArray = responseObject.getJSONArray("features");
-                                JSONObject feature = (JSONObject) featureArray.get(0);
-                                JSONObject geometry = feature.getJSONObject("geometry");
-                                JSONArray coordinates = geometry.getJSONArray("coordinates");
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        try {
+                            JSONObject responseObject = new JSONObject(response.body().string());
+                            JSONArray featureArray = responseObject.getJSONArray("features");
+                            JSONObject feature = (JSONObject) featureArray.get(0);
+                            JSONObject geometry = feature.getJSONObject("geometry");
+                            JSONArray coordinates = geometry.getJSONArray("coordinates");
 
-                                for (int i = 0; i < coordinates.length(); i++) {
-                                    JSONArray coordArray = (JSONArray) coordinates.get(i);
-                                    double lng = coordArray.getDouble(0);
-                                    double lat = coordArray.getDouble(1);
-                                    GeoPoint point = new GeoPoint(lat, lng);
-                                    points.add(point);
-                                }
+                            for (int i = 0; i < coordinates.length(); i++) {
+                                JSONArray coordArray = (JSONArray) coordinates.get(i);
+                                double lng = coordArray.getDouble(0);
+                                double lat = coordArray.getDouble(1);
+                                GeoPoint point = new GeoPoint(lat, lng);
+                                points.add(point);
+                            }
 
-                                if (view == null) {
-                                    return;
-                                }
+                            if (view == null) {
+                                return;
+                            }
 
-                                openStreetMaps.drawRoute(mapView, points);
+                            openStreetMaps.drawRoute(mapView, points);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
-                    });
-        }
+                    }
+                });
     }
 
-    public void getRoute(double[][] waypoints, String method, String language) {
-        if (this.isConnected) {
-            ArrayList<GeoPoint> points = new ArrayList<>();
+    private Request createGetRequest(String method, String url) {
+        Request request = new Request.Builder().url("\n" +
+                "https://api.openrouteservice.org/v2/directions/" + method
+                + "?api_key=" + API_KEY + url).build();
+        return request;
+    }
 
-            client.newCall(createPostRequest(method, "{\"coordinates\":" + Arrays.deepToString(waypoints) + ",\"language\":\"" + language + "\"}"))
-                    .enqueue(new Callback() {
+    //Gets a route with more than 2 WayPoints.
+    public void getRoute(double[][] wayPoints, String method, String language) {
+        ArrayList<GeoPoint> points = new ArrayList<>();
 
-                        @Override
-                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                            Log.d("FAILURE", "In OnFailure() in getRoute() multiple");
+        client.newCall(createPostRequest(method, getJsonString(wayPoints, language)))
+                .enqueue(new Callback() {
+
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                        Log.d("FAILURE", "In OnFailure() in getRoute() multiple");
+                    }
+
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        try {
+                            JSONObject responseObject = new JSONObject(response.body().string());
+                            JSONArray routesArray = responseObject.getJSONArray("routes");
+                            JSONObject routes = (JSONObject) routesArray.get(0);
+                            String geometry = routes.getString("geometry");
+                            JSONArray coordinates = decodeGeometry(geometry, false);
+
+                            for (int i = 0; i < coordinates.length(); i++) {
+                                JSONArray cordArray = (JSONArray) coordinates.get(i);
+                                double lat = cordArray.getDouble(0);
+                                double lng = cordArray.getDouble(1);
+                                GeoPoint point = new GeoPoint(lat, lng);
+                                points.add(point);
+                            }
+
+                            setRouteGeoPoints(points);
+
+                            drawRouteWithMarkers(wayPoints);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
+                    }
+                });
+    }
 
                         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                         @Override
@@ -175,9 +209,10 @@ public class OpenRouteService {
                         }
                     });
         }
+        openStreetMaps.drawRoute(mapView, getRouteGeoPoints());
     }
 
-    private static JSONArray decodeGeometry(String encodedGeometry, boolean inclElevation) {
+    static JSONArray decodeGeometry(String encodedGeometry, boolean inclElevation) {
         JSONArray geometry = new JSONArray();
         int len = encodedGeometry.length();
         int index = 0;

@@ -65,7 +65,6 @@ public class MapFragment extends Fragment implements IMapChanged {
     private SharedPreferences prefs;
     private String currentLang;
 
-    private boolean centerOnStart;
     private UIViewModel viewModel;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -87,8 +86,6 @@ public class MapFragment extends Fragment implements IMapChanged {
 
         mapController = map.getController();
         mapController.setZoom(14);
-
-        centerOnStart = false;
 
         setupGF = new GeoFenceSetup(getContext(), getActivity());
 
@@ -166,7 +163,7 @@ public class MapFragment extends Fragment implements IMapChanged {
                     map.getOverlays().clear();
                     getLocation();
                     map.invalidate();
-                }else if(viewModel.getVisiblePOI().getValue() == null){
+                } else if (viewModel.getVisiblePOI().getValue() == null) {
                     onMapChange();
                 }
             }
@@ -263,9 +260,8 @@ public class MapFragment extends Fragment implements IMapChanged {
             currentLocation = startPoint;
             map.getOverlays().add(startPoint);
 
-            if (!centerOnStart) {
+            if (viewModel.getCenterOnUser().getValue()) {
                 mapController.setCenter(currentLocation.getPosition());
-                centerOnStart = true;
             }
 
             map.invalidate();
@@ -303,7 +299,10 @@ public class MapFragment extends Fragment implements IMapChanged {
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, userInfoFragment).addToBackStack(null).commit();
         });
 
-        ibCenterPosition.setOnClickListener(v -> mapController.setCenter(currentLocation.getPosition()));
+        ibCenterPosition.setOnClickListener(v -> {
+            viewModel.setCenterOnUser(true);
+            mapController.setCenter(currentLocation.getPosition());
+        });
     }
 
     public void setUserInfoFragment(FragmentManager fm) {

@@ -115,6 +115,7 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
         buttonMap = view.findViewById(R.id.buttonMap);
         buttonMap.setOnClickListener(view1 -> {
             viewModel.setVisiblePOI(poi);
+            viewModel.setCenterOnUser(false);
             BottomNavigationView bottom = getActivity().findViewById(R.id.bottomNavigationView);
             bottom.setSelectedItemId(R.id.menu_map);
             getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, mapFragment).addToBackStack(null).commit();

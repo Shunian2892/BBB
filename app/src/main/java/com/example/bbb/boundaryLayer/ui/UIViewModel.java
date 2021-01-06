@@ -20,6 +20,7 @@ public class UIViewModel extends ViewModel {
     private IMapChanged iMapChanged;
     private MutableLiveData<Route> routePopUpSelectedRoute;
     private MutableLiveData<POI> visiblePOI;
+    private MutableLiveData<Boolean> centerOnUser;
 
     public void init(int currentFragment) {
         if (pointOfInterests != null) {
@@ -33,6 +34,7 @@ public class UIViewModel extends ViewModel {
         selectedRoute = new MutableLiveData<>(0);
         routePopUpSelectedRoute = new MutableLiveData<>();
         visiblePOI = new MutableLiveData<>();
+        centerOnUser = new MutableLiveData<>(true);
     }
 
     public LiveData<Boolean> getBackButtonState(){return backButtonState;}
@@ -95,6 +97,14 @@ public class UIViewModel extends ViewModel {
 
     public void setVisiblePOI(POI poi){
         visiblePOI.setValue(poi);
+    }
+
+    public LiveData<Boolean> getCenterOnUser() {
+        return centerOnUser;
+    }
+
+    public void setCenterOnUser(Boolean state){
+        centerOnUser.setValue(state);
     }
 
 }

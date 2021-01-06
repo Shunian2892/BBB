@@ -21,7 +21,6 @@ public class UserListManager {
 
     private void init(Context context) {
         databaseManager = DatabaseManager.getInstance(context);
-        databaseManager.initDatabase();
         UserReader();
     }
 

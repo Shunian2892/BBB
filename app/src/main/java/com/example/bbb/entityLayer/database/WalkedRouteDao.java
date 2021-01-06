@@ -16,6 +16,9 @@ public interface WalkedRouteDao {
     @Query("SELECT * FROM WALKED_ROUTE")
     List<WalkedRoute> getAll();
 
+    @Query("SELECT Route.Distance FROM WALKED_ROUTE, Route  WHERE WALKED_ROUTE.routeID LIKE :routeID AND Route.ID = WALKED_ROUTE.routeID")
+    double getRouteDistance(int routeID);
+
     @Query("DELETE FROM WALKED_ROUTE")
     void deleteTable();
 

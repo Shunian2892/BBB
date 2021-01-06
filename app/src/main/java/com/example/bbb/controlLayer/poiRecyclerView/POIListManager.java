@@ -34,7 +34,6 @@ public class POIListManager {
 
     private void init() {
         databaseManager = DatabaseManager.getInstance(appContext);
-        databaseManager.initDatabase();
         POIReader();
     }
 

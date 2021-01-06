@@ -24,6 +24,7 @@ import com.example.bbb.entityLayer.data.Route;
 
 import org.osmdroid.views.MapView;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -90,7 +91,17 @@ public class RoutePopUp extends DialogFragment {
             }
         }
 
-        textViewProgress.setText(getResources().getString(R.string.progress) + "???");
+        int visitedPOIs = 0;
+        for (POI poi : poiList){
+            if (poi.IsVisited){
+                visitedPOIs++;
+            }
+        }
+        textViewProgress.setText(getResources().getString(R.string.progress) + visitedPOIs + "/" + poiList.size() + " POI's");
+
+        if (visitedPOIs == poiList.size()){
+            DatabaseManager.getInstance(getContext()).addWalkedRoute(selectedRoute.ID, new Date(System.currentTimeMillis()).toString());
+        }
 
         return alertDialog;
     }

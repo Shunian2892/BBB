@@ -1,13 +1,22 @@
 package com.example.bbb.controlLayer.gps;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModel;
 
 import com.example.bbb.R;
+import com.example.bbb.boundaryLayer.ui.MarkerClickListener;
+import com.example.bbb.boundaryLayer.ui.POIFragment;
+import com.example.bbb.boundaryLayer.ui.UIViewModel;
+import com.example.bbb.controlLayer.DatabaseManager;
+import com.example.bbb.entityLayer.data.POI;
+import com.example.bbb.entityLayer.data.Route;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -29,7 +38,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class OpenRouteService {
+public class OpenRouteService implements MarkerClickListener {
     private OkHttpClient client;
     private String ipAddress;
     private int port;
@@ -39,13 +48,15 @@ public class OpenRouteService {
     private MapView mapView;
     private View view;
     private Context context;
+    private UIViewModel viewModel;
+    private FragmentManager manager;
 
     private final String api_key = "5b3ce3597851110001cf6248cc7335a16be74902905bcba4a9d0eebf";
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public OpenRouteService(MapView mapView, Context context, View view) {
+    public OpenRouteService(MapView mapView, Context context, View view, UIViewModel viewModel, FragmentManager manager) {
         this.client = new OkHttpClient();
         this.ipAddress = "localhost";
         this.port = 8000;
@@ -54,8 +65,8 @@ public class OpenRouteService {
         this.mapView = mapView;
         this.view = view;
         this.context = context;
-
-
+        this.viewModel = viewModel;
+        this.manager = manager;
 
         Connect();
     }
@@ -111,9 +122,7 @@ public class OpenRouteService {
                                 if (view == null) {
                                     return;
                                 }
-
                                 openStreetMaps.drawRoute(mapView, points);
-
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -123,7 +132,7 @@ public class OpenRouteService {
         }
     }
 
-    public void getRoute(double[][] waypoints, String method, String language) {
+    public void getRoute(double[][] waypoints, String method, String language, Route route) {
         if (this.isConnected) {
             ArrayList<GeoPoint> points = new ArrayList<>();
 
@@ -163,18 +172,19 @@ public class OpenRouteService {
                                     if (i != 0 && i != waypoints.length - 1) {
                                         openStreetMaps.drawMarker(
                                                 mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),
-                                                context.getDrawable(R.drawable.waypoint));
+                                                context.getDrawable(R.drawable.waypoint), DatabaseManager.getInstance(context).getPOIsFromRoute(route.ID).get(i), OpenRouteService.this);
                                     } else if (i == 0) {
                                         openStreetMaps.drawMarker(
                                                 mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),
-                                                context.getDrawable(R.drawable.start_location));
+                                                context.getDrawable(R.drawable.start_location), DatabaseManager.getInstance(context).getPOIsFromRoute(route.ID).get(i), OpenRouteService.this);
                                     } else {
                                         openStreetMaps.drawMarker(
                                                 mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),
-                                                context.getDrawable(R.drawable.end_location));
+                                                context.getDrawable(R.drawable.end_location), DatabaseManager.getInstance(context).getPOIsFromRoute(route.ID).get(i), OpenRouteService.this);
                                     }
 
                                 }
+
                                 openStreetMaps.drawRoute(mapView, points);
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -237,6 +247,12 @@ public class OpenRouteService {
             }
         }
         return geometry;
+    }
+
+    @Override
+    public void onMarkerClicked(POI poi) {
+        viewModel.setSelectedPOI(poi);
+        manager.beginTransaction().replace(R.id.fragment_container, new POIFragment()).addToBackStack(null).commit();
     }
 }
 

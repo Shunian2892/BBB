@@ -20,5 +20,5 @@ public class WalkedRoute {
     public int routeID;
     @NonNull
     public String date;
-
+    public Double distance;
 }

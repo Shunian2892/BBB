@@ -53,8 +53,6 @@ public class GeoFenceBroadcastReceiver extends BroadcastReceiver {
                 Toast.makeText(context, "GEOFENCE_TRANSITION_EXIT", Toast.LENGTH_LONG).show();
                 Log.d(TAG, "GEOFENCE_TRANSITION_EXIT");
                 break;
-
-
         }
     }
 }

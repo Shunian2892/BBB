@@ -15,6 +15,7 @@ public class Route {
     public String RouteName_nl;
     public String RouteName_en;
     public String RouteName_fr;
+    public Double Distance;
 
 //    @Override
 //    public String toString() {

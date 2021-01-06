@@ -102,10 +102,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        List<Route> routeList = databaseManager.getRoutes();
-        for (Route route : routeList) {
-            databaseManager.addWalkedRoute(route.ID, new Date(System.currentTimeMillis()).toString());
-        }
+//        List<Route> routeList = databaseManager.getRoutes();
+//        for (Route route : routeList) {
+//            databaseManager.addWalkedRoute(route.ID, new Date(System.currentTimeMillis()).toString());
+//        }
 
         //Setup Geofencing
         //GeoFenceSetup geoFenceSetup = new GeoFenceSetup(getApplicationContext(), this, poiList);

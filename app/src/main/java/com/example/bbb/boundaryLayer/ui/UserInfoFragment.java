@@ -1,8 +1,6 @@
 package com.example.bbb.boundaryLayer.ui;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.os.UserManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +19,6 @@ import com.example.bbb.R;
 import com.example.bbb.controlLayer.DatabaseManager;
 import com.example.bbb.controlLayer.OnItemClickListener;
 import com.example.bbb.controlLayer.userRecyclerView.UserAdapter;
-import com.example.bbb.controlLayer.userRecyclerView.UserListManager;
 import com.example.bbb.entityLayer.data.POI;
 import com.example.bbb.entityLayer.data.WalkedRoute;
 
@@ -53,8 +50,7 @@ public class UserInfoFragment extends Fragment implements OnItemClickListener {
         ibBack = view.findViewById(R.id.imageButtonBack);
         listSize = view.findViewById(R.id.textViewValueWalkedRoutes);
         distance = view.findViewById(R.id.textViewValueWalkedDistance);
-
-        databaseManager = DatabaseManager.getInstance(getActivity().getApplicationContext());
+        databaseManager = DatabaseManager.getInstance();
 
         List<WalkedRoute> walkedRoutes = databaseManager.getWalkedRoutes();
         double totalDistance = 0.0;

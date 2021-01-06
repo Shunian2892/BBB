@@ -15,11 +15,11 @@
     <string name="distance">Distance: </string>
     <string name="routes">Routes: </string>
     <string name="help">Help</string>
-    <string name="ok">OK</string>
+    <string name="ok">Ok</string>
     <string name="route_information">Route information</string>
     <string name="stop">Stop</string>
     <string name="name">Name</string>
-    <string name="amount_pois">amount POI\'s: </string>
+    <string name="amount_pois">"Amount POI's: "</string>
     <string name="date">Date</string>
     <string name="show_points">show points...</string>
     <string name="route">Route: </string>
@@ -45,4 +45,5 @@
                                 By clicking on an item from the list of locations it is possible to find more information about this location.\n
                                 You can also go to settings to enter your preference for language and font size, and enable a color blind mode if necessary.</string>
     <string name="fragment_settings">Settings</string>
+    <string name="poi_list_size" translatable="false">POI list size</string>
 </resources>

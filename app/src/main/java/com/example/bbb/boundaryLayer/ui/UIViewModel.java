@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.bbb.entityLayer.data.POI;
 import com.example.bbb.entityLayer.data.Route;
-import com.example.bbb.entityLayer.data.WalkedRoute;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.SSLSession;
@@ -22,6 +22,8 @@ public class UIViewModel extends ViewModel {
     private MutableLiveData<Float> videoSecond;
     private IMapChanged iMapChanged;
     private MutableLiveData<Route> routePopUpSelectedRoute;
+    private MutableLiveData<POI> visiblePOI;
+    private MutableLiveData<Boolean> centerOnUser;
 
     public void init(int currentFragment) {
         if (pointOfInterests != null) {
@@ -35,6 +37,8 @@ public class UIViewModel extends ViewModel {
         this.currentFragment = new MutableLiveData<>(currentFragment);
         selectedRoute = new MutableLiveData<>(0);
         routePopUpSelectedRoute = new MutableLiveData<>();
+        visiblePOI = new MutableLiveData<>();
+        centerOnUser = new MutableLiveData<>(true);
         videoSecond = new MutableLiveData<>(0.0f);
     }
 
@@ -44,16 +48,16 @@ public class UIViewModel extends ViewModel {
         return selectedPOI;
     }
 
+    public void setSelectedPOI(POI poi) {
+        selectedPOI.setValue(poi);
+    }
+
     public LiveData<List<POI>> getPOIs() {
         return pointOfInterests;
     }
 
     public void setPointOfInterests(List<POI> poiList) {
         pointOfInterests.setValue(poiList);
-    }
-
-    public void setSelectedPOI(POI poi) {
-        selectedPOI.setValue(poi);
     }
 
     public void setBackButtonState(boolean state){
@@ -96,5 +100,22 @@ public class UIViewModel extends ViewModel {
         this.isVideoState.setValue(isVideo);
     }
     public LiveData<Boolean> getIsVideoState(){return isVideoState;}
+
+
+    public LiveData<POI> getVisiblePOI() {
+        return visiblePOI;
+    }
+
+    public void setVisiblePOI(POI poi){
+        visiblePOI.setValue(poi);
+    }
+
+    public LiveData<Boolean> getCenterOnUser() {
+        return centerOnUser;
+    }
+
+    public void setCenterOnUser(Boolean state){
+        centerOnUser.setValue(state);
+    }
 
 }

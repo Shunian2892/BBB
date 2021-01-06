@@ -17,9 +17,4 @@ public class Route {
     public String RouteName_fr;
     public Double Distance;
 
-//    @Override
-//    public String toString() {
-//
-//        return this.RouteName;
-//    }
 }

@@ -9,7 +9,6 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,9 +63,8 @@ public class MapFragment extends Fragment implements IMapChanged {
     private DatabaseManager dm;
     private GeoFenceSetup setupGF;
     private SharedPreferences prefs;
-    private String currentLang ;
+    private String currentLang;
 
-    private boolean centerOnStart;
     private UIViewModel viewModel;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -78,18 +76,16 @@ public class MapFragment extends Fragment implements IMapChanged {
 
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
-        prefs =  getActivity().getSharedPreferences("language", Context.MODE_PRIVATE);
+        prefs = getActivity().getSharedPreferences("language", Context.MODE_PRIVATE);
         currentLang = prefs.getString("language", Locale.getDefault().getLanguage());
 
-        dm = DatabaseManager.getInstance(getContext());
-        map = (MapView) view.findViewById(R.id.map_view);
+        dm = DatabaseManager.getInstance();
+        map = view.findViewById(R.id.map_view);
         map.setUseDataConnection(true);
         map.setTileSource(TileSourceFactory.MAPNIK);
 
         mapController = map.getController();
         mapController.setZoom(14);
-
-        centerOnStart = false;
 
         setupGF = new GeoFenceSetup(getContext(), getActivity());
 
@@ -134,6 +130,7 @@ public class MapFragment extends Fragment implements IMapChanged {
             }
         }
 
+
         this.spinnerAdapter = new ArrayAdapter<String>(
                 getContext(),
                 R.layout.support_simple_spinner_dropdown_item,
@@ -150,7 +147,7 @@ public class MapFragment extends Fragment implements IMapChanged {
 
                 setupGF.setupGeoFencing(pois);
 
-                if(position != 0){
+                if (position != 0) {
                     switch (currentLang) {
                         case "en":
                             createRoute(position, dm.getRoute(position).RouteName_en);
@@ -162,15 +159,22 @@ public class MapFragment extends Fragment implements IMapChanged {
                             createRoute(position, dm.getRoute(position).RouteName_nl);
                             break;
                     }
-                }
 
+//                    map.getOverlays().clear();
+//                    getLocation();
+//                    map.invalidate();
+                } else if (viewModel.getVisiblePOI().getValue() == null) {
+                    onMapChange();
+                }
             }
+
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
+
 
 //        switch (currentLang) {
 //            case "en":
@@ -186,13 +190,12 @@ public class MapFragment extends Fragment implements IMapChanged {
 
         routeSpinner.setSelection(viewModel.getSelectedRoute().getValue());
 
-
         return view;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void createRoute(int position, String routeNameLang) {
-        String routeName = routeNameList.get(position);
+//        String routeName = routeNameList.get(position);
         if (position != 0) {
 
             for (Route route : dm.getRoutes()) {
@@ -206,8 +209,8 @@ public class MapFragment extends Fragment implements IMapChanged {
                     }
 
                     Toast.makeText(fragmentContext, getResources().getString(R.string.loading_route), Toast.LENGTH_SHORT).show();
-                    openRouteService.getRoute(coordinates, "foot-walking", Locale.getDefault().getLanguage(), route);
-                    mapController.setCenter(new GeoPoint(coordinates[0][1], coordinates[0][0]));
+                    openRouteService.getRoute(coordinates, "foot-walking", Locale.getDefault().getLanguage());
+//                    mapController.setCenter(new GeoPoint(coordinates[0][1], coordinates[0][0]));
                     break;
                 }
             }
@@ -224,6 +227,19 @@ public class MapFragment extends Fragment implements IMapChanged {
         currentLocation = new Marker(map);
         getLocation();
         mapController.setCenter(currentLocation.getPosition());
+
+        if (viewModel.getVisiblePOI().getValue() != null) {
+            POI poi = viewModel.getVisiblePOI().getValue();
+            GeoPoint poiLocation = new GeoPoint(poi.longitude, poi.latitude);
+            Marker poiMarker = new Marker(map);
+            poiMarker.setPosition(poiLocation);
+            poiMarker.setTitle(poi.POIName);
+            poiMarker.setIcon(fragmentContext.getDrawable(R.drawable.ic_baseline_not_listed_location_24)); // change icon
+            mapController.setCenter(poiMarker.getPosition());
+            mapController.setZoom(18.0);
+            map.getOverlays().add(poiMarker);
+            map.invalidate();
+        }
 
     }
 
@@ -245,9 +261,8 @@ public class MapFragment extends Fragment implements IMapChanged {
             currentLocation = startPoint;
             map.getOverlays().add(startPoint);
 
-            if (!centerOnStart) {
+            if (viewModel.getCenterOnUser().getValue()) {
                 mapController.setCenter(currentLocation.getPosition());
-                centerOnStart = true;
             }
 
             map.invalidate();
@@ -261,6 +276,7 @@ public class MapFragment extends Fragment implements IMapChanged {
 
     public void buttonClickListeners() {
         ibRouteInfo.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
                 if (routeSpinner.getSelectedItemPosition() != 0) {
@@ -268,32 +284,25 @@ public class MapFragment extends Fragment implements IMapChanged {
                     viewModel.setRoutePopUpSelectedRoute(dm.getRoutes().get(routeSpinner.getSelectedItemPosition() - 1));
                     dialogFragment.show(getActivity().getSupportFragmentManager(), "route_popup");
                 } else {
+                    onMapChange();
                     Toast.makeText(fragmentContext, getResources().getString(R.string.please_select_a_route), Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        ibHelpPopup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogFragment dialogFragment = new HelpPopUp();
-                dialogFragment.show(getActivity().getSupportFragmentManager(), "help_popup");
-            }
+        ibHelpPopup.setOnClickListener(view -> {
+            DialogFragment dialogFragment = new HelpPopUp();
+            dialogFragment.show(getActivity().getSupportFragmentManager(), "help_popup");
         });
 
-        ibUserInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setUserInfoFragment(getActivity().getSupportFragmentManager());
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, userInfoFragment).addToBackStack(null).commit();
-            }
+        ibUserInfo.setOnClickListener(view -> {
+            setUserInfoFragment(getActivity().getSupportFragmentManager());
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, userInfoFragment).addToBackStack(null).commit();
         });
 
-        ibCenterPosition.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mapController.setCenter(currentLocation.getPosition());
-            }
+        ibCenterPosition.setOnClickListener(v -> {
+            viewModel.setCenterOnUser(true);
+            mapController.setCenter(currentLocation.getPosition());
         });
     }
 
@@ -301,7 +310,7 @@ public class MapFragment extends Fragment implements IMapChanged {
         if (fm.findFragmentById(R.id.user_info_fragment) == null) {
             userInfoFragment = new UserInfoFragment();
         } else {
-            userInfoFragment = (UserInfoFragment) fm.findFragmentById(R.id.user_info_fragment);
+            userInfoFragment = fm.findFragmentById(R.id.user_info_fragment);
         }
     }
 
@@ -314,7 +323,7 @@ public class MapFragment extends Fragment implements IMapChanged {
         getLocation();
         map.invalidate();
 
-
         setupGF.removeGeoFences(dm.getPOIs());
     }
+
 }

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bbb.R;
 import com.example.bbb.entityLayer.data.POI;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Locale;
 
@@ -37,13 +37,16 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
     private ImageButton ibBack;
     private FragmentManager fragmentManager;
 
+    private UIViewModel viewModel;
+//    private MapView map;
+
     private VideoFragment videoFragment;
     private ImageFragment imageFragment;
+    private MapFragment mapFragment;
 
     private Button buttonVideo;
+    private Button buttonMap;
     private boolean isVideo;
-
-    private UIViewModel viewModel;
 
     private TextToSpeech tts;
 
@@ -57,8 +60,8 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
         viewModel = new ViewModelProvider(getActivity()).get(UIViewModel.class);
         viewModel.setCurrentFragment(R.id.fragment_poi);
 
-        this.title = (TextView) view.findViewById(R.id.TextViewTitle);
-        this.description = (TextView) view.findViewById(R.id.textViewPOI);
+        this.title = view.findViewById(R.id.TextViewTitle);
+        this.description = view.findViewById(R.id.textViewPOI);
 
         //Get the manually set language from shared preferences
         prefs = getActivity().getSharedPreferences("language", Context.MODE_PRIVATE);
@@ -67,14 +70,15 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
 
         //Get the correct POI and it's description
         poi = viewModel.getSelectedPOI().getValue();
+        fragmentManager = getParentFragmentManager();
 
 
         ibBack = view.findViewById(R.id.imageButtonBack);
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (getFragmentManager().getBackStackEntryCount() > 0) {
-                    getFragmentManager().popBackStackImmediate();
+                if (fragmentManager.getBackStackEntryCount() > 0) {
+                    fragmentManager.popBackStackImmediate();
                 }
             }
         });
@@ -93,9 +97,9 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
                 break;
         }
 
-        fragmentManager = getFragmentManager();
         setImageFragment();
         setVideoFragment();
+        setMapFragment();
 
         fragmentManager.beginTransaction().replace(R.id.detail_container, imageFragment).commit();
 
@@ -126,6 +130,15 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
                 isVideo = !isVideo;
 
             }
+        });
+
+        buttonMap = view.findViewById(R.id.buttonMap);
+        buttonMap.setOnClickListener(view1 -> {
+            viewModel.setVisiblePOI(poi);
+            viewModel.setCenterOnUser(false);
+            BottomNavigationView bottom = getActivity().findViewById(R.id.bottomNavigationView);
+            bottom.setSelectedItemId(R.id.menu_map);
+            getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, mapFragment).addToBackStack(null).commit();
         });
 
         //Set text to speech in this activity and the onClick for the tts button. TTS speaks out the text from the description box only
@@ -186,6 +199,14 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
             videoFragment = (VideoFragment) fragmentManager.findFragmentById(R.id.fragment_video);
         }
 
+    }
+
+    public void setMapFragment(){
+        if(fragmentManager.findFragmentById(R.id.map_fragment) == null){
+            mapFragment = new MapFragment();
+        } else {
+            mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.map_fragment);
+        }
     }
 
     /**

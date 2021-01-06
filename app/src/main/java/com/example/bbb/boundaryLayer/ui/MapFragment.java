@@ -162,10 +162,6 @@ public class MapFragment extends Fragment implements IMapChanged {
                             createRoute(position, dm.getRoute(position).RouteName_nl);
                             break;
                     }
-
-//                    map.getOverlays().clear();
-//                    getLocation();
-//                    map.invalidate();
                 } else if (viewModel.getVisiblePOI().getValue() == null) {
                     onMapChange();
                 }
@@ -178,19 +174,6 @@ public class MapFragment extends Fragment implements IMapChanged {
             }
         });
 
-
-//        switch (currentLang) {
-//            case "en":
-//                createRoute(viewModel.getSelectedRoute().getValue(), viewModel.getRoutePopUpSelectedRoute().getValue().RouteName_en);
-//                break;
-//            case "fr":
-//                createRoute(viewModel.getSelectedRoute().getValue(), viewModel.getRoutePopUpSelectedRoute().getValue().RouteName_fr);
-//                break;
-//            case "nl":
-//                createRoute(viewModel.getSelectedRoute().getValue(), viewModel.getRoutePopUpSelectedRoute().getValue().RouteName_nl);
-//                break;
-//        }
-
         routeSpinner.setSelection(viewModel.getSelectedRoute().getValue());
 
         return view;
@@ -198,7 +181,6 @@ public class MapFragment extends Fragment implements IMapChanged {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void createRoute(int position, String routeNameLang) {
-//        String routeName = routeNameList.get(position);
         if (position != 0) {
 
             for (Route route : dm.getRoutes()) {
@@ -213,7 +195,6 @@ public class MapFragment extends Fragment implements IMapChanged {
 
                     Toast.makeText(fragmentContext, getResources().getString(R.string.loading_route), Toast.LENGTH_SHORT).show();
                     openRouteService.getRoute(coordinates, "foot-walking", Locale.getDefault().getLanguage(), route);
-//                    mapController.setCenter(new GeoPoint(coordinates[0][1], coordinates[0][0]));
                     break;
                 }
             }

@@ -7,7 +7,6 @@ import android.view.View;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModel;
 
 import com.example.bbb.R;
 import com.example.bbb.boundaryLayer.ui.BBBViewmodel;
@@ -61,11 +60,8 @@ public class OpenRouteService implements MarkerClickListener, IPOIVistitedListen
         this.context = context;
         this.viewModel = viewModel;
         this.manager = manager;
-
         BBBViewmodel.getInstance().setIpoiVistitedListener(this);
         this.routeGeoPoints = new ArrayList<>();
-
-        this.isConnected = true;
     }
 
     public ArrayList<GeoPoint> getRouteGeoPoints() {
@@ -76,7 +72,7 @@ public class OpenRouteService implements MarkerClickListener, IPOIVistitedListen
         this.routeGeoPoints = routeGeoPoints;
     }
 
-    //TODO - Maybe remove
+ /*   //TODO - Maybe remove
     public void getRoute(GeoPoint startPoint, GeoPoint endPoint, String method) {
         ArrayList<GeoPoint> points = new ArrayList<>();
 
@@ -125,19 +121,23 @@ public class OpenRouteService implements MarkerClickListener, IPOIVistitedListen
                 "https://api.openrouteservice.org/v2/directions/" + method
                 + "?api_key=" + API_KEY + url).build();
         return request;
-    }
+    }*/
 
     //Gets a route with more than 2 WayPoints.
     public void getRoute(double[][] wayPoints, String method, String language, Route route) {
-        ArrayList<GeoPoint> points = new ArrayList<>();
-
         client.newCall(createPostRequest(method, getJsonString(wayPoints, language)))
                 .enqueue(new Callback() {
+
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                        Log.d("FAILURE", "In OnFailure() in getRoute() multiple");
+                    }
 
                     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                         try {
+                            ArrayList<GeoPoint> points = new ArrayList<>();
                             JSONObject responseObject = new JSONObject(response.body().string());
                             JSONArray routesArray = responseObject.getJSONArray("routes");
                             JSONObject routes = (JSONObject) routesArray.get(0);
@@ -152,27 +152,16 @@ public class OpenRouteService implements MarkerClickListener, IPOIVistitedListen
                                 points.add(point);
                             }
 
-                    @Override
-                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                        Log.d("FAILURE", "In OnFailure() in getRoute() multiple");
+                            drawRouteWithMarkers(wayPoints, route);
+                            openStreetMaps.drawRoute(mapView, points);
+                            setRouteGeoPoints(points);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-
-
-                        @Override
-                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                            Log.d("FAILURE", "In OnFailure() in example()");
-                        }
-
-                                drawRouteWithMarkers(waypoints, route);
-                                openStreetMaps.drawRoute(mapView, points);
-                                setRouteGeoPoints(points);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-        }
+                });
     }
+
 
     static JSONArray decodeGeometry(String encodedGeometry, boolean inclElevation) {
         JSONArray geometry = new JSONArray();
@@ -238,15 +227,22 @@ public class OpenRouteService implements MarkerClickListener, IPOIVistitedListen
             if (i != 0 && i != waypoints.length - 1) {
                 openStreetMaps.drawMarker(
                         mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),
-                        context.getDrawable(R.drawable.waypoint_unvisited), context.getDrawable(R.drawable.waypoint_visited), DatabaseManager.getInstance().getPOIsFromRoute(route.ID).get(i), OpenRouteService.this);
+                        context.getDrawable(R.drawable.waypoint_unvisited),
+                        context.getDrawable(R.drawable.waypoint_visited),
+                        DatabaseManager.getInstance().getPOIsFromRoute(route.ID).get(i),
+                        OpenRouteService.this);
             } else if (i == 0) {
                 openStreetMaps.drawMarker(
                         mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),
-                        context.getDrawable(R.drawable.start_location), DatabaseManager.getInstance().getPOIsFromRoute(route.ID).get(i), OpenRouteService.this);
+                        context.getDrawable(R.drawable.start_location),
+                        DatabaseManager.getInstance().getPOIsFromRoute(route.ID).get(i),
+                        OpenRouteService.this);
             } else {
                 openStreetMaps.drawMarker(
                         mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),
-                        context.getDrawable(R.drawable.end_location), DatabaseManager.getInstance().getPOIsFromRoute(route.ID).get(i), OpenRouteService.this);
+                        context.getDrawable(R.drawable.end_location),
+                        DatabaseManager.getInstance().getPOIsFromRoute(route.ID).get(i),
+                        OpenRouteService.this);
             }
 
         }
@@ -267,13 +263,15 @@ public class OpenRouteService implements MarkerClickListener, IPOIVistitedListen
     @Override
     public void onMarkerClicked(POI poi) {
         viewModel.setSelectedPOI(poi);
-        manager.beginTransaction().replace(R.id.fragment_container, new POIFragment()).addToBackStack(null).commit();
+        manager.beginTransaction().replace(R.id.fragment_container,
+                new POIFragment()).addToBackStack(null).commit();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onPoiIsVisited(POI poi) {
-        openStreetMaps.drawMarker(mapView, new GeoPoint(poi.longitude, poi.latitude), context.getDrawable(R.drawable.waypoint_visited), poi, this);
+        openStreetMaps.drawMarker(mapView, new GeoPoint(poi.longitude, poi.latitude),
+                context.getDrawable(R.drawable.waypoint_visited), poi, this);
         System.out.println("@@@@@@@ on POI is Visited");
     }
 

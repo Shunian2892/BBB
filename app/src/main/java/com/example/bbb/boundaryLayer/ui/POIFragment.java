@@ -26,13 +26,15 @@ import com.example.bbb.entityLayer.data.POI;
 
 import java.util.Locale;
 
+/**
+ * This class is the detail view of a specific point of interest. The text on the screen and the text to speech changes based on the set language from the settings fragment.
+ */
 public class POIFragment extends Fragment implements TextToSpeech.OnInitListener {
     private POI poi;
     private TextView title;
     private TextView description;
     private ImageButton ibTTS;
     private ImageButton ibBack;
-    private POIListFragment poiListFragment;
     private FragmentManager fragmentManager;
 
     private VideoFragment videoFragment;
@@ -58,12 +60,13 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
         this.title = (TextView) view.findViewById(R.id.TextViewTitle);
         this.description = (TextView) view.findViewById(R.id.textViewPOI);
 
+        //Get the manually set language from shared preferences
         prefs = getActivity().getSharedPreferences("language", Context.MODE_PRIVATE);
-        currentLang= prefs.getString("language", Locale.getDefault().getLanguage());//"No name defined" is the default value.
+        currentLang= prefs.getString("language", Locale.getDefault().getLanguage());
 
         isVideo = false;
 
-
+        //Get the correct POI and it's description
         poi = viewModel.getSelectedPOI().getValue();
 
         ibBack = view.findViewById(R.id.imageButtonBack);
@@ -77,6 +80,7 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
         });
         title.setText(poi.POIName);
 
+        //Set the description of the POI in the language based on the language saved in the shared preferences
         switch (currentLang) {
             case "en":
                 description.setText(poi.Description_en);
@@ -88,7 +92,6 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
                 description.setText(poi.Description_nl);
                 break;
         }
-
 
         fragmentManager = getFragmentManager();
         setImageFragment();
@@ -111,6 +114,7 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
             }
         });
 
+        //Set text to speech in this activity and the onClick for the tts button. TTS speaks out the text from the description box only
         tts = new TextToSpeech(getActivity().getApplicationContext(), this::onInit);
 
         ibTTS = view.findViewById(R.id.imageButtonTTS);
@@ -120,17 +124,23 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
             public void onClick(View v) {
                 switch (currentLang) {
                     case "en":
-                        tts.speak(poi.Description_en, TextToSpeech.QUEUE_FLUSH, null, null);                        break;
+                        tts.speak(poi.Description_en, TextToSpeech.QUEUE_FLUSH, null, null);
+                        break;
                     case "fr":
-                        tts.speak(poi.Description_fr, TextToSpeech.QUEUE_FLUSH, null, null);                        break;
+                        tts.speak(poi.Description_fr, TextToSpeech.QUEUE_FLUSH, null, null);
+                        break;
                     case "nl":
-                        tts.speak(poi.Description_nl, TextToSpeech.QUEUE_FLUSH, null, null);                        break;
+                        tts.speak(poi.Description_nl, TextToSpeech.QUEUE_FLUSH, null, null);
+                        break;
                 }
             }
         });
         return view;
     }
 
+    /**
+     * Stop the text to speech function
+     */
     public void onPause() {
         if (tts != null) {
             tts.stop();
@@ -139,6 +149,9 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
         super.onPause();
     }
 
+    /**
+     * Set the image fragment in the POI detail view
+     */
     public void setImageFragment() {
         if (fragmentManager.findFragmentById(R.id.fragment_image) == null) {
             imageFragment = new ImageFragment();
@@ -148,6 +161,9 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
 
     }
 
+    /**
+     * Set the video fragment in the POI detail view
+     */
     public void setVideoFragment() {
         if (fragmentManager.findFragmentById(R.id.fragment_video) == null) {
             videoFragment = new VideoFragment();
@@ -157,12 +173,15 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
 
     }
 
+    /**
+     * Set the language of text to speech. The Dutch language is not supported, in this case the text will be spoken with an English accent
+     * @param status
+     */
     @Override
     public void onInit(int status) {
         SharedPreferences prefs = getActivity().getSharedPreferences("language", getActivity().getApplicationContext().MODE_PRIVATE);
         String currentLanguage = prefs.getString("language", "No name defined");
 
-        Log.d("IN INIT", "in init of tts ##########################");
         if (status == TextToSpeech.SUCCESS) {
             switch (currentLanguage) {
                 case "en":
@@ -176,6 +195,5 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
                     break;
             }
         }
-
     }
 }

@@ -18,5 +18,5 @@ public class POI {
     public String Description_fr;
     public String imageURL;
     public String VideoURL;
-    public Boolean IsVisited;
+    public boolean IsVisited;
 }

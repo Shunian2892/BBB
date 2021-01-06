@@ -21,6 +21,8 @@ public interface POIDao {
     //add new queries here
     //@Query("QUERY")
     //method name + method type
+    @Query("UPDATE POI SET IsVisited = :visited WHERE POIName LIKE :poiName")
+    void changePOIState(String poiName, boolean visited);
 
     @Query("DELETE FROM POI")
     void deleteTable();

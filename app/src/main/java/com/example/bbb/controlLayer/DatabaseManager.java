@@ -36,7 +36,7 @@ public class DatabaseManager {
     
     public DatabaseManager(Context applicationContext) {
         mainContext = applicationContext;
-        db = Room.databaseBuilder(applicationContext, Database.class, "database-test2.9").allowMainThreadQueries().build();
+        db = Room.databaseBuilder(applicationContext, Database.class, "database-test3.3").allowMainThreadQueries().build();
     }
 
     public void initDatabase() {
@@ -87,15 +87,14 @@ public class DatabaseManager {
                     route.RouteName_nl = jsonObject.getString("name nl");
                     route.RouteName_en = jsonObject.getString("name en");
                     route.RouteName_fr = jsonObject.getString("name fr");
+                    route.Distance = jsonObject.getDouble("distance");
                     routeList.add(route);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
             db.routeDao().insertAll(routeList);
-
         }
-
 
         if (db.poi_route_Dao().getAll().size() == 0) {
 
@@ -197,5 +196,13 @@ public class DatabaseManager {
         List<POI> poi = db.poiDao().matchedPOIs(name);
         System.out.println("found: " + db.poiDao().matchedPOIs(name).size());
         return poi;
+    }
+
+    public void changePOIState(POI poi){
+        db.poiDao().changePOIState(poi.POIName, poi.IsVisited);
+    }
+
+    public double getRouteDistance(int routeID){
+        return db.walked_route_Dao().getRouteDistance(routeID);
     }
 }

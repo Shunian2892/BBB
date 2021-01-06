@@ -44,6 +44,7 @@ public class DatabaseManager {
 
             ArrayList<POI> poiList = new ArrayList<>();
             JSONArray jsonArrayPOI = readJson(R.raw.poi_file);
+
             for (int i = 0; i < jsonArrayPOI.length(); i++) {
                 JSONObject jsonObject;
                 POI poi = new POI();
@@ -65,7 +66,6 @@ public class DatabaseManager {
                 }
             }
             db.poiDao().insertAll(poiList);
-
         }
 
         if (db.routeDao().getAll().size() == 0) {
@@ -120,6 +120,10 @@ public class DatabaseManager {
         double minutes = Double.parseDouble(point.substring(point.indexOf("*") + 1));
         return degrees + (minutes / 60);
     }
+
+/*    public Database getDB(){
+        return db;
+    }*/
 
     public JSONArray readJson(int file) {
         JSONArray array = null;

@@ -52,6 +52,7 @@ public class OpenRouteService {
         Connect();
     }
 
+    //Only used once. Is useless. (Remove?)
     private void Connect() {
         this.isConnected = true;
     }
@@ -62,7 +63,7 @@ public class OpenRouteService {
         return request;
     }
 
-    private Request createPostRequest(String method, String json) {
+    public Request createPostRequest(String method, String json) {
         RequestBody requestBody = RequestBody.create(json, JSON);
         Request request = new Request.Builder().url("https://api.openrouteservice.org/v2/directions/" + method).
                 post(requestBody).addHeader("Authorization", API_KEY).build();
@@ -136,7 +137,6 @@ public class OpenRouteService {
                                 JSONObject routes = (JSONObject) routesArray.get(0);
                                 String geometry = routes.getString("geometry");
                                 JSONArray coordinates = decodeGeometry(geometry, false);
-
 
                                 for (int i = 0; i < coordinates.length(); i++) {
                                     JSONArray cordArray = (JSONArray) coordinates.get(i);

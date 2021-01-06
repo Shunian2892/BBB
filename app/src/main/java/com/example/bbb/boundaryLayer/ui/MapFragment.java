@@ -134,6 +134,7 @@ public class MapFragment extends Fragment implements IMapChanged {
             }
         }
 
+
         this.spinnerAdapter = new ArrayAdapter<String>(
                 getContext(),
                 R.layout.support_simple_spinner_dropdown_item,

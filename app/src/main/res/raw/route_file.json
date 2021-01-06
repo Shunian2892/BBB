@@ -3,36 +3,42 @@
 		"id": 1,
 		"name nl": "Historisch",
 		"name en": "Historic",
-		"name fr": "Historique"
+		"name fr": "Historique",
+		"distance": 1972.0
 	},
 	{
 		"id": 2,
 		"name nl": "Breda Centrum",
 		"name en": "Breda Center",
-		"name fr": "Centre de Breda"
+		"name fr": "Centre de Breda",
+		"distance": 1880.1
 	},
 	{
 		"id": 3,
 		"name nl": "Kerken en kloosters",
 		"name en": "Churches and monasteries",
+		"distance": 1761.0
 		"name fr": "Églises et monastères"
 	},
 	{
 		"id": 4,
 		"name nl": "Markten en winkelen",
 		"name en": "Market places and shopping",
-		"name fr": "Marchés et shopping"
+		"name fr": "Marchés et shopping",
+		"distance": 1490.8
 	},
 	{
 		"id": 5,
 		"name nl": "Monumenten en beelden",
 		"name en": "Monuments and statues",
-		"name fr": "Monuments et statues"
+		"name fr": "Monuments et statues",
+		"distance": 2341.2
 	},
 	{
 		"id": 6,
 		"name nl": "Restaurants en vermaak",
 		"name en": "Restaurants and amusement",
-		"name fr": "Restaurants et amusement"
+		"name fr": "Restaurants et amusement",
+		"distance": 1327.9
 	}
 ]

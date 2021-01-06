@@ -52,6 +52,13 @@ public class UserInfoFragment extends Fragment implements OnItemClickListener {
         distance = view.findViewById(R.id.textViewValueWalkedDistance);
         databaseManager = DatabaseManager.getInstance();
 
+        List<WalkedRoute> walkedRoutes = databaseManager.getWalkedRoutes();
+        double totalDistance = 0.0;
+        for (WalkedRoute walkedRoute : walkedRoutes){
+            totalDistance += databaseManager.getRouteDistance(walkedRoute.routeID);
+        }
+        distance.setText(String.format("%.1f", totalDistance / 1000) + " Km");
+
         listSize.setText(String.valueOf(databaseManager.getWalkedRoutes().size()));
 
         ibBack.setOnClickListener(new View.OnClickListener() {

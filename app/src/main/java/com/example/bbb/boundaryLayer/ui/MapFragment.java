@@ -101,7 +101,10 @@ public class MapFragment extends Fragment implements IMapChanged {
         map.setMultiTouchControls(true);
         map.setBuiltInZoomControls(true);
 
-        openRouteService = new OpenRouteService(map, fragmentContext, view);
+        viewModel = new ViewModelProvider(getActivity()).get(UIViewModel.class);
+        viewModel.setIMapChanged(MapFragment.this);
+
+        openRouteService = new OpenRouteService(map, fragmentContext, view, viewModel, getParentFragmentManager());
 
         ibRouteInfo = view.findViewById(R.id.imageButtonRouteInfo);
         ibHelpPopup = view.findViewById(R.id.imageButtonHelp);
@@ -209,7 +212,7 @@ public class MapFragment extends Fragment implements IMapChanged {
                     }
 
                     Toast.makeText(fragmentContext, getResources().getString(R.string.loading_route), Toast.LENGTH_SHORT).show();
-                    openRouteService.getRoute(coordinates, "foot-walking", Locale.getDefault().getLanguage());
+                    openRouteService.getRoute(coordinates, "foot-walking", Locale.getDefault().getLanguage(), route);
 //                    mapController.setCenter(new GeoPoint(coordinates[0][1], coordinates[0][0]));
                     break;
                 }

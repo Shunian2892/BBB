@@ -83,13 +83,13 @@ public class DatabaseManager {
                     route.RouteName_nl = jsonObject.getString("name nl");
                     route.RouteName_en = jsonObject.getString("name en");
                     route.RouteName_fr = jsonObject.getString("name fr");
+                    route.Distance = jsonObject.getDouble("distance");
                     routeList.add(route);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
             db.routeDao().insertAll(routeList);
-
         }
 
         if (db.poi_route_Dao().getAll().size() == 0) {
@@ -186,5 +186,13 @@ public class DatabaseManager {
 
     public List<POI> searchLocation(String name) {
         return db.poiDao().matchedPOIs(name);
+    }
+
+    public void changePOIState(POI poi){
+        db.poiDao().changePOIState(poi.POIName, poi.IsVisited);
+    }
+
+    public double getRouteDistance(int routeID){
+        return db.walked_route_Dao().getRouteDistance(routeID);
     }
 }

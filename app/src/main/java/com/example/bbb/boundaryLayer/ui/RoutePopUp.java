@@ -22,8 +22,6 @@ import com.example.bbb.controlLayer.DatabaseManager;
 import com.example.bbb.entityLayer.data.POI;
 import com.example.bbb.entityLayer.data.Route;
 
-import org.osmdroid.views.MapView;
-
 import java.util.List;
 import java.util.Locale;
 
@@ -57,7 +55,7 @@ public class RoutePopUp extends DialogFragment {
         TextView textViewProgress = view.findViewById(R.id.textViewProgress);
 
         Route selectedRoute = viewModel.getRoutePopUpSelectedRoute().getValue();
-        List<POI> poiList = DatabaseManager.getInstance(getContext()).getPOIsFromRoute(selectedRoute.ID);
+        List<POI> poiList = DatabaseManager.getInstance().getPOIsFromRoute(selectedRoute.ID);
 
         SharedPreferences prefs = getActivity().getSharedPreferences("language", Context.MODE_PRIVATE);
         String currentLang = prefs.getString("language", Locale.getDefault().getLanguage());//"No name defined" is the default value.

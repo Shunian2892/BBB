@@ -11,7 +11,7 @@
     <string name="show_on_map">Toon op de kaart</string>
     <string name="show_video">Toon de video</string>
     <string name="fragment_poi">POI</string>
-    <string name="search">zoeken...</string>
+    <string name="search">Zoeken...</string>
     <string name="fragment_statistics">Statistieken</string>
     <string name="distance">Afstand:</string>
     <string name="routes">Routes:</string>
@@ -20,7 +20,7 @@
     <string name="route_information">Route informatie</string>
     <string name="stop">Stop</string>
     <string name="name">Naam</string>
-    <string name="amount_pois">hoeveelheid POI\'s:</string>
+    <string name="amount_pois">"Hoeveelheid POI's:"</string>
     <string name="date">Datum</string>
     <string name="show_points">toon punten...</string>
     <string name="route">Route:</string>

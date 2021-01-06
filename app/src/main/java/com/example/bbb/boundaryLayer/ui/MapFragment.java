@@ -80,8 +80,8 @@ public class MapFragment extends Fragment implements IMapChanged {
         prefs = getActivity().getSharedPreferences("language", Context.MODE_PRIVATE);
         currentLang = prefs.getString("language", Locale.getDefault().getLanguage());
 
-        dm = DatabaseManager.getInstance(getContext());
-        map = (MapView) view.findViewById(R.id.map_view);
+        dm = DatabaseManager.getInstance();
+        map = view.findViewById(R.id.map_view);
         map.setUseDataConnection(true);
         map.setTileSource(TileSourceFactory.MAPNIK);
 
@@ -132,6 +132,7 @@ public class MapFragment extends Fragment implements IMapChanged {
                     break;
             }
         }
+
 
         this.spinnerAdapter = new ArrayAdapter<String>(
                 getContext(),
@@ -292,35 +293,24 @@ public class MapFragment extends Fragment implements IMapChanged {
             }
         });
 
-        ibHelpPopup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogFragment dialogFragment = new HelpPopUp();
-                dialogFragment.show(getActivity().getSupportFragmentManager(), "help_popup");
-            }
+        ibHelpPopup.setOnClickListener(view -> {
+            DialogFragment dialogFragment = new HelpPopUp();
+            dialogFragment.show(getActivity().getSupportFragmentManager(), "help_popup");
         });
 
-        ibUserInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setUserInfoFragment(getActivity().getSupportFragmentManager());
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, userInfoFragment).addToBackStack(null).commit();
-            }
+        ibUserInfo.setOnClickListener(view -> {
+            setUserInfoFragment(getActivity().getSupportFragmentManager());
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, userInfoFragment).addToBackStack(null).commit();
         });
 
-        ibCenterPosition.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mapController.setCenter(currentLocation.getPosition());
-            }
-        });
+        ibCenterPosition.setOnClickListener(v -> mapController.setCenter(currentLocation.getPosition()));
     }
 
     public void setUserInfoFragment(FragmentManager fm) {
         if (fm.findFragmentById(R.id.user_info_fragment) == null) {
             userInfoFragment = new UserInfoFragment();
         } else {
-            userInfoFragment = (UserInfoFragment) fm.findFragmentById(R.id.user_info_fragment);
+            userInfoFragment = fm.findFragmentById(R.id.user_info_fragment);
         }
     }
 

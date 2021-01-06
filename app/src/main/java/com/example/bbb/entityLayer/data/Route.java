@@ -16,9 +16,4 @@ public class Route {
     public String RouteName_en;
     public String RouteName_fr;
 
-//    @Override
-//    public String toString() {
-//
-//        return this.RouteName;
-//    }
 }

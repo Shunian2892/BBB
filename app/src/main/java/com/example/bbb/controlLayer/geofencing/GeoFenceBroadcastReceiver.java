@@ -24,7 +24,6 @@ public class GeoFenceBroadcastReceiver extends BroadcastReceiver {
 
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
 
-
         if (geofencingEvent.hasError()) {
             Log.d(TAG, "onReceive BrCastReceiver Error ");
             return;
@@ -53,8 +52,6 @@ public class GeoFenceBroadcastReceiver extends BroadcastReceiver {
                 Toast.makeText(context, "GEOFENCE_TRANSITION_EXIT", Toast.LENGTH_LONG).show();
                 Log.d(TAG, "GEOFENCE_TRANSITION_EXIT");
                 break;
-
-
         }
     }
 }

@@ -17,8 +17,6 @@ import com.example.bbb.boundaryLayer.ui.POIListFragment;
 import com.example.bbb.boundaryLayer.ui.SettingsFragment;
 import com.example.bbb.boundaryLayer.ui.UIViewModel;
 import com.example.bbb.controlLayer.DatabaseManager;
-import com.example.bbb.controlLayer.geofencing.GeoFenceSetup;
-import com.example.bbb.entityLayer.data.POI;
 import com.example.bbb.entityLayer.data.Route;
 import com.example.bbb.entityLayer.data.WalkedRoute;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -60,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.menu_list:
                 setPoiListFragment(fragmentManager);
-                viewModel.setPointOfInterests(DatabaseManager.getInstance(getApplicationContext()).getPOIs());
+                viewModel.setPointOfInterests(DatabaseManager.getInstance().getPOIs());
                 fragmentManager.beginTransaction().replace(R.id.fragment_container, poiListFragment).addToBackStack(null).commit();
                 break;
             case R.id.menu_map:
@@ -95,8 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        DatabaseManager databaseManager = DatabaseManager.getInstance(getApplicationContext());
-        databaseManager.initDatabase();
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
         databaseManager.testQueries();
 
         List<Route> routeList = databaseManager.getRoutes();

@@ -1,8 +1,8 @@
 package com.example.bbb.boundaryLayer.ui.spinner;
 
 public class SpinnerItem {
+    private final int image;
     private String name;
-    private int image;
 
     public SpinnerItem(String name, int image){
         this.name = name;
@@ -19,9 +19,5 @@ public class SpinnerItem {
 
     public int getImage() {
         return image;
-    }
-
-    public void setImage(int image) {
-        this.image = image;
     }
 }

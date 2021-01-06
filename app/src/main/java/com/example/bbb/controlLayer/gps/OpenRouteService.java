@@ -19,7 +19,6 @@ import org.osmdroid.views.MapView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -163,7 +162,7 @@ public class OpenRouteService {
                                     if (i != 0 && i != waypoints.length - 1) {
                                         openStreetMaps.drawMarker(
                                                 mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),
-                                                context.getDrawable(R.drawable.waypoint));
+                                                context.getDrawable(R.drawable.waypoint_unvisited));
                                     } else if (i == 0) {
                                         openStreetMaps.drawMarker(
                                                 mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),

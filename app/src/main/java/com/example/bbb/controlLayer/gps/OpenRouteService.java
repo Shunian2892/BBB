@@ -40,12 +40,9 @@ public class OpenRouteService {
     private final Context context;
     private ArrayList<GeoPoint> routeGeoPoints;
 
-    private boolean isConnected;
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public OpenRouteService(MapView mapView, Context context, View view) {
         this.client = new OkHttpClient();
-        this.isConnected = false;
         this.openStreetMaps = new OpenStreetMaps();
         this.mapView = mapView;
         this.view = view;

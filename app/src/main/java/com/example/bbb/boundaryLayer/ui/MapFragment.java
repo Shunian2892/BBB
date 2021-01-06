@@ -160,9 +160,9 @@ public class MapFragment extends Fragment implements IMapChanged {
                             break;
                     }
 
-                    map.getOverlays().clear();
-                    getLocation();
-                    map.invalidate();
+//                    map.getOverlays().clear();
+//                    getLocation();
+//                    map.invalidate();
                 } else if (viewModel.getVisiblePOI().getValue() == null) {
                     onMapChange();
                 }
@@ -210,7 +210,7 @@ public class MapFragment extends Fragment implements IMapChanged {
 
                     Toast.makeText(fragmentContext, getResources().getString(R.string.loading_route), Toast.LENGTH_SHORT).show();
                     openRouteService.getRoute(coordinates, "foot-walking", Locale.getDefault().getLanguage());
-                    mapController.setCenter(new GeoPoint(coordinates[0][1], coordinates[0][0]));
+//                    mapController.setCenter(new GeoPoint(coordinates[0][1], coordinates[0][0]));
                     break;
                 }
             }
@@ -234,6 +234,7 @@ public class MapFragment extends Fragment implements IMapChanged {
             Marker poiMarker = new Marker(map);
             poiMarker.setPosition(poiLocation);
             poiMarker.setTitle(poi.POIName);
+            poiMarker.setIcon(fragmentContext.getDrawable(R.drawable.ic_baseline_not_listed_location_24)); // change icon
             mapController.setCenter(poiMarker.getPosition());
             mapController.setZoom(18.0);
             map.getOverlays().add(poiMarker);

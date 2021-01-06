@@ -38,10 +38,10 @@ public class OpenRouteServiceTest {
     //API key from Nicholas
     private static final String API_KEY = "5b3ce3597851110001cf6248cc7335a16be74902905bcba4a9d0eebf";
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
     private String method;
     private String jsonWaypointsURL;
     private String jsonCoordinatesResponse;
-
 
     @Mock
     private OpenRouteService openRouteService;
@@ -118,7 +118,7 @@ public class OpenRouteServiceTest {
             JSONArray routesArray = responseObject.getJSONArray("routes");
             JSONObject routes = (JSONObject) routesArray.get(0);
             String geometry = routes.getString("geometry");
-            JSONArray coordinates = openRouteService.decodeGeometry(geometry, false);
+            JSONArray coordinates = OpenRouteService.decodeGeometry(geometry, false);
 
             for (int i = 0; i < coordinates.length(); i++) {
                 JSONArray cordArray = (JSONArray) coordinates.get(i);

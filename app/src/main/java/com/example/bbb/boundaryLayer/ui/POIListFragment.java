@@ -81,7 +81,7 @@ public class POIListFragment extends Fragment implements OnItemClickListener {
         super.onStart();
 
         this.poiRv = this.container.findViewById(R.id.poi_rv);
-        this.poiListManager = new POIListManager(getActivity().getApplicationContext(), viewModel);
+        this.poiListManager = new POIListManager(viewModel);
         if (poiList.size() == 0) {
             this.poiList = this.poiListManager.getPOIList();
         }

@@ -35,10 +35,9 @@ public class GeoFenceSetup {
     private GeoFenceHelper geoFenceHelper;
     private int BACKGROUND_LOCATION_ACCESS_REQUEST_CODE = 10002;
 
-    public GeoFenceSetup(Context constrcontext, Activity appActivity) {
-        this.context = constrcontext;
+    public GeoFenceSetup(Context context, Activity appActivity) {
+        this.context = context;
         this.appActivity = appActivity;
-
     }
 
     public void setupGeoFencing(List<POI> poiList) {
@@ -66,7 +65,6 @@ public class GeoFenceSetup {
         } else {
             addFences(poiList);
         }
-
 
     }
 
@@ -117,7 +115,7 @@ public class GeoFenceSetup {
         PendingIntent pendingIntent = geoFenceHelper.getPendingIntent();
 
 
-        List <String> poiNameList = new ArrayList<>();
+        List<String> poiNameList = new ArrayList<>();
 
         for (int i = 0; i < poiList.size(); i++) {
             poiNameList.add(poiList.get(i).POIName);

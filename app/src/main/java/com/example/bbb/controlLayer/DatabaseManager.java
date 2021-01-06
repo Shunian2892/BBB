@@ -1,10 +1,9 @@
 package com.example.bbb.controlLayer;
 
-import android.content.Context;
-
 import androidx.room.Room;
 
 import com.example.bbb.R;
+import com.example.bbb.boundaryLayer.App;
 import com.example.bbb.entityLayer.data.POI;
 import com.example.bbb.entityLayer.data.POI_Route;
 import com.example.bbb.entityLayer.data.Route;
@@ -18,37 +17,35 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class DatabaseManager {
 
-    public static DatabaseManager instance = null;
-    synchronized public static DatabaseManager getInstance(Context context){
-        if (instance == null){
-            instance = new DatabaseManager(context);
+    private static DatabaseManager instance = null;
+
+    synchronized public static DatabaseManager getInstance() {
+        if (instance == null) {
+            instance = new DatabaseManager();
         }
         return instance;
     }
 
-    Database db;
-    Context mainContext;
-    
-    public DatabaseManager(Context applicationContext) {
-        mainContext = applicationContext;
-        db = Room.databaseBuilder(applicationContext, Database.class, "database-test2.9").allowMainThreadQueries().build();
+    private final Database db;
+
+    private DatabaseManager() {
+        db = Room.databaseBuilder(App.getContext(), Database.class, "database-test3.0").allowMainThreadQueries().build();
+        initDatabase();
     }
 
     public void initDatabase() {
         //add poi's from Json
-
 
         if (db.poiDao().getAll().size() == 0) {
 
             ArrayList<POI> poiList = new ArrayList<>();
             JSONArray jsonArrayPOI = readJson(R.raw.poi_file);
             for (int i = 0; i < jsonArrayPOI.length(); i++) {
-                JSONObject jsonObject = null;
+                JSONObject jsonObject;
                 POI poi = new POI();
                 try {
                     jsonObject = jsonArrayPOI.getJSONObject(i);
@@ -70,7 +67,6 @@ public class DatabaseManager {
             db.poiDao().insertAll(poiList);
 
         }
-
 
         if (db.routeDao().getAll().size() == 0) {
 
@@ -96,7 +92,6 @@ public class DatabaseManager {
 
         }
 
-
         if (db.poi_route_Dao().getAll().size() == 0) {
 
             //add poi's to route
@@ -117,15 +112,13 @@ public class DatabaseManager {
             }
             db.poi_route_Dao().insertAll(poi_routeList);
 
-
         }
     }
 
-    private double convertDMStoDD(String point){
-        int degrees = Integer.parseInt(point.substring(0,point.indexOf("*")));
-        double minutes = Double.parseDouble(point.substring(point.indexOf("*")+1));
-
-        return degrees+(minutes/60);
+    private double convertDMStoDD(String point) {
+        int degrees = Integer.parseInt(point.substring(0, point.indexOf("*")));
+        double minutes = Double.parseDouble(point.substring(point.indexOf("*") + 1));
+        return degrees + (minutes / 60);
     }
 
     public JSONArray readJson(int file) {
@@ -141,7 +134,7 @@ public class DatabaseManager {
     public String loadJSONFromFile(int file) {
         String json = null;
         try {
-            InputStream inputStream = mainContext.getResources().openRawResource(file);
+            InputStream inputStream = App.getContext().getResources().openRawResource(file);
             int size = inputStream.available();
             byte[] buffer = new byte[size];
             inputStream.read(buffer);
@@ -161,24 +154,19 @@ public class DatabaseManager {
     }
 
     public List<POI> getPOIs() {
-        List<POI> poiArrayList = new ArrayList<>();
-        poiArrayList = db.poiDao().getAll();
-        return poiArrayList;
+        return db.poiDao().getAll();
     }
 
     public List<Route> getRoutes() {
-        List<Route> routeList = new ArrayList<>();
-        routeList = db.routeDao().getAll();
-        return routeList;
+        return db.routeDao().getAll();
     }
 
-    public Route getRoute(int ID){
+    public Route getRoute(int ID) {
         return db.routeDao().getRoute(ID);
     }
 
     public List<POI> getPOIsFromRoute(int routeID) {
-        List<POI> poiList = db.routeDao().getPOIs(routeID);
-        return poiList;
+        return db.routeDao().getPOIs(routeID);
     }
 
     public void addWalkedRoute(int routeID, String date) {
@@ -189,13 +177,10 @@ public class DatabaseManager {
     }
 
     public List<WalkedRoute> getWalkedRoutes() {
-        List<WalkedRoute> walkedRouteList = db.walked_route_Dao().getAll();
-        return walkedRouteList;
+        return db.walked_route_Dao().getAll();
     }
 
     public List<POI> searchLocation(String name) {
-        List<POI> poi = db.poiDao().matchedPOIs(name);
-        System.out.println("found: " + db.poiDao().matchedPOIs(name).size());
-        return poi;
+        return db.poiDao().matchedPOIs(name);
     }
 }

@@ -19,7 +19,6 @@ import org.osmdroid.views.MapView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -30,33 +29,26 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class OpenRouteService {
-    private OkHttpClient client;
-    private String ipAddress;
-    private int port;
-    public boolean isConnected;
 
-    private OpenStreetMaps openStreetMaps;
-    private MapView mapView;
-    private View view;
-    private Context context;
+    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static final String API_KEY = "5b3ce3597851110001cf6248cc7335a16be74902905bcba4a9d0eebf";
 
-    private final String api_key = "5b3ce3597851110001cf6248cc7335a16be74902905bcba4a9d0eebf";
+    private final OkHttpClient client;
+    private final OpenStreetMaps openStreetMaps;
+    private final MapView mapView;
+    private final View view;
+    private final Context context;
 
-    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private boolean isConnected;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public OpenRouteService(MapView mapView, Context context, View view) {
         this.client = new OkHttpClient();
-        this.ipAddress = "localhost";
-        this.port = 8000;
         this.isConnected = false;
         this.openStreetMaps = new OpenStreetMaps();
         this.mapView = mapView;
         this.view = view;
         this.context = context;
-
-
-
         Connect();
     }
 
@@ -66,17 +58,18 @@ public class OpenRouteService {
 
     private Request createGetRequest(String method, String url) {
         Request request = new Request.Builder().url("\n" +
-                "https://api.openrouteservice.org/v2/directions/" + method + "?api_key=" + this.api_key + url).build();
+                "https://api.openrouteservice.org/v2/directions/" + method + "?api_key=" + API_KEY + url).build();
         return request;
     }
 
     private Request createPostRequest(String method, String json) {
         RequestBody requestBody = RequestBody.create(json, JSON);
         Request request = new Request.Builder().url("https://api.openrouteservice.org/v2/directions/" + method).
-                post(requestBody).addHeader("Authorization", api_key).build();
+                post(requestBody).addHeader("Authorization", API_KEY).build();
         return request;
     }
 
+    //TODO - Maybe remove
     public void getRoute(GeoPoint startPoint, GeoPoint endPoint, String method) {
         ArrayList<GeoPoint> points = new ArrayList<>();
 
@@ -114,7 +107,6 @@ public class OpenRouteService {
 
                                 openStreetMaps.drawRoute(mapView, points);
 
-
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -139,7 +131,6 @@ public class OpenRouteService {
                         @Override
                         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                             try {
-//                                System.out.println(response.body().string());
                                 JSONObject responseObject = new JSONObject(response.body().string());
                                 JSONArray routesArray = responseObject.getJSONArray("routes");
                                 JSONObject routes = (JSONObject) routesArray.get(0);
@@ -155,11 +146,12 @@ public class OpenRouteService {
                                     points.add(point);
                                 }
 
+                                if (view == null) {
+                                    return;
+                                }
 
                                 for (int i = 0; i < waypoints.length; i++) {
-                                    if (view == null) {
-                                        return;
-                                    }
+
                                     if (i != 0 && i != waypoints.length - 1) {
                                         openStreetMaps.drawMarker(
                                                 mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),
@@ -175,6 +167,7 @@ public class OpenRouteService {
                                     }
 
                                 }
+
                                 openStreetMaps.drawRoute(mapView, points);
                             } catch (JSONException e) {
                                 e.printStackTrace();

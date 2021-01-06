@@ -9,7 +9,6 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,8 +80,8 @@ public class MapFragment extends Fragment implements IMapChanged {
         prefs =  getActivity().getSharedPreferences("language", Context.MODE_PRIVATE);
         currentLang = prefs.getString("language", Locale.getDefault().getLanguage());
 
-        dm = DatabaseManager.getInstance(getContext());
-        map = (MapView) view.findViewById(R.id.map_view);
+        dm = DatabaseManager.getInstance();
+        map = view.findViewById(R.id.map_view);
         map.setUseDataConnection(true);
         map.setTileSource(TileSourceFactory.MAPNIK);
 
@@ -261,48 +260,34 @@ public class MapFragment extends Fragment implements IMapChanged {
     }
 
     public void buttonClickListeners() {
-        ibRouteInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (routeSpinner.getSelectedItemPosition() != 0) {
-                    RoutePopUp dialogFragment = new RoutePopUp();
-                    viewModel.setRoutePopUpSelectedRoute(dm.getRoutes().get(routeSpinner.getSelectedItemPosition() - 1));
-                    dialogFragment.show(getActivity().getSupportFragmentManager(), "route_popup");
-                } else {
-                    Toast.makeText(fragmentContext, getResources().getString(R.string.please_select_a_route), Toast.LENGTH_SHORT).show();
-                }
+        ibRouteInfo.setOnClickListener(view -> {
+            if (routeSpinner.getSelectedItemPosition() != 0) {
+                RoutePopUp dialogFragment = new RoutePopUp();
+                viewModel.setRoutePopUpSelectedRoute(dm.getRoutes().get(routeSpinner.getSelectedItemPosition() - 1));
+                dialogFragment.show(getActivity().getSupportFragmentManager(), "route_popup");
+            } else {
+                Toast.makeText(fragmentContext, getResources().getString(R.string.please_select_a_route), Toast.LENGTH_SHORT).show();
             }
         });
 
-        ibHelpPopup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogFragment dialogFragment = new HelpPopUp();
-                dialogFragment.show(getActivity().getSupportFragmentManager(), "help_popup");
-            }
+        ibHelpPopup.setOnClickListener(view -> {
+            DialogFragment dialogFragment = new HelpPopUp();
+            dialogFragment.show(getActivity().getSupportFragmentManager(), "help_popup");
         });
 
-        ibUserInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setUserInfoFragment(getActivity().getSupportFragmentManager());
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, userInfoFragment).addToBackStack(null).commit();
-            }
+        ibUserInfo.setOnClickListener(view -> {
+            setUserInfoFragment(getActivity().getSupportFragmentManager());
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, userInfoFragment).addToBackStack(null).commit();
         });
 
-        ibCenterPosition.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mapController.setCenter(currentLocation.getPosition());
-            }
-        });
+        ibCenterPosition.setOnClickListener(v -> mapController.setCenter(currentLocation.getPosition()));
     }
 
     public void setUserInfoFragment(FragmentManager fm) {
         if (fm.findFragmentById(R.id.user_info_fragment) == null) {
             userInfoFragment = new UserInfoFragment();
         } else {
-            userInfoFragment = (UserInfoFragment) fm.findFragmentById(R.id.user_info_fragment);
+            userInfoFragment = fm.findFragmentById(R.id.user_info_fragment);
         }
     }
 
@@ -314,7 +299,6 @@ public class MapFragment extends Fragment implements IMapChanged {
         viewModel.setSelectedRoute(0);
         getLocation();
         map.invalidate();
-
 
         setupGF.removeGeoFences(dm.getPOIs());
     }

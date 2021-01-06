@@ -24,7 +24,12 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.bbb.R;
 import com.example.bbb.entityLayer.data.POI;
 
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
+
 import java.util.Locale;
+import java.util.Map;
 
 public class POIFragment extends Fragment implements TextToSpeech.OnInitListener {
     private POI poi;
@@ -32,16 +37,18 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
     private TextView description;
     private ImageButton ibTTS;
     private ImageButton ibBack;
-    private POIListFragment poiListFragment;
     private FragmentManager fragmentManager;
+
+    private UIViewModel viewModel;
+//    private MapView map;
 
     private VideoFragment videoFragment;
     private ImageFragment imageFragment;
+    private MapFragment mapFragment;
 
     private Button buttonVideo;
+    private Button buttonMap;
     private boolean isVideo;
-
-    private UIViewModel viewModel;
 
     private TextToSpeech tts;
 
@@ -62,7 +69,6 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
         currentLang= prefs.getString("language", Locale.getDefault().getLanguage());//"No name defined" is the default value.
 
         isVideo = false;
-
 
         poi = viewModel.getSelectedPOI().getValue();
 
@@ -93,6 +99,7 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
         fragmentManager = getFragmentManager();
         setImageFragment();
         setVideoFragment();
+        setMapFragment();
 
         fragmentManager.beginTransaction().replace(R.id.detail_container, imageFragment).commit();
 
@@ -108,6 +115,14 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
                     buttonVideo.setText(getResources().getString(R.string.hide_video));
                 }
                 isVideo = !isVideo;
+            }
+        });
+
+        buttonMap = view.findViewById(R.id.buttonMap);
+        buttonMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewModel.getPoiClickListener().onClick(poi);
             }
         });
 
@@ -155,6 +170,14 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
             videoFragment = (VideoFragment) fragmentManager.findFragmentById(R.id.fragment_video);
         }
 
+    }
+
+    public void setMapFragment(){
+        if(fragmentManager.findFragmentById(R.id.map_fragment) == null){
+            mapFragment = new MapFragment();
+        } else {
+            mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.map_fragment);
+        }
     }
 
     @Override

@@ -8,6 +8,8 @@ import com.example.bbb.entityLayer.data.POI;
 import com.example.bbb.entityLayer.data.Route;
 import com.example.bbb.entityLayer.data.WalkedRoute;
 
+import org.osmdroid.views.MapView;
+
 import java.util.List;
 
 public class UIViewModel extends ViewModel {
@@ -19,6 +21,7 @@ public class UIViewModel extends ViewModel {
     private MutableLiveData<Integer> selectedRoute;
     private IMapChanged iMapChanged;
     private MutableLiveData<Route> routePopUpSelectedRoute;
+    private POIClickListener poiClickListener;
 
     public void init(int currentFragment) {
         if (pointOfInterests != null) {
@@ -85,5 +88,13 @@ public class UIViewModel extends ViewModel {
 
     public void setRoutePopUpSelectedRoute(Route routePopUpSelectedRoute) {
         this.routePopUpSelectedRoute.setValue(routePopUpSelectedRoute);
+    }
+
+    public POIClickListener getPoiClickListener() {
+        return poiClickListener;
+    }
+
+    public void setPoiClickListener(POIClickListener poiClickListener) {
+        this.poiClickListener = poiClickListener;
     }
 }

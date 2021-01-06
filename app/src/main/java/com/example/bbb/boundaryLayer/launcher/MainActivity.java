@@ -99,9 +99,6 @@ public class MainActivity extends AppCompatActivity {
         databaseManager.initDatabase();
         databaseManager.testQueries();
 
-
-
-
         List<Route> routeList = databaseManager.getRoutes();
         for (Route route : routeList) {
             databaseManager.addWalkedRoute(route.ID, new Date(System.currentTimeMillis()).toString());

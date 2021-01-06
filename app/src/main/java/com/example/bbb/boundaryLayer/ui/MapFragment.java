@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MapFragment extends Fragment implements IMapChanged {
+public class MapFragment extends Fragment implements IMapChanged, POIClickListener {
     private Context fragmentContext;
     private IMapController mapController;
     private MapView map;
@@ -116,6 +116,7 @@ public class MapFragment extends Fragment implements IMapChanged {
 
         viewModel = new ViewModelProvider(getActivity()).get(UIViewModel.class);
         viewModel.setIMapChanged(MapFragment.this);
+        viewModel.setPoiClickListener(MapFragment.this);
 
         buttonClickListeners();
 
@@ -186,7 +187,6 @@ public class MapFragment extends Fragment implements IMapChanged {
 //        }
 
         routeSpinner.setSelection(viewModel.getSelectedRoute().getValue());
-
 
         return view;
     }
@@ -315,7 +315,41 @@ public class MapFragment extends Fragment implements IMapChanged {
         getLocation();
         map.invalidate();
 
-
         setupGF.removeGeoFences(dm.getPOIs());
+    }
+
+//    @Override
+//    public void onResume() {
+////        drawPOIMarker();
+//        super.onResume();
+//
+//    }
+//
+//    public void drawPOIMarker(){
+//
+//        if(viewModel.getSelectedPOI().getValue() != null){
+//            POI selectedPOI = viewModel.getSelectedPOI().getValue();
+//            GeoPoint poiLocation = new GeoPoint(selectedPOI.latitude, selectedPOI.longitude);
+//            Marker poiMarker = new Marker(map);
+//            poiMarker.setPosition(poiLocation);
+//            poiMarker.setTitle(selectedPOI.POIName);
+//            map.getOverlays().add(poiMarker);
+//        } else {
+//            System.out.println("nothing");
+//        }
+//    }
+
+
+    @Override
+    public void onClick(POI poi) {
+        //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, this).addToBackStack(null).commit();
+        map.onResume();
+
+        POI selectedPOI = viewModel.getSelectedPOI().getValue();
+        GeoPoint poiLocation = new GeoPoint(selectedPOI.latitude, selectedPOI.longitude);
+        Marker poiMarker = new Marker(map);
+        poiMarker.setPosition(poiLocation);
+        poiMarker.setTitle(selectedPOI.POIName);
+        map.getOverlays().add(poiMarker);
     }
 }

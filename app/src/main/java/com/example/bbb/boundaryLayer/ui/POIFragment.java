@@ -132,7 +132,6 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
             }
         });
 
-        //Set text to speech in this activity and the onClick for the tts button. TTS speaks out the text from the description box only
         buttonMap = view.findViewById(R.id.buttonMap);
         buttonMap.setOnClickListener(view1 -> {
             viewModel.setVisiblePOI(poi);
@@ -142,6 +141,7 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
             getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, mapFragment).addToBackStack(null).commit();
         });
 
+        //Set text to speech in this activity and the onClick for the tts button. TTS speaks out the text from the description box only
         tts = new TextToSpeech(getActivity().getApplicationContext(), this::onInit);
 
         ibTTS = view.findViewById(R.id.imageButtonTTS);

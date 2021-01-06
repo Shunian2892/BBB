@@ -64,6 +64,8 @@ public class OpenRouteService implements MarkerClickListener, IPOIVistitedListen
 
         BBBViewmodel.getInstance().setIpoiVistitedListener(this);
         this.routeGeoPoints = new ArrayList<>();
+
+        this.isConnected = true;
     }
 
     public ArrayList<GeoPoint> getRouteGeoPoints() {
@@ -132,11 +134,6 @@ public class OpenRouteService implements MarkerClickListener, IPOIVistitedListen
         client.newCall(createPostRequest(method, getJsonString(wayPoints, language)))
                 .enqueue(new Callback() {
 
-                    @Override
-                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                        Log.d("FAILURE", "In OnFailure() in getRoute() multiple");
-                    }
-
                     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
@@ -155,55 +152,26 @@ public class OpenRouteService implements MarkerClickListener, IPOIVistitedListen
                                 points.add(point);
                             }
 
-                            setRouteGeoPoints(points);
-
-//                            drawRouteWithMarkers(wayPoints, route);
-
-                            if (view == null) {
-                                return;
-                            }
-
-                            for (int i = 0; i < wayPoints.length; i++) {
-
-                                if (i != 0 && i != wayPoints.length - 1) {
-                                    openStreetMaps.drawMarker(
-                                            mapView, new GeoPoint(wayPoints[i][1], wayPoints[i][0]),
-                                            context.getDrawable(R.drawable.waypoint_unvisited), context.getDrawable(R.drawable.waypoint_visited), DatabaseManager.getInstance().getPOIsFromRoute(route.ID).get(i), OpenRouteService.this);
-                                } else if (i == 0) {
-                                    openStreetMaps.drawMarker(
-                                            mapView, new GeoPoint(wayPoints[i][1], wayPoints[i][0]),
-                                            context.getDrawable(R.drawable.start_location), DatabaseManager.getInstance().getPOIsFromRoute(route.ID).get(i), OpenRouteService.this);
-                                } else {
-                                    openStreetMaps.drawMarker(
-                                            mapView, new GeoPoint(wayPoints[i][1], wayPoints[i][0]),
-                                            context.getDrawable(R.drawable.end_location), DatabaseManager.getInstance().getPOIsFromRoute(route.ID).get(i), OpenRouteService.this);
-                                }
-
-                            }
-
-                            openStreetMaps.drawRoute(mapView, getRouteGeoPoints());
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                        Log.d("FAILURE", "In OnFailure() in getRoute() multiple");
                     }
-                });
 
-    }
 
-    public Request createPostRequest(String method, String json) {
-        RequestBody requestBody = RequestBody.create(json, JSON);
-        return new Request.Builder().url("https://api.openrouteservice.org/v2/directions/" + method).
-                post(requestBody).addHeader("Authorization", API_KEY).build();
-    }
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            Log.d("FAILURE", "In OnFailure() in example()");
+                        }
 
-    private String getJsonString(double[][] wayPoints, String language) {
-        return "{\"coordinates\":" + Arrays.deepToString(wayPoints) + ",\"language\":\"" + language + "\"}";
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void drawRouteWithMarkers(double[][] wayPoints, Route route) {
-
+                                drawRouteWithMarkers(waypoints, route);
+                                openStreetMaps.drawRoute(mapView, points);
+                                setRouteGeoPoints(points);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+        }
     }
 
     static JSONArray decodeGeometry(String encodedGeometry, boolean inclElevation) {
@@ -261,6 +229,41 @@ public class OpenRouteService implements MarkerClickListener, IPOIVistitedListen
         return geometry;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void drawRouteWithMarkers(double[][] waypoints, Route route) {
+        for (int i = 0; i < waypoints.length; i++) {
+            if (view == null) {
+                return;
+            }
+            if (i != 0 && i != waypoints.length - 1) {
+                openStreetMaps.drawMarker(
+                        mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),
+                        context.getDrawable(R.drawable.waypoint_unvisited), context.getDrawable(R.drawable.waypoint_visited), DatabaseManager.getInstance().getPOIsFromRoute(route.ID).get(i), OpenRouteService.this);
+            } else if (i == 0) {
+                openStreetMaps.drawMarker(
+                        mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),
+                        context.getDrawable(R.drawable.start_location), DatabaseManager.getInstance().getPOIsFromRoute(route.ID).get(i), OpenRouteService.this);
+            } else {
+                openStreetMaps.drawMarker(
+                        mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),
+                        context.getDrawable(R.drawable.end_location), DatabaseManager.getInstance().getPOIsFromRoute(route.ID).get(i), OpenRouteService.this);
+            }
+
+        }
+        openStreetMaps.drawRoute(mapView, getRouteGeoPoints());
+    }
+
+    private String getJsonString(double[][] wayPoints, String language) {
+        return "{\"coordinates\":" + Arrays.deepToString(wayPoints) + ",\"language\":\"" + language + "\"}";
+    }
+
+    public Request createPostRequest(String method, String json) {
+        RequestBody requestBody = RequestBody.create(json, JSON);
+        return new Request.Builder().url("https://api.openrouteservice.org/v2/directions/" + method).
+                post(requestBody).addHeader("Authorization", API_KEY).build();
+    }
+
+
     @Override
     public void onMarkerClicked(POI poi) {
         viewModel.setSelectedPOI(poi);
@@ -273,5 +276,7 @@ public class OpenRouteService implements MarkerClickListener, IPOIVistitedListen
         openStreetMaps.drawMarker(mapView, new GeoPoint(poi.longitude, poi.latitude), context.getDrawable(R.drawable.waypoint_visited), poi, this);
         System.out.println("@@@@@@@ on POI is Visited");
     }
+
+
 }
 

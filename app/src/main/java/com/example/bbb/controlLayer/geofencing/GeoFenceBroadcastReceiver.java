@@ -49,9 +49,9 @@ public class GeoFenceBroadcastReceiver extends BroadcastReceiver {
                         if (poi.POIName.equals(requestID)){
                             poi.IsVisited = true;
                             databaseManager.changePOIState(poi);
-
                         }
                     }
+
                     for (POI poi:databaseManager.getPOIs()) {
                         System.out.println(poi.POIName + " " + poi.IsVisited);
                     }

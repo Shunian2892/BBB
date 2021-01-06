@@ -21,6 +21,7 @@ import com.example.bbb.R;
 import com.example.bbb.controlLayer.DatabaseManager;
 import com.example.bbb.entityLayer.data.POI;
 import com.example.bbb.entityLayer.data.Route;
+import com.example.bbb.entityLayer.database.Database;
 
 import org.osmdroid.views.MapView;
 
@@ -46,11 +47,17 @@ public class RoutePopUp extends DialogFragment {
         Button buttonOk = view.findViewById(R.id.buttonRouteOk);
         buttonOk.setOnClickListener(view1 -> alertDialog.dismiss());
 
+        Route selectedRoute = viewModel.getRoutePopUpSelectedRoute().getValue();
+        List<POI> poiList = DatabaseManager.getInstance(getContext()).getPOIsFromRoute(selectedRoute.ID);
+
         Button buttonStopRoute = view.findViewById(R.id.buttonRouteStop);
         buttonStopRoute.setOnClickListener(view2 -> {
 
             //
-
+            for(POI poi: poiList) {
+                poi.IsVisited = false;
+                DatabaseManager.getInstance(getContext()).changePOIState(poi);
+            }
 
             viewModel.getIMapChanged().onMapChange();
             alertDialog.dismiss();
@@ -61,8 +68,7 @@ public class RoutePopUp extends DialogFragment {
         TextView textViewLastPOI = view.findViewById(R.id.textViewLastPOI);
         TextView textViewProgress = view.findViewById(R.id.textViewProgress);
 
-        Route selectedRoute = viewModel.getRoutePopUpSelectedRoute().getValue();
-        List<POI> poiList = DatabaseManager.getInstance(getContext()).getPOIsFromRoute(selectedRoute.ID);
+
 
         SharedPreferences prefs = getActivity().getSharedPreferences("language", Context.MODE_PRIVATE);
         String currentLang = prefs.getString("language", Locale.getDefault().getLanguage());//"No name defined" is the default value.
@@ -101,6 +107,10 @@ public class RoutePopUp extends DialogFragment {
 
         if (visitedPOIs == poiList.size()){
             DatabaseManager.getInstance(getContext()).addWalkedRoute(selectedRoute.ID, new Date(System.currentTimeMillis()).toString());
+            for(POI poi: poiList) {
+                poi.IsVisited = false;
+                DatabaseManager.getInstance(getContext()).changePOIState(poi);
+            }
         }
 
         return alertDialog;

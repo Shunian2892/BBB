@@ -48,7 +48,7 @@ public class RoutePopUp extends DialogFragment {
         buttonOk.setOnClickListener(view1 -> alertDialog.dismiss());
 
         Route selectedRoute = viewModel.getRoutePopUpSelectedRoute().getValue();
-        List<POI> poiList = DatabaseManager.getInstance(getContext()).getPOIsFromRoute(selectedRoute.ID);
+        List<POI> poiList = DatabaseManager.getInstance().getPOIsFromRoute(selectedRoute.ID);
 
         Button buttonStopRoute = view.findViewById(R.id.buttonRouteStop);
         buttonStopRoute.setOnClickListener(view2 -> {
@@ -56,7 +56,7 @@ public class RoutePopUp extends DialogFragment {
             //
             for(POI poi: poiList) {
                 poi.IsVisited = false;
-                DatabaseManager.getInstance(getContext()).changePOIState(poi);
+                DatabaseManager.getInstance().changePOIState(poi);
             }
 
             viewModel.getIMapChanged().onMapChange();
@@ -106,10 +106,10 @@ public class RoutePopUp extends DialogFragment {
         textViewProgress.setText(getResources().getString(R.string.progress) + visitedPOIs + "/" + poiList.size() + " POI's");
 
         if (visitedPOIs == poiList.size()){
-            DatabaseManager.getInstance(getContext()).addWalkedRoute(selectedRoute.ID, new Date(System.currentTimeMillis()).toString());
+            DatabaseManager.getInstance().addWalkedRoute(selectedRoute.ID, new Date(System.currentTimeMillis()).toString());
             for(POI poi: poiList) {
                 poi.IsVisited = false;
-                DatabaseManager.getInstance(getContext()).changePOIState(poi);
+                DatabaseManager.getInstance().changePOIState(poi);
             }
         }
 

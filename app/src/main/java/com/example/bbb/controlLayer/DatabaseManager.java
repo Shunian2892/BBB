@@ -36,7 +36,7 @@ public class DatabaseManager {
     
     public DatabaseManager(Context applicationContext) {
         mainContext = applicationContext;
-        db = Room.databaseBuilder(applicationContext, Database.class, "database-test3.1").allowMainThreadQueries().build();
+        db = Room.databaseBuilder(applicationContext, Database.class, "database-test3.3").allowMainThreadQueries().build();
     }
 
     public void initDatabase() {

@@ -32,7 +32,24 @@ public class OpenStreetMaps {
     }
 
 
-    public void drawMarker(MapView mapView, GeoPoint point, Drawable icon, POI poi, MarkerClickListener listener) {
+    public void drawMarker(MapView mapView, GeoPoint point,Drawable iconUnvisited, Drawable iconVisited, POI poi, MarkerClickListener listener) {
+        Marker marker = new Marker(mapView);
+        marker.setPosition(point);
+        if(poi.IsVisited){
+            marker.setIcon(iconVisited);
+        }else {
+            marker.setIcon(iconUnvisited);
+        }
+        marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker, MapView mapView) {
+                listener.onMarkerClicked(poi);
+                return false;
+            }
+        });
+        mapView.getOverlays().add(marker);
+    }
+    public void drawMarker(MapView mapView, GeoPoint point,Drawable icon, POI poi, MarkerClickListener listener) {
         Marker marker = new Marker(mapView);
         marker.setPosition(point);
         marker.setIcon(icon);

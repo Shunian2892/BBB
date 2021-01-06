@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.bbb.boundaryLayer.ui.BBBViewmodel;
 import com.example.bbb.boundaryLayer.ui.UIViewModel;
 import com.example.bbb.controlLayer.DatabaseManager;
 import com.example.bbb.controlLayer.gps.OpenStreetMaps;
@@ -49,6 +50,7 @@ public class GeoFenceBroadcastReceiver extends BroadcastReceiver {
                         if (poi.POIName.equals(requestID)){
                             poi.IsVisited = true;
                             databaseManager.changePOIState(poi);
+                            BBBViewmodel.getInstance().getIpoiVistitedListener().onPoiIsVisited(poi);
                         }
                     }
 
@@ -56,6 +58,7 @@ public class GeoFenceBroadcastReceiver extends BroadcastReceiver {
                         System.out.println(poi.POIName + " " + poi.IsVisited);
                     }
                 }
+
 
                 Toast.makeText(context, "You are close to: " + closebyPOIs, Toast.LENGTH_LONG).show();
                 Log.d(TAG, "GEOFENCE_TRANSITION_ENTER");

@@ -96,4 +96,5 @@ public class UIViewModel extends ViewModel {
         this.isVideoState.setValue(isVideo);
     }
     public LiveData<Boolean> getIsVideoState(){return isVideoState;}
+
 }

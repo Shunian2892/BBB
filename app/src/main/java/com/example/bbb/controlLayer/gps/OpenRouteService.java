@@ -11,6 +11,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModel;
 
 import com.example.bbb.R;
+import com.example.bbb.boundaryLayer.ui.BBBViewmodel;
+import com.example.bbb.boundaryLayer.ui.IPOIVistitedListener;
 import com.example.bbb.boundaryLayer.ui.MarkerClickListener;
 import com.example.bbb.boundaryLayer.ui.POIFragment;
 import com.example.bbb.boundaryLayer.ui.UIViewModel;
@@ -37,7 +39,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class OpenRouteService implements MarkerClickListener {
+public class OpenRouteService implements MarkerClickListener, IPOIVistitedListener {
     private OkHttpClient client;
     private String ipAddress;
     private int port;
@@ -66,6 +68,8 @@ public class OpenRouteService implements MarkerClickListener {
         this.context = context;
         this.viewModel = viewModel;
         this.manager = manager;
+
+        BBBViewmodel.getInstance().setIpoiVistitedListener(this);
 
         Connect();
     }
@@ -171,7 +175,7 @@ public class OpenRouteService implements MarkerClickListener {
                                     if (i != 0 && i != waypoints.length - 1) {
                                         openStreetMaps.drawMarker(
                                                 mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),
-                                                context.getDrawable(R.drawable.waypoint), DatabaseManager.getInstance(context).getPOIsFromRoute(route.ID).get(i), OpenRouteService.this);
+                                                context.getDrawable(R.drawable.waypoint_unvisited), context.getDrawable(R.drawable.waypoint_visited), DatabaseManager.getInstance(context).getPOIsFromRoute(route.ID).get(i), OpenRouteService.this);
                                     } else if (i == 0) {
                                         openStreetMaps.drawMarker(
                                                 mapView, new GeoPoint(waypoints[i][1], waypoints[i][0]),
@@ -252,6 +256,13 @@ public class OpenRouteService implements MarkerClickListener {
     public void onMarkerClicked(POI poi) {
         viewModel.setSelectedPOI(poi);
         manager.beginTransaction().replace(R.id.fragment_container, new POIFragment()).addToBackStack(null).commit();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onPoiIsVisited(POI poi) {
+        openStreetMaps.drawMarker(mapView,new GeoPoint(poi.longitude, poi.latitude),context.getDrawable(R.drawable.waypoint_visited),poi,this);
+        System.out.println("@@@@@@@ on POI is Visited");
     }
 }
 

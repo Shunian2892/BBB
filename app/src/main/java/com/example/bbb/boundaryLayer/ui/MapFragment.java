@@ -26,6 +26,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bbb.R;
@@ -281,6 +282,9 @@ public class MapFragment extends Fragment implements IMapChanged {
 
         ibUserInfo.setOnClickListener(view -> {
             setUserInfoFragment(getActivity().getSupportFragmentManager());
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.fragment_container,userInfoFragment);
+
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, userInfoFragment).addToBackStack(null).commit();
         });
 

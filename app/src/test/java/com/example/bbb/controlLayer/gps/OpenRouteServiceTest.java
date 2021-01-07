@@ -1,6 +1,8 @@
 package com.example.bbb.controlLayer.gps;
 
 
+import com.example.bbb.entityLayer.data.Route;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -79,8 +81,10 @@ public class OpenRouteServiceTest {
             //This is the method that should be called but since it is async it can't be used.
             //So this method is in turn called using doNothing() so that getRoute() would be called
             // without the actual use of the method.
-            doNothing().when(openRouteService).getRoute(getCoordinatesExample(), method, language);
-            openRouteService.getRoute(getCoordinatesExample(), method, language);
+            Route route = new Route();
+            route.ID = 0;
+            doNothing().when(openRouteService).getRoute(getCoordinatesExample(), method, language, route);
+            openRouteService.getRoute(getCoordinatesExample(), method, language, route);
 
             //This is supposed to mimic the method getRoute(). GetRoute() is an async call which
             // won't work with mockWebServer.takeRequest(). To test the response message we would

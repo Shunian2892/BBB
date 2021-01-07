@@ -6,13 +6,8 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
-
 import com.example.bbb.boundaryLayer.ui.BBBViewmodel;
-import com.example.bbb.boundaryLayer.ui.UIViewModel;
 import com.example.bbb.controlLayer.DatabaseManager;
-import com.example.bbb.controlLayer.gps.OpenStreetMaps;
 import com.example.bbb.entityLayer.data.POI;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
@@ -41,20 +36,20 @@ public class GeoFenceBroadcastReceiver extends BroadcastReceiver {
                 String closebyPOIs = "";
                 System.out.println("@@##@#@#@#@@#@# Triggered Geofences: ");
                 for (int i = 0; i < geofenceList.size(); i++) {
-                    String requestID =geofenceList.get(i).getRequestId();
+                    String requestID = geofenceList.get(i).getRequestId();
                     System.out.println(requestID);
                     closebyPOIs += requestID + " ";
 
-                    List<POI> pois= databaseManager.getPOIs();
-                    for (POI poi:pois) {
-                        if (poi.POIName.equals(requestID)){
+                    List<POI> pois = databaseManager.getPOIs();
+                    for (POI poi : pois) {
+                        if (poi.POIName.equals(requestID)) {
                             poi.IsVisited = true;
                             databaseManager.changePOIState(poi);
                             BBBViewmodel.getInstance().getIpoiVistitedListener().onPoiIsVisited(poi);
                         }
                     }
 
-                    for (POI poi:databaseManager.getPOIs()) {
+                    for (POI poi : databaseManager.getPOIs()) {
                         System.out.println(poi.POIName + " " + poi.IsVisited);
                     }
                 }
@@ -70,9 +65,10 @@ public class GeoFenceBroadcastReceiver extends BroadcastReceiver {
                 Log.d(TAG, "GEOFENCE_TRANSITION_DWELL");
                 break;
             case Geofence.GEOFENCE_TRANSITION_EXIT:
-               //Toast.makeText(context, "You are leaving: ", Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, "You are leaving: ", Toast.LENGTH_LONG).show();
                 Log.d(TAG, "GEOFENCE_TRANSITION_EXIT");
                 break;
         }
     }
+
 }

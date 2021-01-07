@@ -1,7 +1,7 @@
 package com.example.bbb.entityLayer.data;
 
 import java.util.List;
-
+//TODO - class is not used
 public class User {
 private double distanceWalked;
 private List<Route> routesCompleted;

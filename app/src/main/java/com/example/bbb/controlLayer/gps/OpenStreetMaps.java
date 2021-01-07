@@ -31,7 +31,6 @@ public class OpenStreetMaps {
         mapView.invalidate();
     }
 
-
     public void drawMarker(MapView mapView, GeoPoint point,Drawable iconUnvisited, Drawable iconVisited, POI poi, MarkerClickListener listener) {
         Marker marker = new Marker(mapView);
         marker.setPosition(point);
@@ -49,6 +48,7 @@ public class OpenStreetMaps {
         });
         mapView.getOverlays().add(marker);
     }
+
     public void drawMarker(MapView mapView, GeoPoint point,Drawable icon, POI poi, MarkerClickListener listener) {
 
         if (mapView != null) {

@@ -49,7 +49,7 @@ public class DatabaseManagerTest {
     @Test
     public void getInstance() {
         setMock(databaseManager);
-        DatabaseManager databaseManagerActual = DatabaseManager.getInstance(App.getContext());
+        DatabaseManager databaseManagerActual = DatabaseManager.getInstance();
         System.out.println(databaseManagerActual);
         assertNotNull(databaseManagerActual);
     }

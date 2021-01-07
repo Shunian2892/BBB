@@ -32,19 +32,17 @@ public class MainActivity extends AppCompatActivity {
     private MapFragment mapFragment;
     private POIListFragment poiListFragment;
     FragmentManager fragmentManager;
-    private BottomNavigationView bottomNav;
     private UIViewModel viewModel;
-    private int currentFragment;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navlistener =
+    private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    currentFragment = item.getItemId();
+                    int currentFragment = item.getItemId();
                     viewModel.setCurrentFragment(currentFragment);
                     item.setChecked(true);
                     setDisplayFragment(currentFragment);
-
+                    
                     return true;
                 }
             };
@@ -114,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("Walked route " + testList.get(i).routeID + " on " + testList.get(i).date);
         }
 
-        bottomNav = findViewById(R.id.bottomNavigationView);
-        bottomNav.setOnNavigationItemSelectedListener(navlistener);
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
 
         setDisplayFragment(viewModel.getCurrentFragment().getValue());
 
@@ -159,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
             this.setContentView(R.layout.activity_main);
             BottomNavigationView navigationView = (BottomNavigationView)  this.findViewById(R.id.bottomNavigationView);
             navigationView.setSelectedItemId(R.id.menu_settings);
-            navigationView.setOnNavigationItemSelectedListener(navlistener);
+            navigationView.setOnNavigationItemSelectedListener(navListener);
         }
     }
 }

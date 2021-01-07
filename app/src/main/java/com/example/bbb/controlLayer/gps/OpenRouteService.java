@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.bbb.R;
 import com.example.bbb.boundaryLayer.ui.BBBViewmodel;
 import com.example.bbb.boundaryLayer.ui.IPOIVistitedListener;
-import com.example.bbb.boundaryLayer.ui.MarkerClickListener;
+import com.example.bbb.boundaryLayer.ui.IMarkerClickListener;
 import com.example.bbb.boundaryLayer.ui.POIFragment;
 import com.example.bbb.boundaryLayer.ui.UIViewModel;
 import com.example.bbb.controlLayer.DatabaseManager;
@@ -37,7 +37,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class OpenRouteService implements MarkerClickListener, IPOIVistitedListener {
+public class OpenRouteService implements IMarkerClickListener, IPOIVistitedListener {
 
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final String API_KEY = "5b3ce3597851110001cf6248cc7335a16be74902905bcba4a9d0eebf";

@@ -1,17 +1,9 @@
 package com.example.bbb.controlLayer.gps;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProvider;
-
-import com.example.bbb.R;
-import com.example.bbb.boundaryLayer.ui.MarkerClickListener;
-import com.example.bbb.boundaryLayer.ui.POIFragment;
-import com.example.bbb.boundaryLayer.ui.UIViewModel;
+import com.example.bbb.boundaryLayer.ui.IMarkerClickListener;
 import com.example.bbb.entityLayer.data.POI;
 
 import org.osmdroid.util.GeoPoint;
@@ -31,7 +23,7 @@ public class OpenStreetMaps {
         mapView.invalidate();
     }
 
-    public void drawMarker(MapView mapView, GeoPoint point,Drawable iconUnvisited, Drawable iconVisited, POI poi, MarkerClickListener listener) {
+    public void drawMarker(MapView mapView, GeoPoint point,Drawable iconUnvisited, Drawable iconVisited, POI poi, IMarkerClickListener listener) {
         Marker marker = new Marker(mapView);
         marker.setPosition(point);
         if(poi.IsVisited){
@@ -49,7 +41,7 @@ public class OpenStreetMaps {
         mapView.getOverlays().add(marker);
     }
 
-    public void drawMarker(MapView mapView, GeoPoint point,Drawable icon, POI poi, MarkerClickListener listener) {
+    public void drawMarker(MapView mapView, GeoPoint point,Drawable icon, POI poi, IMarkerClickListener listener) {
 
         if (mapView != null) {
 

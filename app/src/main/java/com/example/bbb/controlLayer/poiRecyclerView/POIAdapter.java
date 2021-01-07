@@ -10,20 +10,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.bbb.R;
-import com.example.bbb.controlLayer.OnItemClickListener;
+import com.example.bbb.controlLayer.IOnItemClickListener;
 import com.example.bbb.entityLayer.data.POI;
-import com.example.bbb.entityLayer.database.Database;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class POIAdapter extends RecyclerView.Adapter<POIViewHolder> {
 
     private List<POI> poiList;
-    private OnItemClickListener listener;
+    private IOnItemClickListener listener;
     private Context context;
 
-    public POIAdapter(OnItemClickListener listener, List<POI> poiList, Context context){
+    public POIAdapter(IOnItemClickListener listener, List<POI> poiList, Context context){
         this.listener = listener;
         this.poiList = poiList;
         this.context = context;

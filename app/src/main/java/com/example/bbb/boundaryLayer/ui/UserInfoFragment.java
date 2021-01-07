@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bbb.R;
 import com.example.bbb.controlLayer.DatabaseManager;
-import com.example.bbb.controlLayer.OnItemClickListener;
+import com.example.bbb.controlLayer.IOnItemClickListener;
 import com.example.bbb.controlLayer.userRecyclerView.UserAdapter;
 import com.example.bbb.entityLayer.data.POI;
 import com.example.bbb.entityLayer.data.WalkedRoute;
@@ -25,7 +25,7 @@ import com.example.bbb.entityLayer.data.WalkedRoute;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserInfoFragment extends Fragment implements OnItemClickListener {
+public class UserInfoFragment extends Fragment implements IOnItemClickListener {
     private ImageButton ibBack;
     private TextView listSize;
     private TextView distance;

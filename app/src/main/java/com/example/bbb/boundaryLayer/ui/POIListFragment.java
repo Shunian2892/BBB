@@ -1,13 +1,11 @@
 package com.example.bbb.boundaryLayer.ui;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bbb.R;
-import com.example.bbb.controlLayer.OnItemClickListener;
+import com.example.bbb.controlLayer.IOnItemClickListener;
 import com.example.bbb.controlLayer.poiRecyclerView.POIAdapter;
 import com.example.bbb.controlLayer.poiRecyclerView.POIListManager;
 import com.example.bbb.entityLayer.data.POI;
@@ -25,7 +23,7 @@ import com.example.bbb.entityLayer.data.POI;
 import java.util.ArrayList;
 import java.util.List;
 
-public class POIListFragment extends Fragment implements OnItemClickListener {
+public class POIListFragment extends Fragment implements IOnItemClickListener {
     private RecyclerView poiRv;
     private List<POI> poiList;
     private POIAdapter poiAdapter;

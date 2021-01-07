@@ -1,5 +1,5 @@
 package com.example.bbb.controlLayer;
 
-public interface OnItemClickListener {
+public interface IOnItemClickListener {
     void OnItemClick(int clickedPosition);
 }

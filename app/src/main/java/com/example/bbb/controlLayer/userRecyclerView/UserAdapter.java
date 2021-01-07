@@ -10,19 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bbb.R;
-import com.example.bbb.boundaryLayer.App;
-import com.example.bbb.controlLayer.OnItemClickListener;
+import com.example.bbb.controlLayer.IOnItemClickListener;
 import com.example.bbb.entityLayer.data.WalkedRoute;
 
 import java.util.Locale;
 
 public class UserAdapter extends RecyclerView.Adapter<UserViewHolder> {
-    private final OnItemClickListener listener;
+    private final IOnItemClickListener listener;
     private final UserListManager userListManager;
     private final String currentLanguage;
     private Context context;
 
-    public UserAdapter(OnItemClickListener listener, Context context) {
+    public UserAdapter(IOnItemClickListener listener, Context context) {
         this.listener = listener;
         this.context = context;
         SharedPreferences prefs = context.getSharedPreferences("language", Context.MODE_PRIVATE);

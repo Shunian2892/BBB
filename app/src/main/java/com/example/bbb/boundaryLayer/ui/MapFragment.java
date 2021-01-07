@@ -146,6 +146,8 @@ public class MapFragment extends Fragment implements IMapChanged {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                onMapChange();
+                routeSpinner.setSelection(position);
                 viewModel.setSelectedRoute(position);
                 List<POI> pois = dm.getPOIsFromRoute(position);
 

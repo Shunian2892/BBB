@@ -5,7 +5,6 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.example.bbb.entityLayer.data.POI;
-import com.example.bbb.entityLayer.data.POI_Route;
 import com.example.bbb.entityLayer.data.Route;
 
 import java.util.List;
@@ -16,7 +15,7 @@ public interface RouteDao {
     @Query("SELECT * FROM Route")
     List<Route> getAll();
 
-    @Query("SELECT * FROM POI_Route, POI WHERE POI_Route.RouteID = :routeID AND POI.ID = POI_Route.PoiID")
+    @Query("SELECT * FROM POI_ROUTE, POI WHERE POI_ROUTE.RouteID = :routeID AND POI.ID = POI_Route.PoiID")
     List<POI> getPOIs(int routeID);
 
     @Query("SELECT * FROM Route WHERE ID = :routeID")

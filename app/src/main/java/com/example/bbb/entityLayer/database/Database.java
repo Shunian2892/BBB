@@ -3,11 +3,11 @@ package com.example.bbb.entityLayer.database;
 import androidx.room.RoomDatabase;
 
 import com.example.bbb.entityLayer.data.POI;
-import com.example.bbb.entityLayer.data.POI_Route;
+import com.example.bbb.entityLayer.data.POIRoute;
 import com.example.bbb.entityLayer.data.Route;
 import com.example.bbb.entityLayer.data.WalkedRoute;
 
-@androidx.room.Database(entities = {POI.class, Route.class, POI_Route.class, WalkedRoute.class}, version = 1)
+@androidx.room.Database(entities = {POI.class, Route.class, POIRoute.class, WalkedRoute.class}, version = 1)
 public abstract class Database extends RoomDatabase {
     public abstract POIDao poiDao();
     public abstract RouteDao routeDao();

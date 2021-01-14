@@ -16,7 +16,7 @@ import androidx.room.PrimaryKey;
                         parentColumns = "ID",
                         childColumns = "RouteID")
         })
-public class POI_Route {
+public class POIRoute {
 
     public int RouteID;
     public int PoiID;

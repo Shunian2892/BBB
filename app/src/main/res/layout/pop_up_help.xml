@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/popup"
-            android:divider="@color/SpanishGray"
+            android:divider="@color/KoalaGray"
             android:dividerPadding="10dp"
             android:orientation="vertical"
             >

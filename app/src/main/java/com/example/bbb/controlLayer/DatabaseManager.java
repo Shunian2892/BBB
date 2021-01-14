@@ -5,7 +5,7 @@ import androidx.room.Room;
 import com.example.bbb.R;
 import com.example.bbb.boundaryLayer.App;
 import com.example.bbb.entityLayer.data.POI;
-import com.example.bbb.entityLayer.data.POI_Route;
+import com.example.bbb.entityLayer.data.POIRoute;
 import com.example.bbb.entityLayer.data.Route;
 import com.example.bbb.entityLayer.data.WalkedRoute;
 import com.example.bbb.entityLayer.database.Database;
@@ -95,12 +95,12 @@ public class DatabaseManager {
         if (db.poi_route_Dao().getAll().size() == 0) {
 
             //add poi's to route
-            ArrayList<POI_Route> poi_routeList = new ArrayList<>();
+            ArrayList<POIRoute> poi_routeList = new ArrayList<>();
             JSONArray jsonArrayPoiRoute = readJson(R.raw.poi_route_file);
 
             for (int i = 0; i < jsonArrayPoiRoute.length(); i++) {
                 JSONObject jsonObject = null;
-                POI_Route poi_route = new POI_Route();
+                POIRoute poi_route = new POIRoute();
                 try {
                     jsonObject = jsonArrayPoiRoute.getJSONObject(i);
                     poi_route.RouteID = jsonObject.getInt("routeID");

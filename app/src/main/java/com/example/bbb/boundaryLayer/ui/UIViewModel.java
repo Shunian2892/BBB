@@ -16,7 +16,7 @@ public class UIViewModel extends ViewModel {
 
     private MutableLiveData<List<POI>> pointOfInterests;
     private MutableLiveData<POI> selectedPOI;
-    private MutableLiveData<Boolean> backButtonState, isVideoState;
+    private MutableLiveData<Boolean> backButtonState, isVideoState, isRouteRunning;
     private MutableLiveData<Integer> currentFragment;
     private MutableLiveData<Integer> selectedRoute;
     private MutableLiveData<Float> videoSecond;
@@ -40,6 +40,7 @@ public class UIViewModel extends ViewModel {
         videoSecond = new MutableLiveData<>(0.0f);
         visiblePOI = new MutableLiveData<>();
         centerOnUser = new MutableLiveData<>(true);
+        isRouteRunning = new MutableLiveData<>(false);
     }
 
     public LiveData<Boolean> getBackButtonState(){return backButtonState;}
@@ -99,8 +100,8 @@ public class UIViewModel extends ViewModel {
     public void setIsVideoState(boolean isVideo) {
         this.isVideoState.setValue(isVideo);
     }
-    public LiveData<Boolean> getIsVideoState(){return isVideoState;}
 
+    public LiveData<Boolean> getIsVideoState(){return isVideoState;}
 
     public LiveData<POI> getVisiblePOI() {
         return visiblePOI;
@@ -116,6 +117,14 @@ public class UIViewModel extends ViewModel {
 
     public void setCenterOnUser(Boolean state){
         centerOnUser.setValue(state);
+    }
+
+    public LiveData<Boolean> getIsRouteRunning() {
+        return isRouteRunning;
+    }
+
+    public void setIsRouteRunning(Boolean state){
+        isRouteRunning.setValue(state);
     }
 
 }

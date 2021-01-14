@@ -53,7 +53,8 @@ public class RoutePopUp extends DialogFragment {
         Button buttonStopRoute = view.findViewById(R.id.buttonRouteStop);
         buttonStopRoute.setOnClickListener(view2 -> {
 
-            //
+            viewModel.setIsRouteRunning(false);
+
             for(POI poi: poiList) {
                 poi.IsVisited = false;
                 DatabaseManager.getInstance().changePOIState(poi);

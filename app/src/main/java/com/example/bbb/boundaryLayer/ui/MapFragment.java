@@ -28,7 +28,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bbb.R;
@@ -146,6 +145,10 @@ public class MapFragment extends Fragment implements IMapChanged {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == routeSpinner.getSelectedItemPosition()) {
+                    if (position == 0) {
+                        viewModel.setVisiblePOI(null);
+                    }
+
                     onMapChange();
                     drawVisiblePOI(fragmentContext.getDrawable(R.drawable.ic_baseline_not_listed_location_24));
                     routeSpinner.setSelection(position);
@@ -155,6 +158,7 @@ public class MapFragment extends Fragment implements IMapChanged {
                     setupGF.setupGeoFencing(pois);
 
                     if (position != 0) {
+                        viewModel.setIsRouteRunning(true);
                         switch (currentLang) {
                             case "en":
                                 createRoute(position, dm.getRoute(position).RouteName_en);
@@ -170,6 +174,7 @@ public class MapFragment extends Fragment implements IMapChanged {
                         onMapChange();
                     }
                 }
+                routeSpinner.setEnabled(!viewModel.getIsRouteRunning().getValue());
             }
 
 
@@ -222,7 +227,7 @@ public class MapFragment extends Fragment implements IMapChanged {
 
     }
 
-    public void drawVisiblePOI(Drawable drawable){
+    public void drawVisiblePOI(Drawable drawable) {
         if (viewModel.getVisiblePOI().getValue() != null) {
             POI poi = viewModel.getVisiblePOI().getValue();
             GeoPoint poiLocation = new GeoPoint(poi.longitude, poi.latitude);

@@ -30,8 +30,6 @@ import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-//Difficult to test. Mockito can't test a class with a static instance.
-//Don't know how to test the database.
 public class DatabaseManagerTest {
 
     @Mock
@@ -64,109 +62,4 @@ public class DatabaseManagerTest {
         }
     }
 
-    //Doesn't work. Don't know how to mock a singleton.
-//    @Test
-//    public void initDatabase() {
-//        //actual values
-//        databaseManager.initDatabase();
-//        Database database = databaseManager.getDB();
-//        List<POI> pois = database.poiDao().getAll();
-//
-//        //expected values
-//        ArrayList<POI> poiList = new ArrayList<>();
-//        JSONArray jsonArrayPOI = readJson(R.raw.poi_file);
-//        for (int i = 0; i < jsonArrayPOI.length(); i++) {
-//            JSONObject jsonObject = null;
-//            POI poi = new POI();
-//            try {
-//                jsonObject = jsonArrayPOI.getJSONObject(i);
-//                poi.ID = jsonObject.getInt("id");
-//                poi.POIName = jsonObject.getString("name");
-//                poi.longitude = convertDMStoDD(jsonObject.getString("longitude"));
-//                poi.latitude = convertDMStoDD(jsonObject.getString("latitude"));
-//                poi.Description = jsonObject.getString("description");
-//                poi.imageURL = jsonObject.getString("imageUrl");
-//                poi.VideoURL = jsonObject.getString("videoUrl");
-//                poi.IsVisited = jsonObject.getBoolean("isVisited");
-//                poiList.add(poi);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
-//        }
-//
-//        assertEquals(poiList.size(),pois.size());
-//    }
-//
-//    private double convertDMStoDD(String point){
-//        int degrees = Integer.parseInt(point.substring(0,point.indexOf("*")));
-//        double minutes = Double.parseDouble(point.substring(point.indexOf("*")+1));
-//
-//        return degrees+(minutes/60);
-//    }
-
-
-/*    public JSONArray readJson(int file) {
-        JSONArray array = null;
-        try {
-            array = new JSONArray(loadJSONFromFile(file));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return array;
-    }
-
-    public String loadJSONFromFile(int file) {
-        String json = null;
-        try {
-            InputStream inputStream = App.getContext().getResources().openRawResource(file);
-            int size = inputStream.available();
-            byte[] buffer = new byte[size];
-            inputStream.read(buffer);
-            inputStream.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return json;
-    }*/
-
-    /*private final int file = R.raw.route_file;
-
-    @Test
-    public void readJsonTest() {
-
-    }
-
-    @Test
-    public void loadJSONFromFileTest() {
-    }
-
-    @Test
-    public void testQueries() {
-    }
-
-    @Test
-    public void getPOIs() {
-    }
-
-    @Test
-    public void getRoutes() {
-    }
-
-    @Test
-    public void getPOIsFromRoute() {
-    }
-
-    @Test
-    public void addWalkedRoute() {
-    }
-
-    @Test
-    public void getWalkedRoutes() {
-    }
-
-    @Test
-    public void searchLocation() {
-    }*/
 }

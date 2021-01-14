@@ -43,7 +43,6 @@ public class GeoFenceSetup {
     public void setupGeoFencing(List<POI> poiList) {
         checkFineLocationPermission();
 
-
         geofencingClient = LocationServices.getGeofencingClient(context);
         geoFenceHelper = new GeoFenceHelper(context);
 

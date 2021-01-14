@@ -121,10 +121,6 @@ public class DatabaseManager {
         return degrees + (minutes / 60);
     }
 
-/*    public Database getDB(){
-        return db;
-    }*/
-
     public JSONArray readJson(int file) {
         JSONArray array = null;
         try {

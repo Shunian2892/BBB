@@ -21,7 +21,6 @@ public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         RouteDate = itemView.findViewById(R.id.userRoute_list_item_Date);
         RoutePOIAmount = itemView.findViewById(R.id.userRoute_list_item_AmountPOIint);
         clickListener = listener;
-//        itemView.setOnClickListener(this);
         itemView.setOnClickListener(view -> listener.OnItemClick(getAdapterPosition()));
     }
 

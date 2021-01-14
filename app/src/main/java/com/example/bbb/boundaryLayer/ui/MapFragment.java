@@ -33,6 +33,7 @@ import com.example.bbb.R;
 import com.example.bbb.controlLayer.DatabaseManager;
 import com.example.bbb.controlLayer.geofencing.GeoFenceSetup;
 import com.example.bbb.controlLayer.gps.OpenRouteService;
+import com.example.bbb.controlLayer.gps.OpenStreetMaps;
 import com.example.bbb.entityLayer.data.POI;
 import com.example.bbb.entityLayer.data.Route;
 
@@ -47,7 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MapFragment extends Fragment implements IMapChanged {
+public class MapFragment extends Fragment implements IMapChanged, IMarkerClickListener {
     private Context fragmentContext;
     private IMapController mapController;
     private MapView map;
@@ -164,7 +165,9 @@ public class MapFragment extends Fragment implements IMapChanged {
                             break;
                     }
                 } else if (viewModel.getVisiblePOI().getValue() == null) {
+                    viewModel.setPointOfInterests(DatabaseManager.getInstance().getPOIs());
                     onMapChange();
+                    openRouteService.drawMarkers();
                 }
             }
 
@@ -309,9 +312,15 @@ public class MapFragment extends Fragment implements IMapChanged {
         routeSpinner.setSelection(0);
         viewModel.setSelectedRoute(0);
         getLocation();
+        OpenStreetMaps openStreetMaps = new OpenStreetMaps();
         map.invalidate();
-
         setupGF.removeGeoFences(dm.getPOIs());
     }
 
+    @Override
+    public void onMarkerClicked(POI poi) {
+        viewModel.setSelectedPOI(poi);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new POIFragment()).addToBackStack(null).commit();
+    }
 }

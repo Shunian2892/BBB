@@ -78,6 +78,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:hint="@string/search"
+        android:imeOptions="actionGo"
+        android:singleLine="true"
         app:layout_constraintBottom_toBottomOf="@+id/imageButtonSearchPOI"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageButtonSearchPOI"

@@ -28,6 +28,7 @@ import org.osmdroid.views.MapView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -275,6 +276,11 @@ public class OpenRouteService implements IMarkerClickListener, IPOIVistitedListe
         System.out.println("@@@@@@@ on POI is Visited");
     }
 
-
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void drawMarkers(){
+        for (POI poi : viewModel.getPOIs().getValue()){
+            openStreetMaps.drawMarker(mapView, new GeoPoint(poi.longitude, poi.latitude), context.getDrawable(R.drawable.waypoint_unvisited), poi, this);
+        }
+    }
 }
 

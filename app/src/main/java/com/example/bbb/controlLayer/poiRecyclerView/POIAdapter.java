@@ -38,8 +38,6 @@ public class POIAdapter extends RecyclerView.Adapter<POIViewHolder> {
     public void onBindViewHolder(@NonNull POIViewHolder holder, int position) {
         POI poi = this.poiList.get(position);
         holder.POIRVTextviewName.setText(poi.POIName);
-        holder.POIRVTextviewLatitude.setText(poi.latitude + "");
-        holder.POIRVTextviewLongtitude.setText(poi.longitude + "");
         //holder.POIRVImageview.setImageResource(R.drawable.blindwalls);
         Glide.with(context).load(poi.imageURL).into(holder.POIRVImageview);
     }

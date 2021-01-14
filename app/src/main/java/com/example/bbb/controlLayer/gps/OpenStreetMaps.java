@@ -12,6 +12,7 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OpenStreetMaps {
 
@@ -35,7 +36,7 @@ public class OpenStreetMaps {
             @Override
             public boolean onMarkerClick(Marker marker, MapView mapView) {
                 listener.onMarkerClicked(poi);
-                return false;
+                return true;
             }
         });
         mapView.getOverlays().add(marker);
@@ -52,11 +53,10 @@ public class OpenStreetMaps {
                 @Override
                 public boolean onMarkerClick(Marker marker, MapView mapView) {
                     listener.onMarkerClicked(poi);
-                    return false;
+                    return true;
                 }
             });
             mapView.getOverlays().add(marker);
         }
     }
-
 }

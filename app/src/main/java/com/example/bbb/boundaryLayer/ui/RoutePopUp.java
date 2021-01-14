@@ -55,6 +55,8 @@ public class RoutePopUp extends DialogFragment {
 
             viewModel.setIsRouteRunning(false);
 
+            viewModel.setVisiblePOI(null);
+
             for(POI poi: poiList) {
                 poi.IsVisited = false;
                 DatabaseManager.getInstance().changePOIState(poi);

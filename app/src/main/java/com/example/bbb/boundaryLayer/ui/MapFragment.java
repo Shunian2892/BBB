@@ -145,9 +145,6 @@ public class MapFragment extends Fragment implements IMapChanged {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == routeSpinner.getSelectedItemPosition()) {
-                    if (position == 0) {
-                        viewModel.setVisiblePOI(null);
-                    }
 
                     onMapChange();
                     drawVisiblePOI(fragmentContext.getDrawable(R.drawable.ic_baseline_not_listed_location_24));
@@ -173,6 +170,7 @@ public class MapFragment extends Fragment implements IMapChanged {
                     } else if (viewModel.getVisiblePOI().getValue() == null) {
                         onMapChange();
                     }
+
                 }
                 routeSpinner.setEnabled(!viewModel.getIsRouteRunning().getValue());
             }

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -114,9 +115,6 @@ public class MapFragment extends Fragment implements IMapChanged {
         routeSpinner = view.findViewById(R.id.spinner_route);
         ibCenterPosition = view.findViewById(R.id.centerPosition);
 
-        viewModel = new ViewModelProvider(getActivity()).get(UIViewModel.class);
-        viewModel.setIMapChanged(MapFragment.this);
-
         buttonClickListeners();
 
         routeNameList = new ArrayList<>();
@@ -147,27 +145,30 @@ public class MapFragment extends Fragment implements IMapChanged {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                onMapChange();
-                routeSpinner.setSelection(position);
-                viewModel.setSelectedRoute(position);
-                List<POI> pois = dm.getPOIsFromRoute(position);
-
-                setupGF.setupGeoFencing(pois);
-
-                if (position != 0) {
-                    switch (currentLang) {
-                        case "en":
-                            createRoute(position, dm.getRoute(position).RouteName_en);
-                            break;
-                        case "fr":
-                            createRoute(position, dm.getRoute(position).RouteName_fr);
-                            break;
-                        case "nl":
-                            createRoute(position, dm.getRoute(position).RouteName_nl);
-                            break;
-                    }
-                } else if (viewModel.getVisiblePOI().getValue() == null) {
+                if (position == routeSpinner.getSelectedItemPosition()) {
                     onMapChange();
+                    drawVisiblePOI(fragmentContext.getDrawable(R.drawable.ic_baseline_not_listed_location_24));
+                    routeSpinner.setSelection(position);
+                    viewModel.setSelectedRoute(position);
+                    List<POI> pois = dm.getPOIsFromRoute(position);
+
+                    setupGF.setupGeoFencing(pois);
+
+                    if (position != 0) {
+                        switch (currentLang) {
+                            case "en":
+                                createRoute(position, dm.getRoute(position).RouteName_en);
+                                break;
+                            case "fr":
+                                createRoute(position, dm.getRoute(position).RouteName_fr);
+                                break;
+                            case "nl":
+                                createRoute(position, dm.getRoute(position).RouteName_nl);
+                                break;
+                        }
+                    } else if (viewModel.getVisiblePOI().getValue() == null) {
+                        onMapChange();
+                    }
                 }
             }
 
@@ -176,6 +177,7 @@ public class MapFragment extends Fragment implements IMapChanged {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
+
         });
 
         routeSpinner.setSelection(viewModel.getSelectedRoute().getValue());
@@ -216,19 +218,23 @@ public class MapFragment extends Fragment implements IMapChanged {
         getLocation();
         mapController.setCenter(currentLocation.getPosition());
 
+        drawVisiblePOI(fragmentContext.getDrawable(R.drawable.ic_baseline_not_listed_location_24));
+
+    }
+
+    public void drawVisiblePOI(Drawable drawable){
         if (viewModel.getVisiblePOI().getValue() != null) {
             POI poi = viewModel.getVisiblePOI().getValue();
             GeoPoint poiLocation = new GeoPoint(poi.longitude, poi.latitude);
             Marker poiMarker = new Marker(map);
             poiMarker.setPosition(poiLocation);
             poiMarker.setTitle(poi.POIName);
-            poiMarker.setIcon(fragmentContext.getDrawable(R.drawable.ic_baseline_not_listed_location_24)); // change icon
+            poiMarker.setIcon(drawable); // change icon
             mapController.setCenter(poiMarker.getPosition());
             mapController.setZoom(18.0);
             map.getOverlays().add(poiMarker);
             map.invalidate();
         }
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -299,9 +305,6 @@ public class MapFragment extends Fragment implements IMapChanged {
 
         ibUserInfo.setOnClickListener(view -> {
             setUserInfoFragment(getActivity().getSupportFragmentManager());
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.fragment_container, userInfoFragment);
-
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, userInfoFragment).addToBackStack(null).commit();
         });
 

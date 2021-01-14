@@ -51,12 +51,9 @@ public class POIListFragment extends Fragment implements IOnItemClickListener {
         } else {
             buttonBack.setVisibility(View.GONE);
         }
-        buttonBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(getFragmentManager().getBackStackEntryCount()>0){
-                    getFragmentManager().popBackStackImmediate();
-                }
+        buttonBack.setOnClickListener(view1 -> {
+            if(getFragmentManager().getBackStackEntryCount()>0){
+                getFragmentManager().popBackStackImmediate();
             }
         });
 

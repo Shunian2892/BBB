@@ -25,13 +25,10 @@ public class SplashScreenActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splashscreen);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
-                SplashScreenActivity.this.startActivity(intent);
-                SplashScreenActivity.this.finish();
-            }
+        new Handler().postDelayed(() -> {
+            Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+            SplashScreenActivity.this.startActivity(intent);
+            SplashScreenActivity.this.finish();
         }, duration);
     }
 }

@@ -61,13 +61,10 @@ public class UserInfoFragment extends Fragment implements IOnItemClickListener {
 
         listSize.setText(String.valueOf(databaseManager.getWalkedRoutes().size()));
 
-        ibBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              if(getFragmentManager().getBackStackEntryCount()>0){
-                  getFragmentManager().popBackStackImmediate();
-              }
-            }
+        ibBack.setOnClickListener(view1 -> {
+          if(getFragmentManager().getBackStackEntryCount()>0){
+              getFragmentManager().popBackStackImmediate();
+          }
         });
 
         return view;

@@ -53,6 +53,7 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
     private SharedPreferences prefs;
     private String currentLang;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,12 +75,9 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
 
 
         ibBack = view.findViewById(R.id.imageButtonBack);
-        ibBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (fragmentManager.getBackStackEntryCount() > 0) {
-                    fragmentManager.popBackStackImmediate();
-                }
+        ibBack.setOnClickListener(view12 -> {
+            if (fragmentManager.getBackStackEntryCount() > 0) {
+                fragmentManager.popBackStackImmediate();
             }
         });
         title.setText(poi.POIName);
@@ -115,21 +113,18 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
         viewModel.setIsVideoState(isVideo);
         isVideo = !isVideo;
 
-        buttonVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        buttonVideo.setOnClickListener(v -> {
 
-                if (!isVideo) {
-                    fragmentManager.beginTransaction().replace(R.id.detail_container, imageFragment).commit();
-                    buttonVideo.setText(getResources().getString(R.string.show_video));
-                } else {
-                    fragmentManager.beginTransaction().replace(R.id.detail_container, videoFragment).commit();
-                    buttonVideo.setText(getResources().getString(R.string.hide_video));
-                }
-                viewModel.setIsVideoState(isVideo);
-                isVideo = !isVideo;
-
+            if (!isVideo) {
+                fragmentManager.beginTransaction().replace(R.id.detail_container, imageFragment).commit();
+                buttonVideo.setText(getResources().getString(R.string.show_video));
+            } else {
+                fragmentManager.beginTransaction().replace(R.id.detail_container, videoFragment).commit();
+                buttonVideo.setText(getResources().getString(R.string.hide_video));
             }
+            viewModel.setIsVideoState(isVideo);
+            isVideo = !isVideo;
+
         });
 
         buttonMap = view.findViewById(R.id.buttonMap);
@@ -145,21 +140,17 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
         tts = new TextToSpeech(getActivity().getApplicationContext(), this::onInit);
 
         ibTTS = view.findViewById(R.id.imageButtonTTS);
-        ibTTS.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onClick(View v) {
-                switch (currentLang) {
-                    case "en":
-                        tts.speak(poi.Description_en, TextToSpeech.QUEUE_FLUSH, null, null);
-                        break;
-                    case "fr":
-                        tts.speak(poi.Description_fr, TextToSpeech.QUEUE_FLUSH, null, null);
-                        break;
-                    case "nl":
-                        tts.speak(poi.Description_nl, TextToSpeech.QUEUE_FLUSH, null, null);
-                        break;
-                }
+        ibTTS.setOnClickListener(v -> {
+            switch (currentLang) {
+                case "en":
+                    tts.speak(poi.Description_en, TextToSpeech.QUEUE_FLUSH, null, null);
+                    break;
+                case "fr":
+                    tts.speak(poi.Description_fr, TextToSpeech.QUEUE_FLUSH, null, null);
+                    break;
+                case "nl":
+                    tts.speak(poi.Description_nl, TextToSpeech.QUEUE_FLUSH, null, null);
+                    break;
             }
         });
         return view;

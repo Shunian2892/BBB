@@ -36,13 +36,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class OpenRouteServiceTest {
-
-    //API key from Nicholas
     private static final String API_KEY = "5b3ce3597851110001cf6248cc7335a16be74902905bcba4a9d0eebf";
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     private String method;
-    private String jsonWaypointsURL;
+    private String jsonWayPointsURL;
     private String jsonCoordinatesResponse;
 
     @Mock
@@ -56,7 +54,7 @@ public class OpenRouteServiceTest {
         MockitoAnnotations.openMocks(this);
         openRouteService = mock(OpenRouteService.class);
         method = "foot-walking";
-        jsonWaypointsURL = getWayPointsJsonSampleURL();
+        jsonWayPointsURL = getWayPointsJsonSampleURL();
         jsonCoordinatesResponse = getCoordinatesJsonSample();
     }
 
@@ -146,18 +144,17 @@ public class OpenRouteServiceTest {
     public void createPostRequestTest() {
 
         //expected value
-        RequestBody requestBody = RequestBody.create(jsonWaypointsURL, JSON);
+        RequestBody requestBody = RequestBody.create(jsonWayPointsURL, JSON);
         Request expected = new Request.Builder().url("https://api.openrouteservice.org/v2/directions/" + method).
                 post(requestBody).addHeader("Authorization", API_KEY).build();
 
         //Actual value
-        when(openRouteService.createPostRequest(method, jsonWaypointsURL)).thenCallRealMethod();
-        Request actual = openRouteService.createPostRequest(method, jsonWaypointsURL);
+        when(openRouteService.createPostRequest(method, jsonWayPointsURL)).thenCallRealMethod();
+        Request actual = openRouteService.createPostRequest(method, jsonWayPointsURL);
 
         assertEquals(expected.toString(), actual.toString());
     }
 
-    //Not used.
     private double[][] getCoordinatesExample() {
         double[][] coordinates = new double[3][2];
 
@@ -176,20 +173,4 @@ public class OpenRouteServiceTest {
     private String getWayPointsJsonSampleURL() {
         return "{\"coordinates\":" + Arrays.deepToString(getCoordinatesExample()) + ",\"language\":en}";
     }
-
- /*   @Test
-    private void URLTest(){
-            RequestBody requestBody = RequestBody.create(jsonWaypoints, JSON);
-            okhttp3.Request request = new Request.Builder().post(requestBody).url(url).build();
-            Response response = new OkHttpClient().newCall(request).execute();
-            String responseMessage = response.body().string();
-
-            recordedRequest = mockWebServer.takeRequest();
-
-            assertEquals(recordedRequest.getRequestUrl(),url);
-            assertEquals("http://127.0.0.1:" + mockWebServer.getPort() + "/v2/directions/" + method, url.toString());
-
-            String body = recordedRequest.getBody().readUtf8();
-            assertEquals(body,responseMessage);
-    }*/
 }

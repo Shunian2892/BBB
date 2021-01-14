@@ -38,7 +38,6 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
     private FragmentManager fragmentManager;
 
     private UIViewModel viewModel;
-//    private MapView map;
 
     private VideoFragment videoFragment;
     private ImageFragment imageFragment;

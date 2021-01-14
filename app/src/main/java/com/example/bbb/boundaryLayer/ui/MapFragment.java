@@ -67,7 +67,6 @@ public class MapFragment extends Fragment implements IMapChanged, IMarkerClickLi
     private GeoFenceSetup setupGF;
     private SharedPreferences prefs;
     private String currentLang;
-
     private UIViewModel viewModel;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -133,12 +132,10 @@ public class MapFragment extends Fragment implements IMapChanged, IMarkerClickLi
             }
         }
 
-
         this.spinnerAdapter = new ArrayAdapter<String>(
                 getContext(),
                 R.layout.support_simple_spinner_dropdown_item,
                 routeNameList);
-
 
         routeSpinner.setAdapter(spinnerAdapter);
         routeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -338,7 +335,6 @@ public class MapFragment extends Fragment implements IMapChanged, IMarkerClickLi
         routeSpinner.setSelection(0);
         viewModel.setSelectedRoute(0);
         getLocation();
-        OpenStreetMaps openStreetMaps = new OpenStreetMaps();
         map.invalidate();
         setupGF.removeGeoFences(dm.getPOIs());
     }

@@ -30,8 +30,6 @@ import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-//Difficult to test. Mockito can't test a class with a static instance.
-//Don't know how to test the database.
 public class DatabaseManagerTest {
 
     @Mock
@@ -63,5 +61,5 @@ public class DatabaseManagerTest {
             throw new RuntimeException(e);
         }
     }
-    
+
 }

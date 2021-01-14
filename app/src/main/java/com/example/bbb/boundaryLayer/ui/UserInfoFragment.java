@@ -32,7 +32,6 @@ public class UserInfoFragment extends Fragment implements IOnItemClickListener {
     private DatabaseManager databaseManager;
 
     private RecyclerView walkedRoutesRv;
-    private List<WalkedRoute> walkedRouteList;
     private UserAdapter userAdapter;
     private ViewGroup container;
     private POIListFragment poiListFragment;
@@ -73,7 +72,6 @@ public class UserInfoFragment extends Fragment implements IOnItemClickListener {
     @Override
     public void onStart() {
         super.onStart();
-        walkedRouteList = new ArrayList<>();
         this.walkedRoutesRv = this.container.findViewById(R.id.RvWalkedRoutes);
         this.userAdapter = new UserAdapter(this, getActivity().getApplicationContext());
         this.walkedRoutesRv.setLayoutManager( new LinearLayoutManager(getActivity().getApplicationContext()));

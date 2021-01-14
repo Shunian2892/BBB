@@ -18,14 +18,11 @@ import java.util.Locale;
 public class UserAdapter extends RecyclerView.Adapter<UserViewHolder> {
     private final IOnItemClickListener listener;
     private final UserListManager userListManager;
-    private final String currentLanguage;
-    private Context context;
 
     public UserAdapter(IOnItemClickListener listener, Context context) {
         this.listener = listener;
-        this.context = context;
         SharedPreferences prefs = context.getSharedPreferences("language", Context.MODE_PRIVATE);
-        currentLanguage = prefs.getString("language",
+        String currentLanguage = prefs.getString("language",
                 Locale.getDefault().getLanguage());//"No name defined" is the default value.
         this.userListManager = new UserListManager(currentLanguage);
     }

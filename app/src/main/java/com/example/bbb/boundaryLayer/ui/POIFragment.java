@@ -76,6 +76,8 @@ public class POIFragment extends Fragment implements TextToSpeech.OnInitListener
 
         ibBack = view.findViewById(R.id.imageButtonBack);
         ibBack.setOnClickListener(view12 -> {
+            isVideo = false;
+            viewModel.setIsVideoState(isVideo);
             if (fragmentManager.getBackStackEntryCount() > 0) {
                 fragmentManager.popBackStackImmediate();
             }

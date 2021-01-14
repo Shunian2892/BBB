@@ -171,10 +171,10 @@ public class MapFragment extends Fragment implements IMapChanged, IMarkerClickLi
                     } else if (viewModel.getVisiblePOI().getValue() == null) {
                         onMapChange();
                     }
-                } else if (viewModel.getVisiblePOI().getValue() == null) {
-                    viewModel.setPointOfInterests(DatabaseManager.getInstance().getPOIs());
-                    onMapChange();
-                    openRouteService.drawMarkers();
+                    if (position == 0){
+                        viewModel.setPointOfInterests(DatabaseManager.getInstance().getPOIs());
+                        openRouteService.drawMarkers();
+                    }
                 }
                 routeSpinner.setEnabled(!viewModel.getIsRouteRunning().getValue());
             }
@@ -301,6 +301,8 @@ public class MapFragment extends Fragment implements IMapChanged, IMarkerClickLi
                 dialogFragment.show(getActivity().getSupportFragmentManager(), "route_popup");
             } else {
                 onMapChange();
+                viewModel.setVisiblePOI(null);
+                openRouteService.drawMarkers();
                 Toast.makeText(fragmentContext, getResources().getString(R.string.please_select_a_route), Toast.LENGTH_SHORT).show();
             }
         });

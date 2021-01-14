@@ -37,6 +37,7 @@ public class VideoFragment extends Fragment {
                 super.onReady(youTubePlayer);
                 String videoId = viewModel.getSelectedPOI().getValue().VideoURL;
                 youTubePlayer.loadVideo(videoId,timer );
+                youTubePlayer.pause();
             }
 
             @Override

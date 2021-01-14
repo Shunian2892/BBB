@@ -49,25 +49,19 @@ public class POIListFragment extends Fragment implements IOnItemClickListener {
         } else {
             buttonBack.setVisibility(View.GONE);
         }
-        buttonBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(getFragmentManager().getBackStackEntryCount()>0){
-                    getFragmentManager().popBackStackImmediate();
-                }
+        buttonBack.setOnClickListener(view1 -> {
+            if(getFragmentManager().getBackStackEntryCount()>0){
+                getFragmentManager().popBackStackImmediate();
             }
         });
 
-        ibSearchPOI.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("Search string:    " + etSearchPOI.getText().toString());
-                poiListManager.setPOIList(etSearchPOI.getText().toString());
-                viewModel.setPointOfInterests(poiListManager.getPOIList());
-                poiAdapter.setPoiList(poiListManager.getPOIList());
-                poiList = poiListManager.getPOIList();
-                poiAdapter.notifyDataSetChanged();
-            }
+        ibSearchPOI.setOnClickListener(view12 -> {
+            System.out.println("Search string:    " + etSearchPOI.getText().toString());
+            poiListManager.setPOIList(etSearchPOI.getText().toString());
+            viewModel.setPointOfInterests(poiListManager.getPOIList());
+            poiAdapter.setPoiList(poiListManager.getPOIList());
+            poiList = poiListManager.getPOIList();
+            poiAdapter.notifyDataSetChanged();
         });
 
         poiList = new ArrayList<>();

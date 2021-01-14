@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
@@ -234,25 +235,42 @@ public class MapFragment extends Fragment implements IMapChanged {
     public void getLocation() {
         LocationManager locationManager = (LocationManager) fragmentContext.getSystemService(Context.LOCATION_SERVICE);
 
-        LocationListener locationListener = location -> {
-            if (getView() == null) {
-                return;
+        LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                if (MapFragment.this.getView() == null) {
+                    return;
+                }
+                GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
+
+                Marker startPoint = new Marker(map);
+                startPoint.setPosition(point);
+                startPoint.setIcon(fragmentContext.getDrawable(R.drawable.my_location));
+
+                map.getOverlays().remove(currentLocation);
+                currentLocation = startPoint;
+                map.getOverlays().add(startPoint);
+
+                if (viewModel.getCenterOnUser().getValue()) {
+                    mapController.setCenter(currentLocation.getPosition());
+                }
+
+                map.invalidate();
             }
-            GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
 
-            Marker startPoint = new Marker(map);
-            startPoint.setPosition(point);
-            startPoint.setIcon(fragmentContext.getDrawable(R.drawable.my_location));
-
-            map.getOverlays().remove(currentLocation);
-            currentLocation = startPoint;
-            map.getOverlays().add(startPoint);
-
-            if (viewModel.getCenterOnUser().getValue()) {
-                mapController.setCenter(currentLocation.getPosition());
+            @Override
+            public void onProviderDisabled(String provider) {
             }
 
-            map.invalidate();
+            @Override
+            public void onProviderEnabled(String provider) {
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
+
+
         };
 
         if (ContextCompat.checkSelfPermission(fragmentContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -261,19 +279,16 @@ public class MapFragment extends Fragment implements IMapChanged {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void buttonClickListeners() {
-        ibRouteInfo.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onClick(View view) {
-                if (routeSpinner.getSelectedItemPosition() != 0) {
-                    RoutePopUp dialogFragment = new RoutePopUp();
-                    viewModel.setRoutePopUpSelectedRoute(dm.getRoutes().get(routeSpinner.getSelectedItemPosition() - 1));
-                    dialogFragment.show(getActivity().getSupportFragmentManager(), "route_popup");
-                } else {
-                    onMapChange();
-                    Toast.makeText(fragmentContext, getResources().getString(R.string.please_select_a_route), Toast.LENGTH_SHORT).show();
-                }
+        ibRouteInfo.setOnClickListener(view -> {
+            if (routeSpinner.getSelectedItemPosition() != 0) {
+                RoutePopUp dialogFragment = new RoutePopUp();
+                viewModel.setRoutePopUpSelectedRoute(dm.getRoutes().get(routeSpinner.getSelectedItemPosition() - 1));
+                dialogFragment.show(getActivity().getSupportFragmentManager(), "route_popup");
+            } else {
+                onMapChange();
+                Toast.makeText(fragmentContext, getResources().getString(R.string.please_select_a_route), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -285,7 +300,7 @@ public class MapFragment extends Fragment implements IMapChanged {
         ibUserInfo.setOnClickListener(view -> {
             setUserInfoFragment(getActivity().getSupportFragmentManager());
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.fragment_container,userInfoFragment);
+            transaction.add(R.id.fragment_container, userInfoFragment);
 
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, userInfoFragment).addToBackStack(null).commit();
         });

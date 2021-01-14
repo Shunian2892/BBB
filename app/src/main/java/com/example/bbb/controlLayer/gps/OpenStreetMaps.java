@@ -44,7 +44,6 @@ public class OpenStreetMaps {
     public void drawMarker(MapView mapView, GeoPoint point,Drawable icon, POI poi, IMarkerClickListener listener) {
 
         if (mapView != null) {
-
             Marker marker = new Marker(mapView);
             marker.setPosition(point);
             marker.setIcon(icon);

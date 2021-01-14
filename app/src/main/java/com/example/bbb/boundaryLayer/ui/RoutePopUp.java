@@ -74,25 +74,25 @@ public class RoutePopUp extends DialogFragment {
         String currentLang = prefs.getString("language", Locale.getDefault().getLanguage());//"No name defined" is the default value.
         switch (currentLang) {
             case "en":
-                textViewRouteName.setText(getResources().getString(R.string.route) + selectedRoute.RouteName_en);
+                textViewRouteName.setText(getResources().getString(R.string.route) + " " + selectedRoute.RouteName_en);
                 break;
             case "fr":
-                textViewRouteName.setText(getResources().getString(R.string.route) + selectedRoute.RouteName_fr);
+                textViewRouteName.setText(getResources().getString(R.string.route) + " " + selectedRoute.RouteName_fr);
                 break;
             case "nl":
-                textViewRouteName.setText(getResources().getString(R.string.route) + selectedRoute.RouteName_nl);
+                textViewRouteName.setText(getResources().getString(R.string.route) + " " + selectedRoute.RouteName_nl);
                 break;
         }
 
         for (int i = 0; i < poiList.size(); i++) {
             POI poi = poiList.get(i);
             if (!poi.IsVisited) {
-                textViewNextPOI.setText(getResources().getString(R.string.heading_to)+ poi.POIName);
+                textViewNextPOI.setText(getResources().getString(R.string.heading_to) + " "  + poi.POIName);
 
                 if (i != 0) {
-                    textViewLastPOI.setText(getResources().getString(R.string.last_poi) + poiList.get(i - 1).POIName);
+                    textViewLastPOI.setText(getResources().getString(R.string.last_poi) + " " + poiList.get(i - 1).POIName);
                 } else {
-                    textViewLastPOI.setText(getResources().getString(R.string.last_poi) + "-");
+                    textViewLastPOI.setText(getResources().getString(R.string.last_poi) + " " + "-");
                 }
             }
         }
@@ -103,7 +103,7 @@ public class RoutePopUp extends DialogFragment {
                 visitedPOIs++;
             }
         }
-        textViewProgress.setText(getResources().getString(R.string.progress) + visitedPOIs + "/" + poiList.size() + " POI's");
+        textViewProgress.setText(getResources().getString(R.string.progress) + " " + visitedPOIs + "/" + poiList.size() + " POI's");
 
         if (visitedPOIs == poiList.size()){
             DatabaseManager.getInstance().addWalkedRoute(selectedRoute.ID, new Date(System.currentTimeMillis()).toString());
